@@ -1,0 +1,140 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { site } from '../config';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section id="contact" class="section contact" aria-labelledby="contact-heading">
+  <div class="shell contact__inner">
+    <div class="contact__lead">
+      <span class="eyebrow">{t('contact.eyebrow')}</span>
+      <h2 id="contact-heading">{t('contact.title')}</h2>
+      <p class="contact__body">{t('contact.body')}</p>
+      <p class="contact__direct">
+        {t('contact.or')}{' '}
+        <a href={`mailto:${site.email}`} class="link">{site.email}</a>
+      </p>
+    </div>
+
+    <!-- Progressive enhancement: composes a mailto with the field values.
+         With JS off, the direct email link above is the working path. -->
+    <form class="contact__form card" data-contact-form data-email={site.email}>
+      <label class="contact__field">
+        <span>{t('contact.name')}</span>
+        <input type="text" name="name" autocomplete="name" required />
+      </label>
+      <label class="contact__field">
+        <span>{t('contact.email')}</span>
+        <input type="email" name="email" autocomplete="email" required />
+      </label>
+      <label class="contact__field">
+        <span>{t('contact.message')}</span>
+        <textarea name="message" rows="4" required></textarea>
+      </label>
+      <button type="submit" class="btn">{t('contact.send')} <span aria-hidden="true">→</span></button>
+    </form>
+  </div>
+</section>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const to = form.dataset.email ?? '';
+    const data = new FormData(form);
+    const name = String(data.get('name') ?? '');
+    const email = String(data.get('email') ?? '');
+    const message = String(data.get('message') ?? '');
+    const subject = encodeURIComponent(`New project enquiry — ${name}`);
+    const body = encodeURIComponent(`${message}\n\n— ${name}\n${email}`);
+    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+  });
+</script>
+
+<style>
+  .contact {
+    background: var(--color-ink);
+    color: var(--color-on-accent);
+  }
+
+  .contact__inner {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+  }
+  @media (min-width: 1024px) {
+    .contact__inner {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+    }
+  }
+
+  .contact :global(.eyebrow) {
+    color: color-mix(in srgb, var(--color-accent) 70%, #fff);
+  }
+  .contact__lead h2 {
+    font-size: var(--text-h2);
+    margin-top: 0.75rem;
+    margin-bottom: 1.25rem;
+    max-width: 16ch;
+  }
+  .contact__body {
+    color: color-mix(in srgb, var(--color-on-accent) 78%, transparent);
+    max-width: 44ch;
+    font-size: 1.125rem;
+  }
+  .contact__direct {
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-ink-mute);
+  }
+  .contact__direct :global(.link) {
+    color: color-mix(in srgb, var(--color-accent) 70%, #fff);
+  }
+
+  .contact__form {
+    background: color-mix(in srgb, var(--color-canvas) 6%, transparent);
+    border-color: color-mix(in srgb, var(--color-on-accent) 18%, transparent);
+    display: grid;
+    gap: 1rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+  .contact__field {
+    display: grid;
+    gap: 0.4rem;
+  }
+  .contact__field span {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: color-mix(in srgb, var(--color-on-accent) 60%, transparent);
+  }
+  .contact__field input,
+  .contact__field textarea {
+    background: color-mix(in srgb, var(--color-canvas) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-on-accent) 20%, transparent);
+    border-radius: 8px;
+    padding: 0.7rem 0.85rem;
+    color: var(--color-on-accent);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    min-height: 44px;
+  }
+  .contact__field textarea {
+    resize: vertical;
+  }
+  .contact__field input:focus,
+  .contact__field textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
+  .contact__form .btn {
+    justify-self: start;
+    background: var(--color-accent);
+    color: var(--color-ink);
+    margin-top: 0.25rem;
+  }
+</style>

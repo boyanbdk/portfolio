@@ -3,14 +3,22 @@
 > **Resuming on any device (mobile/desktop):** say _"read STATUS.md and continue"_.
 > This file is the source of truth for where we are. Keep it updated at the end of each working session.
 
-_Last updated: 2026-07-07 — session likely continues on MOBILE. A new session has ONLY this file + the repo (no chat history)._
+_Last updated: 2026-07-07 — EN v1 built. A new session has ONLY this file + the repo (no chat history)._
 
 ## ▶ CURRENT POSITION / DO THIS NEXT
 - **Stack DECIDED: Astro + Tailwind → Cloudflare Pages.** ✅
 - **Design direction LOCKED: Option 1 — "Editorial Founder"** (warm-premium; Fraunces + Hanken Grotesk; cream `#F5F1E8` / ink `#1A1714` / olive `#6B6B47`). Confirmed 2026-07-07.
-- **Design system written → [`DESIGN.md`](DESIGN.md)** — the 9-section source of truth for the build. Full research still in [`docs/design-research.md`](docs/design-research.md).
-- **DO THIS NEXT:** write the implementation plan (Astro project structure, sections, i18n) — Opus work — then scaffold and build section-by-section (switch to Fable for execution). Build order: scaffold → hero → What I do → Disciplis case study → About → Contact → anti-slop polish pass.
-- ⚠️ Before BG: verify Fraunces + Hanken Grotesk cover Cyrillic; if not, locale-swap to Cyrillic-capable fonts (see `DESIGN.md` §10).
+- **Design system written → [`DESIGN.md`](DESIGN.md)** — the 9-section source of truth. Full research in [`docs/design-research.md`](docs/design-research.md).
+- **Implementation plan written → [`PLAN.md`](PLAN.md).** ✅
+- **✅ EN v1 BUILT & verified** (Astro 7 + Tailwind v4, static). All 5 sections live: Hero · What I do (uneven bento) · Selected work (Disciplis) · About · Contact. Self-hosted fonts, grain overlay, i18n scaffolding (no hardcoded copy), WCAG AA verified computationally (every pair ≥4.5:1), 0 console errors, `npm run build` clean, 0 npm vulnerabilities.
+- **DO THIS NEXT (pick up here):**
+  1. **Supply real assets** (biggest visual upgrade): a real portrait → swap the hero info-panel in `Hero.astro`; a real Disciplis screenshot → swap the mock frame in `SelectedWork.astro`.
+  2. **Confirm social handles** in [`src/config.ts`](src/config.ts) — GitHub assumed `github.com/boyanbdk`; **LinkedIn is a placeholder (TODO).**
+  3. **Wire the contact form** — currently progressive-enhancement mailto (works today, no backend). For real submissions add Cloudflare Pages Forms or Formspree action.
+  4. **GSAP pinned Disciplis reveal** (the one JS island, deferred) — optional polish.
+  5. **Deploy to Cloudflare Pages** (build `npm run build`, output `dist/`) + claim/connect domain.
+  6. **Build Binkovending** (case study #2), then **add BG**.
+- ⚠️ **Cyrillic finding (CONFIRMED for BG phase):** the build emits **no Cyrillic woff2 subset for Fraunces OR Hanken Grotesk** — both lack Cyrillic. JetBrains Mono *does* have it. So before BG, locale-swap **both** the display serif (e.g. Playfair Display — has Cyrillic) **and** the body sans (e.g. a Cyrillic-capable grotesque) for the `bg` locale. See `DESIGN.md` §10.
 
 ---
 
@@ -67,13 +75,13 @@ Case-study format (per verified research): lead with the RESULT, then problem �
 
 ## NEXT STEPS (in order)
 1. ~~Confirm stack~~ — ✅ DONE: Astro.
-2. **Design-research pass** (launched; see CURRENT POSITION) → present 3 aesthetic directions → Boyan picks one.
-3. **Write `DESIGN.md`** (the 9-section system) for boyanbudakov.com.
-4. **Finalize the design spec**, then hand to implementation planning.
-5. **Build v1** (EN, deploy to Cloudflare Pages).
-6. **Build Binkovending** (case study #2).
-7. **Add BG** translations.
-8. **Claim domain + connect** boyanbudakov.com to Cloudflare Pages.
+2. ~~Design-research pass → 3 directions → pick one~~ — ✅ DONE: "Editorial Founder".
+3. ~~Write `DESIGN.md`~~ — ✅ DONE.
+4. ~~Implementation plan + build v1 (EN)~~ — ✅ DONE: [`PLAN.md`](PLAN.md) + all 5 sections built & verified.
+5. **Supply real portrait + Disciplis screenshot; confirm social handles** (see CURRENT POSITION).
+6. **Deploy v1** to Cloudflare Pages + claim/connect domain.
+7. **Build Binkovending** (case study #2).
+8. **Add BG** translations (do the §10 Cyrillic font-swap first — confirmed needed).
 
 ## Reference (Boyan's context)
 - CS student in Bulgaria; BG/EN/DE. Ships full products by directing AI tooling (Next.js/Supabase).
