@@ -7,11 +7,10 @@ _Last updated: 2026-07-07 — session likely continues on MOBILE. A new session 
 
 ## ▶ CURRENT POSITION / DO THIS NEXT
 - **Stack DECIDED: Astro + Tailwind → Cloudflare Pages.** ✅
-- **Design research DONE** → saved to [`docs/design-research.md`](docs/design-research.md). It proposes 3 directions to choose between:
-  1. **Editorial Founder** (warm-premium; Fraunces + Hanken Grotesk; cream/ink/olive) — ★ recommended
-  2. **Swiss Engineer** (typographic; Switzer + JetBrains Mono; paper/black + 1 accent)
-  3. **Refined Dark-Technical** (charcoal; Geist Sans/Mono; 1 electric accent)
-- **DO THIS NEXT:** Boyan picks 1 of the 3 → then **write `DESIGN.md`** (9-section system) around it → finalize spec → build (Fable for execution, per Model strategy below).
+- **Design direction LOCKED: Option 1 — "Editorial Founder"** (warm-premium; Fraunces + Hanken Grotesk; cream `#F5F1E8` / ink `#1A1714` / olive `#6B6B47`). Confirmed 2026-07-07.
+- **Design system written → [`DESIGN.md`](DESIGN.md)** — the 9-section source of truth for the build. Full research still in [`docs/design-research.md`](docs/design-research.md).
+- **DO THIS NEXT:** write the implementation plan (Astro project structure, sections, i18n) — Opus work — then scaffold and build section-by-section (switch to Fable for execution). Build order: scaffold → hero → What I do → Disciplis case study → About → Contact → anti-slop polish pass.
+- ⚠️ Before BG: verify Fraunces + Hanken Grotesk cover Cyrillic; if not, locale-swap to Cyrillic-capable fonts (see `DESIGN.md` §10).
 
 ---
 
