@@ -28,10 +28,15 @@ Positioning: a generalist builder who ships **real, working products fast** with
 - **Hosting:** **Cloudflare Pages** (free, no commercial restriction, unlimited bandwidth). NOT Vercel free (its Hobby tier bars commercial/services sites; Pro is $20/mo — rejected as too costly).
 - **Domain:** boyanbudakov.com — free for year 1 via Hostinger (renews ~$19.99/yr on 2027-07-08). Claim it on Hostinger; connect to Cloudflare Pages later (point nameservers to Cloudflare = smoothest).
 
-## OPEN DECISION — stack (blocking the build)
-- **Astro + Tailwind (recommended)** vs **Next.js**.
-- Why Astro is now recommended: the design framework we're following ("7 Levels of Building ELITE Websites with Claude Code") is Astro-based; deep-research also found Astro wins for content/portfolio sites (zero JS, Lighthouse 100); Astro on Cloudflare Pages has zero adapter friction. Next.js skill is already proven by Disciplis, so the portfolio shell doesn't need to be Next.js.
-- **Awaiting Boyan's confirmation: Astro or Next.js.**
+## Stack — DECIDED: Astro (confirmed 2026-07-07)
+- **Astro + Tailwind**, deployed to Cloudflare Pages.
+- Rationale: content-first (portfolio is mostly static) → zero JS by default, Lighthouse ~100, best SEO; matches the Astro-based "elite websites" framework; zero-adapter deploy on Cloudflare. Animations: CSS by default + JS "islands" (GSAP/Framer Motion) only where needed — no animation limitation. Next.js stays for real apps (Disciplis); the portfolio shell doesn't need it.
+
+## Model strategy (Opus vs Fable 5)
+- **Opus** = judgment / taste / architecture: DESIGN.md + visual direction, implementation plan, design review (anti-AI-slop critique), positioning + hero/about copy, tricky debugging, final QA.
+- **Fable 5** = spec-driven execution / volume: building Astro components from the locked DESIGN.md, project scaffolding / config / i18n plumbing, first-draft body copy, EN→BG translation, case-study content entry.
+- Rule of thumb: wrong-call-cascades or needs-taste → Opus; clearly-specified with a checkable output → Fable. Calibrate as we go.
+- Mechanics: `/model` toggle per phase — plan & design in Opus (now) → build sprints in Fable → design review & debug back in Opus.
 
 ## Design approach — "elite / anti-AI-slop"
 Following the "7 Levels of Building ELITE Websites with Claude Code" framework (video: youtube.com/watch?v=1PXFAFMgdns). Core rules to bake in:
