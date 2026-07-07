@@ -3,7 +3,15 @@
 > **Resuming on any device (mobile/desktop):** say _"read STATUS.md and continue"_.
 > This file is the source of truth for where we are. Keep it updated at the end of each working session.
 
-_Last updated: 2026-07-07_
+_Last updated: 2026-07-07 — session likely continues on MOBILE. A new session has ONLY this file + the repo (no chat history)._
+
+## ▶ CURRENT POSITION / DO THIS NEXT
+- **Stack DECIDED: Astro + Tailwind → Cloudflare Pages.** ✅
+- **Design research DONE** → saved to [`docs/design-research.md`](docs/design-research.md). It proposes 3 directions to choose between:
+  1. **Editorial Founder** (warm-premium; Fraunces + Hanken Grotesk; cream/ink/olive) — ★ recommended
+  2. **Swiss Engineer** (typographic; Switzer + JetBrains Mono; paper/black + 1 accent)
+  3. **Refined Dark-Technical** (charcoal; Geist Sans/Mono; 1 electric accent)
+- **DO THIS NEXT:** Boyan picks 1 of the 3 → then **write `DESIGN.md`** (9-section system) around it → finalize spec → build (Fable for execution, per Model strategy below).
 
 ---
 
@@ -59,8 +67,8 @@ Following the "7 Levels of Building ELITE Websites with Claude Code" framework (
 Case-study format (per verified research): lead with the RESULT, then problem → approach (the *why* / architecture) → outcome, with a live link.
 
 ## NEXT STEPS (in order)
-1. **Boyan confirms stack** (Astro vs Next.js).
-2. **Design-research pass** — study top portfolios + pick 21st.dev components + define visual system + write hero-image prompts.
+1. ~~Confirm stack~~ — ✅ DONE: Astro.
+2. **Design-research pass** (launched; see CURRENT POSITION) → present 3 aesthetic directions → Boyan picks one.
 3. **Write `DESIGN.md`** (the 9-section system) for boyanbudakov.com.
 4. **Finalize the design spec**, then hand to implementation planning.
 5. **Build v1** (EN, deploy to Cloudflare Pages).
