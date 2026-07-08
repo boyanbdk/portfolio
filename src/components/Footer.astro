@@ -1,0 +1,80 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { site } from '../config';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const year = 2026; // build-time constant; bump on redesign
+---
+
+<footer class="footer">
+  <div class="shell">
+    <p class="footer__statement reveal">
+      {t('footer.statement')}
+    </p>
+
+    <div class="footer__grid">
+      <a href={`mailto:${site.email}`} class="link footer__email">{site.email}</a>
+
+      <nav class="footer__links" aria-label="Elsewhere">
+        <a href={site.github} class="link" rel="me noopener" target="_blank">GitHub</a>
+        <a href={site.linkedin} class="link" rel="me noopener" target="_blank">LinkedIn</a>
+        <a href={site.autosilas} class="link" rel="noopener" target="_blank">AutoSilas</a>
+      </nav>
+    </div>
+
+    <div class="footer__meta">
+      <span>© {year} Boyan Budakov. {t('footer.rights')}</span>
+      <span>{t('footer.built')}</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--color-line);
+    padding-block: clamp(3rem, 8vw, 6rem);
+    background: var(--color-canvas-alt);
+  }
+
+  .footer__statement {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--text-h2);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    max-width: 16ch;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .footer__grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .footer__email {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+  }
+  .footer__links {
+    display: flex;
+    gap: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .footer__meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--color-ink-mute);
+  }
+</style>

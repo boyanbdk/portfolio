@@ -1,0 +1,116 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { site } from '../config';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const stack = ['Next.js', 'Astro', 'Supabase', 'TypeScript', 'Tailwind', 'AI tooling'];
+---
+
+<section id="about" class="section" aria-labelledby="about-heading">
+  <div class="shell about">
+    <div class="about__lead">
+      <span class="eyebrow">{t('about.eyebrow')}</span>
+      <h2 id="about-heading" class="reveal">{t('about.title')}</h2>
+      <div class="about__prose reveal">
+        <p>{t('about.p1')}</p>
+        <p>
+          {t('about.p2')}
+        </p>
+        <p class="about__how">{t('about.p3')}</p>
+      </div>
+    </div>
+
+    <aside class="about__side reveal">
+      <div class="card about__stack">
+        <span class="eyebrow">{t('about.stack.title')}</span>
+        <ul>
+          {stack.map((tech) => <li>{tech}</li>)}
+        </ul>
+      </div>
+      <a href={site.autosilas} class="card about__brand link-card" rel="noopener" target="_blank">
+        <span class="about__brand-label">{t('about.autosilas')}</span>
+        <span class="about__brand-go" aria-hidden="true">→</span>
+      </a>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .about {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+  }
+  @media (min-width: 1024px) {
+    .about {
+      grid-template-columns: 1.4fr 0.6fr;
+      align-items: start;
+    }
+  }
+
+  .about__lead h2 {
+    font-size: var(--text-h2);
+    margin-top: 0.75rem;
+    margin-bottom: 1.5rem;
+    max-width: 18ch;
+  }
+  .about__prose {
+    display: grid;
+    gap: 1.1rem;
+    max-width: 58ch;
+    font-size: 1.125rem;
+    color: var(--color-ink-soft);
+  }
+  .about__how {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.25rem;
+    color: var(--color-ink);
+  }
+
+  .about__side {
+    display: grid;
+    gap: 1rem;
+  }
+  .about__stack ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .about__stack li {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-ink);
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    padding: 0.3rem 0.7rem;
+  }
+
+  .about__brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    text-decoration: none;
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease;
+  }
+  .about__brand:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-accent);
+  }
+  .about__brand-label {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.05rem;
+    line-height: 1.25;
+  }
+  .about__brand-go {
+    color: var(--color-accent);
+    font-size: 1.1rem;
+  }
+</style>

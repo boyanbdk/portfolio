@@ -1,0 +1,104 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { nav } from '../config';
+import { languages } from '../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<header class="header">
+  <div class="shell header__inner">
+    <a href="/" class="header__mark" aria-label="Boyan Budakov — home">
+      <span class="header__name">Boyan Budakov</span>
+      <span class="header__dot" aria-hidden="true"></span>
+    </a>
+
+    <nav class="header__nav" aria-label="Primary">
+      {
+        nav.map((item) => (
+          <a href={item.href} class="link header__link">
+            {t(item.key)}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="header__lang" aria-label="Language">
+      <span class="header__lang-active" aria-current="true">{languages.en}</span>
+      <span class="header__lang-sep" aria-hidden="true">/</span>
+      <span class="header__lang-soon" title="Bulgarian — coming soon">{languages.bg}</span>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--color-canvas) 82%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 64px;
+  }
+
+  .header__mark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+  }
+  .header__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  .header__nav {
+    display: none;
+    gap: clamp(1rem, 3vw, 2.25rem);
+  }
+  @media (min-width: 768px) {
+    .header__nav {
+      display: flex;
+    }
+  }
+  .header__link {
+    font-size: 0.95rem;
+    color: var(--color-ink-soft);
+  }
+  .header__link:hover {
+    color: var(--color-accent);
+  }
+
+  .header__lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+  .header__lang-active {
+    color: var(--color-ink);
+  }
+  .header__lang-sep {
+    color: var(--color-line);
+  }
+  .header__lang-soon {
+    color: var(--color-ink-mute);
+    cursor: default;
+  }
+</style>

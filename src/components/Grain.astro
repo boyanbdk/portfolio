@@ -1,0 +1,57 @@
+---
+// Paper-grain overlay (DESIGN.md §6) — primary depth tool, over --canvas.
+// SVG feTurbulence, low opacity, fixed, never intercepts input.
+---
+
+<div class="grain" aria-hidden="true">
+  <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <filter id="paper-grain">
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency="0.8"
+        numOctaves="2"
+        stitchTiles="stitch"></feTurbulence>
+      <feColorMatrix type="saturate" values="0"></feColorMatrix>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#paper-grain)"></rect>
+  </svg>
+</div>
+
+<style>
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.08;
+    mix-blend-mode: multiply;
+  }
+  .grain svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .grain {
+      animation: grain-shift 8s steps(6) infinite;
+    }
+  }
+  @keyframes grain-shift {
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
+    20% {
+      transform: translate(-2%, 1%);
+    }
+    40% {
+      transform: translate(1%, -2%);
+    }
+    60% {
+      transform: translate(-1%, 2%);
+    }
+    80% {
+      transform: translate(2%, -1%);
+    }
+  }
+</style>

@@ -1,0 +1,201 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { site } from '../config';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section id="work" class="section work" aria-labelledby="work-heading">
+  <div class="shell">
+    <header class="work__head reveal">
+      <span class="eyebrow">{t('work.eyebrow')}</span>
+      <h2 id="work-heading">{t('work.title')}</h2>
+    </header>
+
+    <article class="work__case reveal">
+      <!-- Product render — swap for a real Disciplis screenshot when supplied -->
+      <div class="work__frame" aria-hidden="true">
+        <div class="work__bar">
+          <span></span><span></span><span></span>
+          <span class="work__url">disciplis.vercel.app</span>
+        </div>
+        <div class="work__screen">
+          <span class="work__screen-name">Disciplis</span>
+          <span class="work__screen-sub">discipline, tracked.</span>
+        </div>
+      </div>
+
+      <div class="work__body">
+        <div class="work__title-row">
+          <h3>{t('work.disciplis.name')}</h3>
+          <span class="work__kind">{t('work.disciplis.kind')}</span>
+        </div>
+
+        <p class="work__result">{t('work.disciplis.result')}</p>
+
+        <ul class="work__story">
+          <li>{t('work.disciplis.problem')}</li>
+          <li>{t('work.disciplis.approach')}</li>
+          <li>{t('work.disciplis.outcome')}</li>
+        </ul>
+
+        <div class="work__footer">
+          <span class="work__metric">{t('work.disciplis.metric')}</span>
+          <a href={site.disciplis} class="btn" rel="noopener" target="_blank">
+            {t('work.disciplis.link')} <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <p class="work__more eyebrow reveal">{t('work.more')}</p>
+  </div>
+</section>
+
+<style>
+  .work {
+    background: var(--color-canvas-alt);
+    border-block: 1px solid var(--color-line);
+  }
+
+  .work__head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+  }
+  .work__head h2 {
+    font-size: var(--text-h2);
+  }
+
+  /* Offset / asymmetric layout (§4) */
+  .work__case {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+  }
+  @media (min-width: 1024px) {
+    .work__case {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+  }
+
+  .work__frame {
+    background: var(--color-canvas);
+    border: 1px solid var(--color-line);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -40px rgba(26, 23, 20, 0.5);
+  }
+  .work__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .work__bar > span:not(.work__url) {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--color-line);
+  }
+  .work__url {
+    margin-left: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-ink-mute);
+  }
+  .work__screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.4rem;
+    aspect-ratio: 16 / 10;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    background:
+      radial-gradient(120% 120% at 15% 0%, var(--color-canvas-alt), transparent 60%),
+      var(--color-canvas);
+  }
+  .work__screen-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+  }
+  .work__screen-sub {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+  }
+
+  .work__title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .work__title-row h3 {
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  }
+  .work__kind {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+  }
+
+  .work__result {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+  }
+
+  .work__story {
+    display: grid;
+    gap: 0.85rem;
+    margin-bottom: 2rem;
+  }
+  .work__story li {
+    position: relative;
+    padding-left: 1.25rem;
+    color: var(--color-ink-soft);
+  }
+  .work__story li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  .work__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-line);
+  }
+  .work__metric {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    color: var(--color-ink-mute);
+  }
+
+  .work__more {
+    margin-top: clamp(2rem, 5vw, 3rem);
+    text-align: center;
+    color: var(--color-ink-mute);
+  }
+</style>

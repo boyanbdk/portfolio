@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts (Fontsource, woff2, font-display: swap) */
+@import "@fontsource-variable/fraunces";
+@import "@fontsource-variable/fraunces/standard-italic.css";
+@import "@fontsource-variable/hanken-grotesk";
+@import "@fontsource-variable/jetbrains-mono";
+
+/* ── Design tokens — single source of truth mirrors DESIGN.md §2 §3 ── */
+@theme {
+  /* Color (§2) */
+  --color-canvas: #f5f1e8;
+  --color-canvas-alt: #efe9dc;
+  --color-ink: #1a1714;
+  --color-ink-soft: #5a544c;
+  --color-ink-mute: #6f6656; /* darkened to clear WCAG AA (≈5:1 on canvas) — see DESIGN.md §2 */
+  --color-accent: #6b6b47;
+  --color-on-accent: #f5f1e8;
+  --color-line: #e0d8c6;
+
+  /* Type families (§3) */
+  --font-display: "Fraunces Variable", Georgia, serif;
+  --font-body: "Hanken Grotesk Variable", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+
+  /* Fluid scale (§3) */
+  --text-hero: clamp(2.4rem, 6vw, 4.25rem);
+  --text-h2: clamp(1.75rem, 3.5vw, 2.75rem);
+  --text-h3: clamp(1.25rem, 2vw, 1.5rem);
+
+  /* Layout */
+  --spacing-shell: 1140px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: 1.0625rem; /* 17px */
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* Editorial content shell */
+  .shell {
+    width: 100%;
+    max-width: var(--spacing-shell);
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 5vw, 2.5rem);
+  }
+
+  /* Section vertical rhythm (§5) */
+  .section {
+    padding-block: clamp(4rem, 10vw, 8rem);
+  }
+
+  /* Mono eyebrow / section number (§4) */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    font-weight: 400;
+  }
+
+  /* Fraunces italic accent word (§3) */
+  .accent-italic {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--color-accent);
+  }
+
+  /* Primary button (§4) */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--color-ink);
+    color: var(--color-on-accent);
+    font-weight: 500;
+    padding: 11px 20px;
+    border-radius: 24px;
+    min-height: 44px;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+  .btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  /* Animated underline text link (§4) */
+  .link {
+    color: var(--color-accent);
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    transition: background-size 0.3s ease;
+  }
+  .link:hover,
+  .link:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  /* Hairline card / bento cell (§4) */
+  .card {
+    background: var(--color-canvas-alt);
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+    padding: clamp(0.875rem, 2vw, 1.5rem);
+  }
+}
+
+@layer utilities {
+  /* CSS scroll-reveal (§9) — zero JS, degrades gracefully */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .reveal {
+        animation: reveal-fade linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 55%;
+      }
+    }
+  }
+
+  @keyframes reveal-fade {
+    from {
+      opacity: 0;
+      transform: translateY(1.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
