@@ -41,11 +41,12 @@ const t = useTranslations(lang);
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    margin-bottom: clamp(2rem, 5vw, 3rem);
+    margin-bottom: clamp(2.5rem, 6vw, 4rem);
     max-width: 24ch;
   }
   .services__head h2 {
-    font-size: var(--text-h2);
+    /* heavier presence: this heading anchors the first cream chapter */
+    font-size: clamp(2.1rem, 4.2vw, 3.4rem);
   }
 
   .bento {
@@ -97,11 +98,11 @@ const t = useTranslations(lang);
     margin-bottom: 0.9rem;
   }
   .bento h3 {
-    font-size: var(--text-h3);
+    font-size: clamp(1.5rem, 2.4vw, 1.9rem);
     margin-bottom: 0.6rem;
   }
   .bento__lead h3 {
-    font-size: clamp(1.6rem, 3vw, 2.25rem);
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
   }
   .bento p {
     color: var(--color-ink-soft);
@@ -109,11 +110,14 @@ const t = useTranslations(lang);
   }
   .bento__lead {
     justify-content: flex-start;
-    padding: clamp(1.5rem, 3vw, 2.25rem);
+    padding: clamp(1.75rem, 3.5vw, 2.75rem);
+    min-height: 24rem;
+    border-top: 3px solid var(--color-accent); /* the one cell that leads */
   }
   .bento__lead p {
     margin-top: auto;
     padding-top: 1.5rem;
-    font-size: 1.0625rem;
+    font-size: 1.125rem;
+    max-width: 36ch;
   }
 </style>

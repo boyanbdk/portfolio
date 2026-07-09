@@ -26,3 +26,9 @@ yarn-error.log*
 .vscode/
 .idea/
 *.swp
+
+# local pinned Node runtime (Astro 7 needs Node 22; system Node is 20)
+.tooling/
+
+# local dev launcher (machine-specific node path)
+.claude/

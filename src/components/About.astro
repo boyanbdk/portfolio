@@ -1,11 +1,22 @@
 ---
+import { Image } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 import { site } from '../config';
+import deskStill from '../assets/desk-still.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const stack = ['Next.js', 'Astro', 'Supabase', 'TypeScript', 'Tailwind', 'AI tooling'];
+// AI-first toolkit up front; frameworks stay as a muted footnote below.
+const stack = ['Claude Code', 'Codex', 'AI agents'];
+
+// Editorial photo: drop about-portrait.(jpg|png|webp|avif) into src/assets/
+// after the photoshoot and it replaces the desk still automatically.
+const portraitGlob = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/about-portrait.{jpg,jpeg,png,webp,avif}',
+  { eager: true },
+);
+const aboutPhoto = Object.values(portraitGlob)[0]?.default ?? deskStill;
 ---
 
 <section id="about" class="section" aria-labelledby="about-heading">
@@ -23,11 +34,21 @@ const stack = ['Next.js', 'Astro', 'Supabase', 'TypeScript', 'Tailwind', 'AI too
     </div>
 
     <aside class="about__side reveal">
+      <div class="about__photo-wrap reveal-scale">
+        <Image
+          src={aboutPhoto}
+          alt={t('about.photo.alt')}
+          class="about__photo"
+          widths={[480, 768]}
+          sizes="(min-width: 1024px) 30vw, 92vw"
+        />
+      </div>
       <div class="card about__stack">
         <span class="eyebrow">{t('about.stack.title')}</span>
         <ul>
           {stack.map((tech) => <li>{tech}</li>)}
         </ul>
+        <p class="about__stack-also">{t('about.stack.also')}</p>
       </div>
       <a href={site.autosilas} class="card about__brand link-card" rel="noopener" target="_blank">
         <span class="about__brand-label">{t('about.autosilas')}</span>
@@ -50,29 +71,62 @@ const stack = ['Next.js', 'Astro', 'Supabase', 'TypeScript', 'Tailwind', 'AI too
   }
 
   .about__lead h2 {
-    font-size: var(--text-h2);
+    font-size: clamp(2.1rem, 4.2vw, 3.4rem); /* matches the heavier section scale */
     margin-top: 0.75rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.75rem;
     max-width: 18ch;
   }
   .about__prose {
     display: grid;
-    gap: 1.1rem;
+    gap: 1.25rem;
     max-width: 58ch;
-    font-size: 1.125rem;
+    font-size: 1.1875rem;
     color: var(--color-ink-soft);
   }
   .about__how {
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 500;
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     color: var(--color-ink);
   }
 
   .about__side {
     display: grid;
     gap: 1rem;
+  }
+  /* photo spans; the two cards sit side by side beneath it — no dead column */
+  @media (min-width: 640px) {
+    .about__side {
+      grid-template-columns: 1fr 1fr;
+    }
+    .about__photo-wrap {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (min-width: 1024px) {
+    .about__side {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .about__photo-wrap {
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid var(--color-line);
+  }
+  .about__photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    /* warm grade to sit in the palette */
+    filter: saturate(0.95);
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .about__photo-wrap:hover .about__photo {
+    transform: scale(1.03);
   }
   .about__stack ul {
     display: flex;
@@ -87,6 +141,13 @@ const stack = ['Next.js', 'Astro', 'Supabase', 'TypeScript', 'Tailwind', 'AI too
     border: 1px solid var(--color-line);
     border-radius: 999px;
     padding: 0.3rem 0.7rem;
+  }
+  .about__stack-also {
+    margin: 0.9rem 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.02em;
+    color: var(--color-ink-mute);
   }
 
   .about__brand {

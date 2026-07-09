@@ -23,8 +23,9 @@
     inset: 0;
     z-index: 1;
     pointer-events: none;
-    opacity: 0.08;
-    mix-blend-mode: multiply;
+    /* on the dark canvas, grain adds light speckle (screen) instead of darkening */
+    opacity: 0.05;
+    mix-blend-mode: screen;
   }
   .grain svg {
     display: block;

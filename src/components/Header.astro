@@ -1,15 +1,16 @@
 ---
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, localizePath, switchLangPath } from '../i18n/utils';
 import { nav } from '../config';
 import { languages } from '../i18n/ui';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const homeHref = localizePath(lang, '/');
 ---
 
 <header class="header">
   <div class="shell header__inner">
-    <a href="/" class="header__mark" aria-label="Boyan Budakov — home">
+    <a href={homeHref} class="header__mark" aria-label="Boyan Budakov — home">
       <span class="header__name">Boyan Budakov</span>
       <span class="header__dot" aria-hidden="true"></span>
     </a>
@@ -17,18 +18,29 @@ const t = useTranslations(lang);
     <nav class="header__nav" aria-label="Primary">
       {
         nav.map((item) => (
-          <a href={item.href} class="link header__link">
+          <a href={localizePath(lang, item.href)} class="link header__link">
             {t(item.key)}
           </a>
         ))
       }
     </nav>
 
-    <div class="header__lang" aria-label="Language">
-      <span class="header__lang-active" aria-current="true">{languages.en}</span>
-      <span class="header__lang-sep" aria-hidden="true">/</span>
-      <span class="header__lang-soon" title="Bulgarian — coming soon">{languages.bg}</span>
-    </div>
+    <nav class="header__lang" aria-label="Language">
+      {
+        (Object.keys(languages) as (keyof typeof languages)[]).map((code, i) => (
+          <>
+            {i > 0 && <span class="header__lang-sep" aria-hidden="true">/</span>}
+            {code === lang ? (
+              <span class="header__lang-active" aria-current="page">{languages[code]}</span>
+            ) : (
+              <a href={switchLangPath(Astro.url, code)} class="header__lang-link">
+                {languages[code]}
+              </a>
+            )}
+          </>
+        ))
+      }
+    </nav>
   </div>
 </header>
 
@@ -97,8 +109,12 @@ const t = useTranslations(lang);
   .header__lang-sep {
     color: var(--color-line);
   }
-  .header__lang-soon {
+  .header__lang-link {
     color: var(--color-ink-mute);
-    cursor: default;
+    transition: color 0.2s ease;
+  }
+  .header__lang-link:hover,
+  .header__lang-link:focus-visible {
+    color: var(--color-accent);
   }
 </style>

@@ -1,25 +1,26 @@
 # DESIGN.md — boyanbudakov.com
 
-Single source of truth for all visual implementation. Direction: **"Editorial Founder"** (locked 2026-07-07). Every build decision references these tokens — never introduce new colors or fonts.
+Single source of truth for all visual implementation. Direction: **"Editorial Founder — Dark"** (v2, 2026-07-09; cream v1 locked 2026-07-07, went dark after the video-hero landed and Boyan chose the dark scheme). Every build decision references these tokens — never introduce new colors or fonts.
 
 ---
 
 ## 1. Visual theme
-Warm-premium / "quiet luxury" editorial. A print-magazine feel: expressive serif headlines, generous whitespace, paper grain, considered rhythm. Reads **human, handmade, founder-grade** — the deliberate opposite of timid AI output. Personality: confident, warm, precise.
+Warm-premium / "quiet luxury" editorial, on a **warm ink canvas**. Still a print-magazine feel — expressive serif headlines, generous whitespace, grain, considered rhythm — but printed on dark paper: dusk photography, cream type, one olive accent. Reads **human, handmade, founder-grade** — never glassy dark-tech. Personality: confident, warm, precise.
 
-## 2. Color palette
+## 2. Color palette (Dark Editorial v2)
 | Token | Hex | Use |
 |---|---|---|
-| `--canvas` | `#F5F1E8` | page background (warm cream — never pure white) |
-| `--canvas-alt` | `#EFE9DC` | cards, alternating section bands |
-| `--ink` | `#1A1714` | primary text, primary button bg (warm near-black — never `#000`) |
-| `--ink-soft` | `#5A544C` | secondary text |
-| `--ink-mute` | `#8A8175` | captions, meta |
-| `--accent` | `#6B6B47` | THE one accent — links, eyebrow labels, highlights |
-| `--on-accent` | `#F5F1E8` | text on ink/accent fills |
-| `--line` | `#E0D8C6` | hairline borders |
+| `--canvas` | `#16120E` | page background (warm ink — never pure `#000`) |
+| `--canvas-alt` | `#201A15` | cards, elevated bands (Contact, case CTA) |
+| `--ink` | `#F5F1E8` | primary text = cream, primary button bg (never pure `#FFF`) |
+| `--ink-soft` | `#C6BDAE` | secondary text |
+| `--ink-mute` | `#94897A` | captions, meta |
+| `--accent` | `#A3A375` | THE one accent (olive, lifted for AA on dark) — links, eyebrows |
+| `--on-accent` | `#16120E` | dark text on cream/accent fills (buttons) |
+| `--line` | `#352D24` | warm dark hairlines |
+| `--shade` | `#14110E` | fixed dark for scrims/overlays over imagery |
 
-Rules: **one accent only** (olive). Depth from grain + layered creams + hairlines, never gradients. Verify every text/bg pair at **WCAG AA** (4.5:1 body, 3:1 large) — ink-on-canvas and on-accent-on-ink both pass; re-check any new pairing computationally.
+Semantics kept from v1: `canvas` = background, `ink` = foreground. Rules: **one accent only** (olive). Depth from grain (screen-blend on dark), dusk imagery, layered ink tones + hairlines — never glow, never glassmorphism. Verify every text/bg pair at **WCAG AA** (4.5:1 body, 3:1 large): cream-on-canvas ≈ 15:1 ✓, soft ≈ 9:1 ✓, accent-on-canvas ≈ 5:1 ✓, on-accent-on-accent ≈ 5:1 ✓.
 
 ## 3. Typography
 - **Display / headings:** Fraunces (variable, optical sizing on), weight 600; italic 500 for accent words + pull-quotes.

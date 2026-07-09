@@ -1,0 +1,12 @@
+---
+import Base from '../../../layouts/Base.astro';
+import DisciplisCaseStudy from '../../../components/DisciplisCaseStudy.astro';
+import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Base title={t('cs.disciplis.meta.title')} description={t('cs.disciplis.meta.description')}>
+  <DisciplisCaseStudy />
+</Base>

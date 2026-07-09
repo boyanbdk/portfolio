@@ -5,18 +5,24 @@
 @import "@fontsource-variable/fraunces/standard-italic.css";
 @import "@fontsource-variable/hanken-grotesk";
 @import "@fontsource-variable/jetbrains-mono";
+/* BG locale swap (DESIGN.md §10): Fraunces + Hanken lack basic Cyrillic */
+@import "@fontsource-variable/playfair-display";
+@import "@fontsource-variable/playfair-display/wght-italic.css";
+@import "@fontsource-variable/golos-text";
 
 /* ── Design tokens — single source of truth mirrors DESIGN.md §2 §3 ── */
 @theme {
-  /* Color (§2) */
-  --color-canvas: #f5f1e8;
-  --color-canvas-alt: #efe9dc;
-  --color-ink: #1a1714;
-  --color-ink-soft: #5a544c;
-  --color-ink-mute: #6f6656; /* darkened to clear WCAG AA (≈5:1 on canvas) — see DESIGN.md §2 */
-  --color-accent: #6b6b47;
-  --color-on-accent: #f5f1e8;
-  --color-line: #e0d8c6;
+  /* Color (§2) — Dark Editorial v2 (2026-07-09): warm ink canvas, cream foreground.
+     Semantics kept: canvas = background, ink = foreground text. */
+  --color-canvas: #16120e;
+  --color-canvas-alt: #201a15;
+  --color-ink: #f5f1e8;
+  --color-ink-soft: #c6bdae;
+  --color-ink-mute: #94897a;
+  --color-accent: #a3a375; /* olive lifted for AA on dark */
+  --color-on-accent: #16120e; /* text on cream/accent fills */
+  --color-line: #352d24;
+  --color-shade: #14110e; /* fixed dark for scrims/overlays regardless of theme */
 
   /* Type families (§3) */
   --font-display: "Fraunces Variable", Georgia, serif;
@@ -35,6 +41,13 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+  }
+
+  /* Bulgarian locale: Cyrillic-capable stand-ins that keep the editorial voice
+     (Fraunces and Hanken Grotesk don't ship the basic Cyrillic block). */
+  html[lang="bg"] {
+    --font-display: "Playfair Display Variable", Georgia, serif;
+    --font-body: "Golos Text Variable", system-ui, sans-serif;
   }
 
   body {
@@ -163,6 +176,27 @@
     }
     to {
       opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Image scale-reveal: media starts slightly zoomed and settles to rest
+     as it scrolls into view. Zero JS, degrades gracefully. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .reveal-scale {
+        animation: reveal-scale cubic-bezier(0.22, 1, 0.36, 1) both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 90%;
+      }
+    }
+  }
+
+  @keyframes reveal-scale {
+    from {
+      transform: scale(1.08);
+    }
+    to {
       transform: none;
     }
   }

@@ -1,0 +1,430 @@
+---
+import DisciplisMockup from './DisciplisMockup.astro';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+import { site } from '../config';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const features = [
+  t('cs.disciplis.feature.1'),
+  t('cs.disciplis.feature.2'),
+  t('cs.disciplis.feature.3'),
+  t('cs.disciplis.feature.4'),
+  t('cs.disciplis.feature.5'),
+  t('cs.disciplis.feature.6'),
+];
+---
+
+  <!-- Case hero — result first (research: lead with the RESULT) -->
+  <section class="case-hero" aria-labelledby="case-title">
+    <div class="shell">
+      <a href={localizePath(lang, '/#work')} class="link case-back">← {t('cs.disciplis.back')}</a>
+
+      <div class="case-hero__grid">
+        <div>
+          <span class="eyebrow">{t('cs.disciplis.eyebrow')}</span>
+          <h1 id="case-title">{t('cs.disciplis.title')}</h1>
+          <p class="case-hero__tagline">{t('cs.disciplis.tagline')}</p>
+        </div>
+        <p class="case-hero__result">{t('cs.disciplis.result')}</p>
+      </div>
+
+      <dl class="case-meta">
+        <div>
+          <dt class="eyebrow">{t('cs.disciplis.meta.role')}</dt>
+          <dd>{t('cs.disciplis.meta.role.v')}</dd>
+        </div>
+        <div>
+          <dt class="eyebrow">{t('cs.disciplis.meta.stack')}</dt>
+          <dd>{t('cs.disciplis.meta.stack.v')}</dd>
+        </div>
+        <div>
+          <dt class="eyebrow">{t('cs.disciplis.meta.status')}</dt>
+          <dd><span class="case-meta__pulse" aria-hidden="true"></span>{t('cs.disciplis.meta.status.v')}</dd>
+        </div>
+        <div>
+          <dt class="eyebrow">{t('cs.disciplis.meta.year')}</dt>
+          <dd>{t('cs.disciplis.meta.year.v')}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Product showcase — the real Disciplis design, front and centre -->
+  <section class="case-showcase" aria-label="The Disciplis product">
+    <div class="shell case-showcase__inner">
+      <div class="case-showcase__glow" aria-hidden="true"></div>
+      <div class="reveal reveal-scale">
+        <DisciplisMockup />
+      </div>
+      <p class="case-showcase__caption reveal">{t('cs.disciplis.showcase.caption')}</p>
+    </div>
+  </section>
+
+  <!-- 01 · Problem — narrow editorial column -->
+  <section class="section case-problem reveal" aria-labelledby="problem-title">
+    <div class="shell case-narrow">
+      <span class="eyebrow">{t('cs.disciplis.problem.eyebrow')}</span>
+      <h2 id="problem-title">{t('cs.disciplis.problem.title')}</h2>
+      <p>{t('cs.disciplis.problem.p1')}</p>
+      <p>{t('cs.disciplis.problem.p2')}</p>
+    </div>
+  </section>
+
+  <!-- 02 · Approach — full-bleed band, asymmetric split with decision card -->
+  <section class="section case-approach" aria-labelledby="approach-title">
+    <div class="shell case-approach__grid">
+      <div class="reveal">
+        <span class="eyebrow">{t('cs.disciplis.approach.eyebrow')}</span>
+        <h2 id="approach-title">{t('cs.disciplis.approach.title')}</h2>
+        <p>{t('cs.disciplis.approach.p1')}</p>
+        <p>{t('cs.disciplis.approach.p2')}</p>
+      </div>
+
+      <aside class="card case-decision reveal">
+        <h3>{t('cs.disciplis.decision.title')}</h3>
+        <p>{t('cs.disciplis.decision.body')}</p>
+      </aside>
+    </div>
+
+    <div class="shell case-features reveal">
+      <span class="eyebrow">{t('cs.disciplis.features.title')}</span>
+      <ul class="case-features__grid" role="list">
+        {features.map((f) => <li class="case-features__item">{f}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 03 · Outcome — metrics + live link -->
+  <section class="section case-outcome reveal" aria-labelledby="outcome-title">
+    <div class="shell case-narrow">
+      <span class="eyebrow">{t('cs.disciplis.outcome.eyebrow')}</span>
+      <h2 id="outcome-title">{t('cs.disciplis.outcome.title')}</h2>
+      <p>{t('cs.disciplis.outcome.p1')}</p>
+
+      <ul class="case-metrics" role="list">
+        <li>
+          <span class="case-metrics__big">{t('cs.disciplis.outcome.metric.1')}</span>
+          <span class="case-metrics__label">{t('cs.disciplis.outcome.metric.1.label')}</span>
+        </li>
+        <li>
+          <span class="case-metrics__big">{t('cs.disciplis.outcome.metric.2')}</span>
+          <span class="case-metrics__label">{t('cs.disciplis.outcome.metric.2.label')}</span>
+        </li>
+        <li>
+          <span class="case-metrics__big">{t('cs.disciplis.outcome.metric.3')}</span>
+          <span class="case-metrics__label">{t('cs.disciplis.outcome.metric.3.label')}</span>
+        </li>
+      </ul>
+
+      <div class="case-outcome__foot">
+        <a href={site.disciplis} class="btn" rel="noopener" target="_blank">
+          {t('cs.disciplis.visit')} <span aria-hidden="true">→</span>
+        </a>
+        <span class="case-builtwith">{t('cs.disciplis.builtwith')}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Inline CTA — calm, no popups (research: modals hurt credibility) -->
+  <section class="section case-cta" aria-labelledby="cta-title">
+    <div class="shell case-cta__inner reveal">
+      <div>
+        <h2 id="cta-title">{t('cs.disciplis.cta.title')}</h2>
+        <p>{t('cs.disciplis.cta.body')}</p>
+      </div>
+      <a href={localizePath(lang, '/#contact')} class="btn">
+        {t('cs.disciplis.cta.button')} <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+<style>
+  /* ── Hero ── */
+  .case-hero {
+    padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(3rem, 7vw, 5rem);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .case-back {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .case-hero__grid {
+    display: grid;
+    gap: 1.5rem;
+    align-items: end;
+    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  }
+  @media (min-width: 1024px) {
+    .case-hero__grid {
+      grid-template-columns: 0.9fr 1.1fr; /* asymmetric, type-first (§5) */
+      gap: clamp(2rem, 5vw, 4rem);
+    }
+  }
+
+  .case-hero h1 {
+    font-size: var(--text-hero);
+    margin-top: 0.75rem;
+  }
+
+  .case-hero__tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+    color: var(--color-accent);
+    margin: 1rem 0 0;
+    max-width: 30ch;
+  }
+
+  .case-hero__result {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-style: italic;
+    font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+    line-height: 1.35;
+    color: var(--color-ink-soft);
+    max-width: 34ch;
+  }
+
+  /* ── Meta strip ── */
+  .case-meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-line);
+  }
+  @media (min-width: 768px) {
+    .case-meta {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .case-meta dt {
+    margin-bottom: 0.35rem;
+  }
+  .case-meta dd {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--color-ink-soft);
+  }
+  .case-meta__pulse {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-right: 0.45rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  /* ── Product showcase band (dark, breaks the cream rhythm) ── */
+  .case-showcase {
+    position: relative;
+    padding-block: clamp(3rem, 8vw, 5.5rem);
+    background: var(--color-canvas-alt);
+    border-bottom: 1px solid var(--color-line);
+    overflow: hidden;
+  }
+  .case-showcase__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  /* soft teal aura behind the dark panel — signals the product's own brand */
+  .case-showcase__glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(34rem, 90%);
+    height: 22rem;
+    transform: translate(-50%, -55%);
+    background: radial-gradient(circle, rgba(0, 224, 195, 0.16), transparent 68%);
+    pointer-events: none;
+  }
+  .case-showcase__caption {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--color-ink-mute);
+    text-align: center;
+    max-width: 34ch;
+    margin: 0;
+  }
+
+  /* ── Shared narrow editorial column ── */
+  .case-narrow {
+    max-width: 46rem; /* break the grid: narrower than the 1140px shell */
+  }
+  .case-narrow h2 {
+    font-size: var(--text-h2);
+    margin-block: 0.75rem 1.25rem;
+  }
+  .case-narrow p {
+    color: var(--color-ink-soft);
+    max-width: 62ch;
+  }
+  .case-narrow p + p {
+    margin-top: 1rem;
+  }
+
+  /* ── Approach band (full-bleed alt cream) ── */
+  .case-approach {
+    background: var(--color-canvas-alt);
+    border-block: 1px solid var(--color-line);
+  }
+  .case-approach__grid {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    align-items: start;
+  }
+  @media (min-width: 1024px) {
+    .case-approach__grid {
+      grid-template-columns: 1.2fr 0.8fr; /* uneven — never two equal halves */
+    }
+  }
+  .case-approach h2 {
+    font-size: var(--text-h2);
+    margin-block: 0.75rem 1.25rem;
+  }
+  .case-approach p {
+    color: var(--color-ink-soft);
+  }
+  .case-approach p + p {
+    margin-top: 1rem;
+  }
+
+  .case-decision {
+    background: var(--color-canvas); /* inverted layering inside the band */
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+  @media (min-width: 1024px) {
+    .case-decision {
+      margin-top: 3.5rem; /* offset — breaks the grid */
+    }
+  }
+  .case-decision h3 {
+    font-size: var(--text-h3);
+    margin-bottom: 0.75rem;
+  }
+  .case-decision p {
+    margin: 0;
+  }
+
+  /* ── Feature list ── */
+  .case-features {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+  }
+  .case-features .eyebrow {
+    display: block;
+    margin-bottom: 1.25rem;
+  }
+  .case-features__grid {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) {
+    .case-features__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .case-features__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .case-features__item {
+    position: relative;
+    padding: 0.9rem 1rem 0.9rem 2rem;
+    background: var(--color-canvas);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    color: var(--color-ink-soft);
+  }
+  .case-features__item::before {
+    content: '';
+    position: absolute;
+    left: 0.9rem;
+    top: 1.35em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  /* ── Outcome metrics ── */
+  .case-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-block: clamp(1.75rem, 4vw, 2.5rem);
+    padding-block: 1.5rem;
+    border-block: 1px solid var(--color-line);
+  }
+  .case-metrics li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .case-metrics__big {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.3rem, 2.6vw, 1.9rem);
+    line-height: 1.1;
+  }
+  .case-metrics__label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-ink-mute);
+  }
+
+  .case-outcome__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+  }
+  .case-builtwith {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--color-ink-mute);
+  }
+
+  /* ── CTA band ── */
+  .case-cta {
+    background: var(--color-canvas-alt);
+    border-block: 1px solid var(--color-line);
+    color: var(--color-ink);
+  }
+  .case-cta__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+  .case-cta h2 {
+    font-size: var(--text-h2);
+    margin-bottom: 0.6rem;
+  }
+  .case-cta p {
+    margin: 0;
+    color: color-mix(in srgb, var(--color-ink) 78%, transparent);
+  }
+  .case-cta .btn {
+    background: var(--color-ink);
+    color: var(--color-on-accent);
+  }
+</style>

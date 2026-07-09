@@ -13,9 +13,10 @@ export const site = {
   disciplis: 'https://disciplis.vercel.app',
 } as const;
 
+// Root-relative anchors so the nav also works from subpages (e.g. /work/disciplis).
 export const nav = [
-  { key: 'nav.services', href: '#what-i-do' },
-  { key: 'nav.work', href: '#work' },
-  { key: 'nav.about', href: '#about' },
-  { key: 'nav.contact', href: '#contact' },
+  { key: 'nav.services', href: '/#what-i-do' },
+  { key: 'nav.work', href: '/#work' },
+  { key: 'nav.about', href: '/#about' },
+  { key: 'nav.contact', href: '/#contact' },
 ] as const;

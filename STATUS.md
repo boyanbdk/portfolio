@@ -3,7 +3,7 @@
 > **Resuming on any device (mobile/desktop):** say _"read STATUS.md and continue"_.
 > This file is the source of truth for where we are. Keep it updated at the end of each working session.
 
-_Last updated: 2026-07-07 — EN v1 built. A new session has ONLY this file + the repo (no chat history)._
+_Last updated: 2026-07-09 — EN v1 + Disciplis case study + full BG. A new session has ONLY this file + the repo (no chat history)._
 
 ## ▶ CURRENT POSITION / DO THIS NEXT
 - **Stack DECIDED: Astro + Tailwind → Cloudflare Pages.** ✅
@@ -11,13 +11,17 @@ _Last updated: 2026-07-07 — EN v1 built. A new session has ONLY this file + th
 - **Design system written → [`DESIGN.md`](DESIGN.md)** — the 9-section source of truth. Full research in [`docs/design-research.md`](docs/design-research.md).
 - **Implementation plan written → [`PLAN.md`](PLAN.md).** ✅
 - **✅ EN v1 BUILT & verified** (Astro 7 + Tailwind v4, static). All 5 sections live: Hero · What I do (uneven bento) · Selected work (Disciplis) · About · Contact. Self-hosted fonts, grain overlay, i18n scaffolding (no hardcoded copy), WCAG AA verified computationally (every pair ≥4.5:1), 0 console errors, `npm run build` clean, 0 npm vulnerabilities.
+- **✅ Disciplis case study built** (`/work/disciplis` + `/bg/work/disciplis`) — behavioural-trading-journal positioning ("Your strategy isn't the problem. Your behaviour is."), faithful dark-teal product mockup (`DisciplisMockup.astro`), result-first structure. Backed by research → [`docs/research-structure-and-photos.md`](docs/research-structure-and-photos.md) (multi-page case studies ✓, no popups ✓, real photos build trust ✓).
+- **✅ Positioning pass (2026-07-09):** no tech stacks in hero; "Proof over claims" instead of "Available for work"; About says CS *background* (never "student") + trader identity (why Disciplis exists). Disciplis = finished hobby project, NOT "currently building". Open question: AI agency under personal name vs AutoSilas — deferred, keep copy neutral.
+- **✅ FULL BG LIVE** — `/bg/` + `/bg/work/disciplis`, working EN/BG switcher (preserves page), hreflang tags, informal „ти" tone. **Cyrillic font swap** (Fraunces/Hanken lack basic Cyrillic): BG uses Playfair Display (display) + Golos Text (body) via `html[lang=bg]` override in `global.css`.
+- **Dev-server note:** Astro 7 needs Node ≥22; system Node is 20. Pinned Node 22 lives in `.tooling/` (gitignored) with a space-free symlink `~/.local/bin/node22` used by `.claude/launch.json` (the launcher breaks on the space in "job searcher").
 - **DO THIS NEXT (pick up here):**
-  1. **Supply real assets** (biggest visual upgrade): a real portrait → swap the hero info-panel in `Hero.astro`; a real Disciplis screenshot → swap the mock frame in `SelectedWork.astro`.
+  1. **Supply real assets** (biggest visual upgrade): drop `hero-portrait.jpg` into `src/assets/` (auto-renders in hero — AI image now, photoshoot later; prompts already written); a real Disciplis screenshot → swap the mock frame in `SelectedWork.astro`.
   2. **Confirm social handles** in [`src/config.ts`](src/config.ts) — GitHub assumed `github.com/boyanbdk`; **LinkedIn is a placeholder (TODO).**
   3. **Wire the contact form** — currently progressive-enhancement mailto (works today, no backend). For real submissions add Cloudflare Pages Forms or Formspree action.
-  4. **GSAP pinned Disciplis reveal** (the one JS island, deferred) — optional polish.
+  4. **Native-speaker read of the BG copy** (translated this session; Boyan should sanity-check tone/terms).
   5. **Deploy to Cloudflare Pages** (build `npm run build`, output `dist/`) + claim/connect domain.
-  6. **Build Binkovending** (case study #2), then **add BG**.
+  6. **Build Binkovending** (case study #2). GSAP pinned reveal = optional polish.
 - ⚠️ **Cyrillic finding (CONFIRMED for BG phase):** the build emits **no Cyrillic woff2 subset for Fraunces OR Hanken Grotesk** — both lack Cyrillic. JetBrains Mono *does* have it. So before BG, locale-swap **both** the display serif (e.g. Playfair Display — has Cyrillic) **and** the body sans (e.g. a Cyrillic-capable grotesque) for the `bg` locale. See `DESIGN.md` §10.
 
 ---

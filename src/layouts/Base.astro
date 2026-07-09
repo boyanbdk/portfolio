@@ -3,14 +3,22 @@ import '../styles/global.css';
 import Grain from '../components/Grain.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, switchLangPath } from '../i18n/utils';
+
+interface Props {
+  /** Per-page overrides; default to the site-wide meta strings. */
+  title?: string;
+  description?: string;
+}
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const title = t('site.title');
-const description = t('site.description');
+const title = Astro.props.title ?? t('site.title');
+const description = Astro.props.description ?? t('site.description');
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const altEn = new URL(switchLangPath(Astro.url, 'en'), Astro.site).href;
+const altBg = new URL(switchLangPath(Astro.url, 'bg'), Astro.site).href;
 ---
 
 <!doctype html>
@@ -22,6 +30,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={altEn} />
+    <link rel="alternate" hreflang="bg" href={altBg} />
+    <link rel="alternate" hreflang="x-default" href={altEn} />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -31,7 +42,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <meta property="og:locale" content={lang === 'bg' ? 'bg_BG' : 'en_US'} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <meta name="theme-color" content="#f5f1e8" />
+    <meta name="theme-color" content="#16120e" />
     <meta name="generator" content={Astro.generator} />
   </head>
   <body>

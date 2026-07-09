@@ -1,32 +1,34 @@
 ---
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { Image } from 'astro:assets';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
 import { site } from '../config';
+import deskStill from '../assets/desk-still.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
+<!-- Dark cinematic band: the visual peak of the scroll (hero-dark → cream → THIS → cream → contact-dark) -->
 <section id="work" class="section work" aria-labelledby="work-heading">
-  <div class="shell">
+  <!-- dusk desk backdrop, heavily graded so the type stays the hero -->
+  <Image
+    src={deskStill}
+    alt=""
+    class="work__bg"
+    widths={[960, 1280]}
+    sizes="100vw"
+    aria-hidden="true"
+  />
+  <div class="work__shade" aria-hidden="true"></div>
+
+  <div class="shell work__inner">
     <header class="work__head reveal">
       <span class="eyebrow">{t('work.eyebrow')}</span>
       <h2 id="work-heading">{t('work.title')}</h2>
     </header>
 
-    <article class="work__case reveal">
-      <!-- Product render — swap for a real Disciplis screenshot when supplied -->
-      <div class="work__frame" aria-hidden="true">
-        <div class="work__bar">
-          <span></span><span></span><span></span>
-          <span class="work__url">disciplis.vercel.app</span>
-        </div>
-        <div class="work__screen">
-          <span class="work__screen-name">Disciplis</span>
-          <span class="work__screen-sub">discipline, tracked.</span>
-        </div>
-      </div>
-
-      <div class="work__body">
+    <article class="work__case">
+      <div class="work__body reveal">
         <div class="work__title-row">
           <h3>{t('work.disciplis.name')}</h3>
           <span class="work__kind">{t('work.disciplis.kind')}</span>
@@ -42,9 +44,26 @@ const t = useTranslations(lang);
 
         <div class="work__footer">
           <span class="work__metric">{t('work.disciplis.metric')}</span>
-          <a href={site.disciplis} class="btn" rel="noopener" target="_blank">
-            {t('work.disciplis.link')} <span aria-hidden="true">→</span>
-          </a>
+          <div class="work__actions">
+            <a href={localizePath(lang, '/work/disciplis')} class="btn work__cta">
+              {t('work.disciplis.case')} <span aria-hidden="true">→</span>
+            </a>
+            <a href={site.disciplis} class="link work__live" rel="noopener" target="_blank">
+              {t('work.disciplis.link')}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product render — swap for a real Disciplis screenshot when supplied -->
+      <div class="work__frame reveal-scale" aria-hidden="true">
+        <div class="work__bar">
+          <span></span><span></span><span></span>
+          <span class="work__url">disciplis.vercel.app</span>
+        </div>
+        <div class="work__screen">
+          <span class="work__screen-name">Disciplis</span>
+          <span class="work__screen-sub">discipline, tracked.</span>
         </div>
       </div>
     </article>
@@ -55,105 +74,93 @@ const t = useTranslations(lang);
 
 <style>
   .work {
-    background: var(--color-canvas-alt);
-    border-block: 1px solid var(--color-line);
+    position: relative;
+    overflow: hidden;
+    background: var(--color-shade);
+    color: var(--color-ink);
+  }
+
+  .work__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    opacity: 0.5;
+    filter: saturate(0.9);
+  }
+  /* ink gradient: solid where the text sits, image breathing on the right */
+  .work__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        100deg,
+        color-mix(in srgb, var(--color-shade) 96%, transparent) 0%,
+        color-mix(in srgb, var(--color-shade) 88%, transparent) 45%,
+        color-mix(in srgb, var(--color-shade) 55%, transparent) 100%
+      );
+  }
+
+  .work__inner {
+    position: relative;
+    z-index: 1;
   }
 
   .work__head {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    margin-bottom: clamp(2rem, 5vw, 3rem);
+    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  }
+  .work__head .eyebrow {
+    color: color-mix(in srgb, var(--color-accent) 62%, #fff);
   }
   .work__head h2 {
     font-size: var(--text-h2);
+    color: var(--color-ink);
   }
 
-  /* Offset / asymmetric layout (§4) */
   .work__case {
     display: grid;
-    gap: clamp(1.5rem, 4vw, 3rem);
+    gap: clamp(2rem, 5vw, 3.5rem);
     align-items: center;
   }
   @media (min-width: 1024px) {
     .work__case {
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1.05fr 0.95fr;
     }
-  }
-
-  .work__frame {
-    background: var(--color-canvas);
-    border: 1px solid var(--color-line);
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 30px 60px -40px rgba(26, 23, 20, 0.5);
-  }
-  .work__bar {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.7rem 0.9rem;
-    border-bottom: 1px solid var(--color-line);
-  }
-  .work__bar > span:not(.work__url) {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: var(--color-line);
-  }
-  .work__url {
-    margin-left: 0.75rem;
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    color: var(--color-ink-mute);
-  }
-  .work__screen {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 0.4rem;
-    aspect-ratio: 16 / 10;
-    padding: clamp(1.5rem, 4vw, 3rem);
-    background:
-      radial-gradient(120% 120% at 15% 0%, var(--color-canvas-alt), transparent 60%),
-      var(--color-canvas);
-  }
-  .work__screen-name {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: clamp(1.75rem, 4vw, 2.75rem);
-  }
-  .work__screen-sub {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.05em;
-    color: var(--color-accent);
   }
 
   .work__title-row {
     display: flex;
     align-items: baseline;
+    flex-wrap: wrap;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
   }
   .work__title-row h3 {
-    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    color: var(--color-ink);
   }
   .work__kind {
     font-family: var(--font-mono);
     font-size: 0.68rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--color-accent);
+    color: color-mix(in srgb, var(--color-accent) 62%, #fff);
   }
 
   .work__result {
     font-family: var(--font-display);
+    font-style: italic;
     font-weight: 500;
-    font-size: clamp(1.2rem, 2.2vw, 1.5rem);
-    line-height: 1.3;
-    margin-bottom: 1.5rem;
+    font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+    line-height: 1.35;
+    margin-bottom: 1.75rem;
+    color: color-mix(in srgb, var(--color-ink) 92%, transparent);
+    max-width: 34ch;
   }
 
   .work__story {
@@ -164,7 +171,8 @@ const t = useTranslations(lang);
   .work__story li {
     position: relative;
     padding-left: 1.25rem;
-    color: var(--color-ink-soft);
+    color: color-mix(in srgb, var(--color-ink) 74%, transparent);
+    max-width: 52ch;
   }
   .work__story li::before {
     content: '';
@@ -174,7 +182,7 @@ const t = useTranslations(lang);
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 70%, #fff);
   }
 
   .work__footer {
@@ -183,19 +191,89 @@ const t = useTranslations(lang);
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--color-line);
+    padding-top: 1.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 16%, transparent);
   }
   .work__metric {
     font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    color: color-mix(in srgb, var(--color-ink) 55%, transparent);
+  }
+  .work__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  /* inverted button on the dark band */
+  .work__cta {
+    background: var(--color-ink);
+    color: var(--color-on-accent);
+  }
+  .work__live {
+    font-size: 0.95rem;
+    color: color-mix(in srgb, var(--color-accent) 62%, #fff);
+  }
+
+  .work__frame {
+    background: color-mix(in srgb, var(--color-shade) 80%, #000);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 18%, transparent);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px -45px rgba(0, 0, 0, 0.9);
+  }
+  .work__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);
+  }
+  .work__bar > span:not(.work__url) {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-ink) 22%, transparent);
+  }
+  .work__url {
+    margin-left: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: color-mix(in srgb, var(--color-ink) 45%, transparent);
+  }
+  .work__screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.4rem;
+    aspect-ratio: 16 / 10;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    background:
+      radial-gradient(
+        120% 120% at 15% 0%,
+        color-mix(in srgb, var(--color-accent) 14%, transparent),
+        transparent 60%
+      ),
+      color-mix(in srgb, var(--color-shade) 88%, #000);
+  }
+  .work__screen-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    color: var(--color-ink);
+  }
+  .work__screen-sub {
+    font-family: var(--font-mono);
     font-size: 0.8rem;
     letter-spacing: 0.05em;
-    color: var(--color-ink-mute);
+    color: color-mix(in srgb, var(--color-accent) 62%, #fff);
   }
 
   .work__more {
-    margin-top: clamp(2rem, 5vw, 3rem);
+    margin-top: clamp(2.5rem, 6vw, 4rem);
     text-align: center;
-    color: var(--color-ink-mute);
+    color: color-mix(in srgb, var(--color-ink) 45%, transparent);
   }
 </style>

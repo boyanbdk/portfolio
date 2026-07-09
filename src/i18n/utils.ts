@@ -17,3 +17,15 @@ export function useTranslations(lang: Lang) {
     return dict[key] ?? ui[defaultLang][key];
   };
 }
+
+/** Prefix an internal path (or /#anchor) with the locale segment when needed. */
+export function localizePath(lang: Lang, path: string): string {
+  if (lang === defaultLang) return path;
+  return `/${lang}${path === '/' ? '/' : path}`;
+}
+
+/** The equivalent of the current path in another locale (for the EN/BG switcher). */
+export function switchLangPath(url: URL, target: Lang): string {
+  const bare = url.pathname.replace(/^\/(bg)(?=\/|$)/, '') || '/';
+  return target === defaultLang ? bare : `/${target}${bare === '/' ? '/' : bare}`;
+}
