@@ -1,0 +1,19 @@
+---
+const stats = [
+  { value: '120+', label: 'машини на обекти' },
+  { value: '45 000', label: 'чаши кафе месечно' },
+  { value: '10 г.', label: 'опит във вендинга' },
+  { value: '< 24 ч.', label: 'реакция при повреда' },
+];
+---
+
+<section class="border-y border-ink/8 bg-paper">
+  <div class="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-5 py-10 md:grid-cols-4 md:px-8 md:py-12">
+    {stats.map((s) => (
+      <div class="reveal text-center">
+        <p class="font-display text-2xl font-bold md:text-3xl">{s.value}</p>
+        <p class="mt-1.5 text-xs uppercase tracking-[0.14em] text-ink-soft">{s.label}</p>
+      </div>
+    ))}
+  </div>
+</section>

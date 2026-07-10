@@ -280,8 +280,9 @@ function magneticButtons() {
       const r = btn.getBoundingClientRect();
       const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
       const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
-      xTo(dx * 14);
-      yTo(dy * 8);
+      // barely-there pull — Boyan found the stronger version distracting
+      xTo(dx * 5);
+      yTo(dy * 3);
     });
     btn.addEventListener('mouseleave', () => {
       xTo(0);

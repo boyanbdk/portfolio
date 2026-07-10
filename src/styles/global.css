@@ -146,6 +146,62 @@
     filter: brightness(0.9);
   }
 
+  /* hover "snake": a comet of light tracing the pill's edge (Boyan's ask).
+     The pseudo-element is masked down to a 2px ring so only the border
+     carries the light; the conic angle is animated via @property. */
+  .btn {
+    position: relative;
+  }
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 28px;
+    padding: 2px;
+    background: conic-gradient(
+      from var(--btn-angle, 0deg),
+      transparent 0% 68%,
+      color-mix(in srgb, var(--color-accent) 55%, #fff8e7) 86%,
+      #fff8e7 92%,
+      transparent 97%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+  .btn:hover::before,
+  .btn:focus-visible::before {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .btn:hover::before,
+    .btn:focus-visible::before {
+      animation: btn-snake 1.4s linear infinite;
+    }
+  }
+}
+
+@property --btn-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes btn-snake {
+  to {
+    --btn-angle: 360deg;
+  }
+}
+
+@layer components {
   /* Animated underline text link (§4) */
   .link {
     color: var(--color-accent);
