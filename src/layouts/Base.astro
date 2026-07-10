@@ -44,6 +44,20 @@ const altBg = new URL(switchLangPath(Astro.url, 'bg'), Astro.site).href;
 
     <meta name="theme-color" content="#16120e" />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Pre-paint motion guard: hides intro elements before the motion island
+         boots. Self-heals after 3s so content can never be stuck hidden. -->
+    <script is:inline>
+      (function () {
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          var d = document.documentElement;
+          d.classList.add('motion-pending');
+          setTimeout(function () {
+            d.classList.remove('motion-pending');
+          }, 3000);
+        }
+      })();
+    </script>
   </head>
   <body>
     <a href="#main" class="skip-link">{t('nav.skip')}</a>
@@ -55,6 +69,9 @@ const altBg = new URL(switchLangPath(Astro.url, 'bg'), Astro.site).href;
       </main>
       <Footer />
     </div>
+    <script>
+      import '../scripts/motion';
+    </script>
   </body>
 </html>
 

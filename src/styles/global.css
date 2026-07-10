@@ -133,6 +133,18 @@
     opacity: 0.9;
     transform: translateY(-1px);
   }
+  /* the → suffix leans into the direction of travel on hover */
+  .btn [aria-hidden] {
+    display: inline-block;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn:hover [aria-hidden] {
+    transform: translateX(4px);
+  }
+  /* press feedback via brightness — transform is owned by the magnetic JS */
+  .btn:active {
+    filter: brightness(0.9);
+  }
 
   /* Animated underline text link (§4) */
   .link {
@@ -158,46 +170,21 @@
 }
 
 @layer utilities {
-  /* CSS scroll-reveal (§9) — zero JS, degrades gracefully */
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      .reveal {
-        animation: reveal-fade linear both;
-        animation-timeline: view();
-        animation-range: entry 0% entry 55%;
-      }
-    }
-  }
+  /* .reveal / .reveal-scale are markers consumed by the GSAP ScrollTrigger
+     island (src/scripts/motion.ts) — cross-browser, unlike the old
+     animation-timeline: view() approach which only Chrome supported.
+     Without JS (or with reduced motion) they simply stay visible. */
 
-  @keyframes reveal-fade {
-    from {
-      opacity: 0;
-      transform: translateY(1.5rem);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
+  /* Split-line heading reveal: the island wraps each visual line in a
+     clipping mask; these styles apply to the generated wrappers. */
+  .split-mask {
+    display: block;
+    overflow: hidden;
+    margin-block: -0.14em;
+    padding-block: 0.14em;
   }
-
-  /* Image scale-reveal: media starts slightly zoomed and settles to rest
-     as it scrolls into view. Zero JS, degrades gracefully. */
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      .reveal-scale {
-        animation: reveal-scale cubic-bezier(0.22, 1, 0.36, 1) both;
-        animation-timeline: view();
-        animation-range: entry 0% entry 90%;
-      }
-    }
-  }
-
-  @keyframes reveal-scale {
-    from {
-      transform: scale(1.08);
-    }
-    to {
-      transform: none;
-    }
+  .split-line {
+    display: block;
+    will-change: transform;
   }
 }

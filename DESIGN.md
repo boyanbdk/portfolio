@@ -1,6 +1,6 @@
 # DESIGN.md — boyanbudakov.com
 
-Single source of truth for all visual implementation. Direction: **"Editorial Founder — Dark"** (v2, 2026-07-09; cream v1 locked 2026-07-07, went dark after the video-hero landed and Boyan chose the dark scheme). Every build decision references these tokens — never introduce new colors or fonts.
+Single source of truth for all visual implementation. Direction: **"Editorial Founder — Dark"** (v2.1, 2026-07-10 — synced to shipped site; cream v1 locked 2026-07-07, went dark 2026-07-09 after the video-hero landed and Boyan chose the dark scheme). Every build decision references these tokens — never introduce new colors or fonts.
 
 ---
 
@@ -39,32 +39,32 @@ Semantics kept from v1: `canvas` = background, `ink` = foreground. Rules: **one 
 
 ## 5. Layout principles
 - Content max-width ~`1140px`, generous side margins; section padding `clamp(4rem,10vw,8rem)`.
-- **Hero:** asymmetric, type-first — oversized Fraunces headline pushed left, mono meta in top corners, real portrait in a split on ≥1024px.
-- **"What I do":** bento with **uneven** weights (Websites = large cell; Web apps + Automations smaller) — never three equal boxes.
+- **Hero:** full-bleed dusk **video** behind a `--shade` scrim, type-first — oversized Fraunces headline over the footage, masked line-reveal intro, infinite mono manifesto marquee strip along the bottom edge. The real portrait lives in **About** (`src/assets/about-portrait.*`, falls back to `desk-still.jpg`).
+- **"What I do":** numbered editorial cells (`01/02/03` ghost numerals, line-art motifs, timeframe tags) on an **uneven** grid — Websites = lead cell spanning two rows at `1.35fr`; Web apps + Automations stack beside it. Never three equal boxes.
 - **Break-the-grid mandate:** no two consecutive sections share the same rhythm — alternate contained vs full-bleed cream band, left-aligned vs asymmetric.
 
 ## 6. Depth / elevation
-- **Paper grain overlay** (SVG `feTurbulence`, ~6–10% opacity) = primary depth tool, over `--canvas`.
+- **Paper grain overlay** (SVG `feTurbulence`, ~5–10% opacity; shipped at 5%) = primary depth tool, over `--canvas`.
 - Layered creams (`--canvas` vs `--canvas-alt`) separate sections.
 - Shadows: minimal, warm-tinted, low — only where a card genuinely lifts. Prefer hairlines + grain over shadow. Never glossy/gradient depth.
 
 ## 7. Do's / Don'ts
 **Do:** Fraunces for expressive headlines · mono for meta · one olive accent · grain + whitespace · real portrait + real Disciplis screenshot · WCAG AA · alternate section rhythm.
-**Don't:** pure `#000`/`#FFF` · banned fonts (Inter, Roboto, Arial, Helvetica, Space Grotesk, Lato, Open Sans, Source Sans Pro) · three equal boxes · purple/blue gradients · glow/neon · two identical consecutive sections · skill %-bars · "book a call."
+**Don't:** pure `#000`/`#FFF` on the paper surface (exception: text/UI sitting **over hero video footage** may use `#fff` and `color-mix(… #fff)` for legibility against the scrim) · banned fonts (Inter, Roboto, Arial, Helvetica, Space Grotesk, Lato, Open Sans, Source Sans Pro) · three equal boxes · purple/blue gradients · glow/neon · two identical consecutive sections · skill %-bars · "book a call."
 
 ## 8. Responsive behavior
 - Breakpoints: `640 / 768 / 1024 / 1280`. Mobile-first; fluid type via `clamp`.
-- Hero: stacks on mobile (headline → portrait → sub → CTA); 60/40 split ≥1024.
-- Bento: 1 col mobile → asymmetric multi-col ≥768.
+- Hero: full-bleed video at every width; content stacks (eyebrow → headline → sub → CTA) over the scrim, marquee strip pinned to the bottom.
+- Services grid: 1 col mobile → asymmetric 2-col (`1.35fr 1fr`, lead cell spans 2 rows) ≥768.
 - Tap targets ≥44px. Honor `prefers-reduced-motion`.
 
 ## 9. Agent prompt guide (for the build model — Fable)
 - Always use §2 tokens and §3 fonts; never invent colors/fonts.
 - Build **section-by-section**; run the §7 anti-slop checklist on each before moving on.
-- Static-first, minimal JS. **Only one JS island:** GSAP + ScrollTrigger (scoped + lazy) for the Disciplis pinned reveal. Everything else CSS (`animation-timeline: view()` scroll reveals, hover, underline, animated grain).
+- Static-first, minimal JS. **Only one JS island:** `src/scripts/motion.ts` — GSAP hero-intro timeline (masked line reveal + video settle + marquee rise) plus **Lenis** smooth scroll on fine-pointer desktop ≥1024 only. A pre-paint `<head>` guard (`html.motion-pending`) + 3s timeout guarantee content never stays hidden; everything no-ops under `prefers-reduced-motion`. Stage 2 (ScrollTrigger Disciplis pinned reveal) hooks into the exposed Lenis instance when built. Everything else CSS (scroll reveals, hover, underline, animated grain).
 - Copy in EN first, wrapped in i18n keys (no hardcoded strings).
 - Astro + Tailwind; deploy Cloudflare Pages. Target Lighthouse 95+.
 
 ## 10. Multilingual (EN / BG)
 - Astro i18n with locale routes; small mono language switcher in header + footer. EN primary → BG added after EN ships.
-- ⚠️ **Cyrillic check (do before BG):** confirm Fraunces + Hanken Grotesk ship Cyrillic glyphs. If Fraunces lacks Cyrillic, choose a Cyrillic-capable display serif for BG headings (e.g. Playfair Display) and keep a Cyrillic-capable body sans — locale-swap the font stack so the BG version stays on-brand.
+- ✅ **Cyrillic (resolved):** Fraunces + Hanken Grotesk lack the basic Cyrillic block, so `html[lang="bg"]` swaps the stacks — display: **Playfair Display Variable**, body: **Golos Text Variable** (both self-hosted via Fontsource). JetBrains Mono covers Cyrillic natively; no swap needed.
