@@ -9,8 +9,8 @@ export const site = {
   linkedin: 'https://www.linkedin.com/',
   // External brand — one-directional link (personal → business).
   autosilas: 'https://autosilas.com',
-  // Live case study.
-  disciplis: 'https://disciplis.vercel.app',
+  // Live case study — owned domain (Vercel).
+  disciplis: 'https://disciplis.com',
 } as const;
 
 // Root-relative anchors so the nav also works from subpages (e.g. /work/disciplis).

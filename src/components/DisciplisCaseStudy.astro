@@ -1,7 +1,11 @@
 ---
-import DisciplisMockup from './DisciplisMockup.astro';
+import { Image } from 'astro:assets';
 import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
 import { site } from '../config';
+import logoUrl from '../assets/disciplis/disciplis-logo.svg?url';
+import shotDashboard from '../assets/disciplis/dashboard.png';
+import shotJournal from '../assets/disciplis/journal.png';
+import shotPsychology from '../assets/disciplis/psychology.png';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -24,7 +28,10 @@ const features = [
       <div class="case-hero__grid">
         <div>
           <span class="eyebrow">{t('cs.disciplis.eyebrow')}</span>
-          <h1 id="case-title">{t('cs.disciplis.title')}</h1>
+          <div class="case-hero__brand">
+            <img src={logoUrl} alt="" class="case-hero__mark" width="56" height="56" loading="eager" />
+            <h1 id="case-title">{t('cs.disciplis.title')}</h1>
+          </div>
           <p class="case-hero__tagline">{t('cs.disciplis.tagline')}</p>
         </div>
         <p class="case-hero__result">{t('cs.disciplis.result')}</p>
@@ -51,13 +58,23 @@ const features = [
     </div>
   </section>
 
-  <!-- Product showcase — the real Disciplis design, front and centre -->
+  <!-- Product showcase — the real app in production, not a mockup -->
   <section class="case-showcase" aria-label="The Disciplis product">
     <div class="shell case-showcase__inner">
       <div class="case-showcase__glow" aria-hidden="true"></div>
-      <div class="reveal reveal-scale">
-        <DisciplisMockup />
-      </div>
+      <figure class="case-frame reveal reveal-scale">
+        <div class="case-frame__bar">
+          <span></span><span></span><span></span>
+          <span class="case-frame__url">disciplis.com/dashboard</span>
+        </div>
+        <Image
+          src={shotDashboard}
+          alt={t('cs.disciplis.shot.dashboard.alt')}
+          class="case-frame__img"
+          widths={[768, 1200, 1600]}
+          sizes="(min-width: 1140px) 1060px, 92vw"
+        />
+      </figure>
       <p class="case-showcase__caption reveal">{t('cs.disciplis.showcase.caption')}</p>
     </div>
   </section>
@@ -93,6 +110,44 @@ const features = [
       <ul class="case-features__grid" role="list">
         {features.map((f) => <li class="case-features__item">{f}</li>)}
       </ul>
+    </div>
+  </section>
+
+  <!-- Gallery — deeper inside the live product -->
+  <section class="section case-gallery" aria-labelledby="gallery-title">
+    <div class="shell">
+      <span class="eyebrow">{t('cs.disciplis.gallery.eyebrow')}</span>
+      <h2 id="gallery-title" class="case-gallery__title">{t('cs.disciplis.gallery.title')}</h2>
+      <div class="case-gallery__grid">
+        <figure class="case-frame reveal">
+          <div class="case-frame__bar">
+            <span></span><span></span><span></span>
+            <span class="case-frame__url">disciplis.com/diary</span>
+          </div>
+          <Image
+            src={shotJournal}
+            alt={t('cs.disciplis.shot.journal.alt')}
+            class="case-frame__img"
+            widths={[640, 1024]}
+            sizes="(min-width: 1024px) 46vw, 92vw"
+          />
+          <figcaption class="case-frame__cap">{t('cs.disciplis.shot.journal.cap')}</figcaption>
+        </figure>
+        <figure class="case-frame reveal">
+          <div class="case-frame__bar">
+            <span></span><span></span><span></span>
+            <span class="case-frame__url">disciplis.com/psychology</span>
+          </div>
+          <Image
+            src={shotPsychology}
+            alt={t('cs.disciplis.shot.psych.alt')}
+            class="case-frame__img"
+            widths={[640, 1024]}
+            sizes="(min-width: 1024px) 46vw, 92vw"
+          />
+          <figcaption class="case-frame__cap">{t('cs.disciplis.shot.psych.cap')}</figcaption>
+        </figure>
+      </div>
     </div>
   </section>
 
@@ -168,9 +223,20 @@ const features = [
     }
   }
 
+  .case-hero__brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.75rem;
+  }
+  .case-hero__mark {
+    width: clamp(2.75rem, 5vw, 3.5rem);
+    height: auto;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
   .case-hero h1 {
     font-size: var(--text-hero);
-    margin-top: 0.75rem;
   }
 
   .case-hero__tagline {
@@ -255,8 +321,75 @@ const features = [
     letter-spacing: 0.04em;
     color: var(--color-ink-mute);
     text-align: center;
-    max-width: 34ch;
+    max-width: 44ch;
     margin: 0;
+  }
+
+  /* ── browser frame around real product screenshots ── */
+  .case-frame {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    background: #0c1018; /* the product's own navy, not our warm canvas */
+    border: 1px solid color-mix(in srgb, var(--color-ink) 14%, transparent);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px -45px rgba(0, 0, 0, 0.85);
+  }
+  .case-frame__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.65rem 0.9rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  .case-frame__bar > span:not(.case-frame__url) {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.14);
+  }
+  .case-frame__url {
+    margin-left: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.38);
+  }
+  .case-frame__img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .case-frame__cap {
+    padding: 0.85rem 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.03em;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* ── gallery band ── */
+  .case-gallery {
+    border-bottom: 1px solid var(--color-line);
+  }
+  .case-gallery__title {
+    font-size: var(--text-h2);
+    margin-block: 0.75rem 2rem;
+  }
+  .case-gallery__grid {
+    display: grid;
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+  @media (min-width: 1024px) {
+    .case-gallery__grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+    /* offset the second frame — break the grid (§5) */
+    .case-gallery__grid > figure:last-child {
+      margin-top: 3rem;
+    }
   }
 
   /* ── Shared narrow editorial column ── */

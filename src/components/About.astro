@@ -31,6 +31,26 @@ const aboutPhoto = Object.values(portraitGlob)[0]?.default ?? deskStill;
         </p>
         <p class="about__how">{t('about.p3')}</p>
       </div>
+
+      <!-- fact sheet: fills the column so prose and sidebar land level -->
+      <dl class="about__facts reveal">
+        <div>
+          <dt class="eyebrow">{t('about.fact.1.k')}</dt>
+          <dd>{t('about.fact.1.v')}</dd>
+        </div>
+        <div>
+          <dt class="eyebrow">{t('about.fact.2.k')}</dt>
+          <dd>{t('about.fact.2.v')}</dd>
+        </div>
+        <div>
+          <dt class="eyebrow">{t('about.fact.3.k')}</dt>
+          <dd>{t('about.fact.3.v')}</dd>
+        </div>
+        <div>
+          <dt class="eyebrow">{t('about.fact.4.k')}</dt>
+          <dd><span class="about__pulse" aria-hidden="true"></span>{t('about.fact.4.v')}</dd>
+        </div>
+      </dl>
     </div>
 
     <aside class="about__side reveal">
@@ -66,8 +86,41 @@ const aboutPhoto = Object.values(portraitGlob)[0]?.default ?? deskStill;
   @media (min-width: 1024px) {
     .about {
       grid-template-columns: 1.4fr 0.6fr;
-      align-items: start;
+      align-items: stretch; /* columns level out; the photo absorbs the slack */
     }
+    .about__lead {
+      display: flex;
+      flex-direction: column;
+    }
+    .about__lead .about__facts {
+      margin-top: auto; /* pin the fact sheet to the section's baseline */
+    }
+  }
+
+  .about__facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem 2rem;
+    margin-top: clamp(2rem, 5vw, 3rem);
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--color-line);
+    max-width: 58ch;
+  }
+  .about__facts dt {
+    margin-bottom: 0.4rem;
+  }
+  .about__facts dd {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--color-ink-soft);
+  }
+  .about__pulse {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-right: 0.45rem;
+    border-radius: 50%;
+    background: var(--color-accent);
   }
 
   .about__lead h2 {
@@ -94,6 +147,19 @@ const aboutPhoto = Object.values(portraitGlob)[0]?.default ?? deskStill;
   .about__side {
     display: grid;
     gap: 1rem;
+  }
+  @media (min-width: 1024px) {
+    .about__side {
+      display: flex;
+      flex-direction: column;
+    }
+    .about__photo-wrap {
+      flex: 1;
+      min-height: 18rem;
+    }
+    .about__photo {
+      aspect-ratio: auto;
+    }
   }
   /* photo spans; the two cards sit side by side beneath it — no dead column */
   @media (min-width: 640px) {

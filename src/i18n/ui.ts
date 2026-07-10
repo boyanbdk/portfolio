@@ -45,16 +45,30 @@ export const ui = {
     // what I do
     'services.eyebrow': '01 — What I do',
     'services.title': 'Three ways I can help',
+    'services.lede':
+      'Scoped honestly, shipped fast — the same way I build my own products.',
     'services.websites.title': 'Websites',
     'services.websites.body':
-      'Fast, distinctive marketing sites that turn visitors into leads. Design-led, hand-built, Lighthouse-green — never a template.',
+      'Fast, distinctive marketing sites that turn visitors into leads — designed by hand around your business and what makes it worth choosing.',
     'services.websites.tag': 'Lead-generating',
+    'services.websites.d1': 'Custom design — never a template',
+    'services.websites.d2': 'Copy that turns visitors into leads',
+    'services.websites.d3': 'Lighthouse-green, SEO-ready',
+    'services.websites.time': 'live in days',
     'services.apps.title': 'Web apps',
     'services.apps.body':
-      'Full-stack products — auth, data, dashboards, payments. Real SaaS you can log into, not a prototype.',
+      'Real SaaS you can log into, not a prototype — the kind of product I run in production myself.',
+    'services.apps.d1': 'Auth, database, payments',
+    'services.apps.d2': 'Dashboards & admin panels',
+    'services.apps.d3': 'Built to grow past MVP',
+    'services.apps.time': 'MVP in weeks',
     'services.automations.title': 'Automations',
     'services.automations.body':
-      'AI workflows and integrations that remove the repetitive work: pipelines, scrapers, agents, glue between your tools.',
+      'The hours you lose to repetitive work, handed to software that runs while you don’t.',
+    'services.automations.d1': 'Scrapers, pipelines, agents',
+    'services.automations.d2': 'AI in the loop where it pays',
+    'services.automations.d3': 'Your tools, finally talking',
+    'services.automations.time': 'scoped per job',
 
     // selected work
     'work.eyebrow': '02 — Selected work',
@@ -93,7 +107,19 @@ export const ui = {
     'cs.disciplis.meta.year': 'Year',
     'cs.disciplis.meta.year.v': '2026',
     'cs.disciplis.showcase.caption':
-      'The product — discipline scoring, behavioural tags, and live session tracking.',
+      'The Daily Discipline Cockpit — the live app with real behavioural data, not a mockup.',
+    'cs.disciplis.shot.dashboard.alt':
+      'Disciplis dashboard: Daily Discipline Cockpit with clean streak, psychology signal, account risk and recent playbook breaks.',
+    'cs.disciplis.gallery.eyebrow': 'Inside the product',
+    'cs.disciplis.gallery.title': 'Behaviour, made visible',
+    'cs.disciplis.shot.journal.cap':
+      'Check-ins before and after every session — mood, readiness, confidence.',
+    'cs.disciplis.shot.journal.alt':
+      'Disciplis journal: pre-session check-in entries with mood, trading readiness and confidence scores.',
+    'cs.disciplis.shot.psych.cap':
+      'The psychology engine — what rule breaks actually cost, in P&L.',
+    'cs.disciplis.shot.psych.alt':
+      'Disciplis psychology view: playbook break rate and the P&L cost of broken rules.',
     'cs.disciplis.problem.eyebrow': '01 — The problem',
     'cs.disciplis.problem.title': 'Traders don’t blow up on strategy. They blow up on behaviour.',
     'cs.disciplis.problem.p1':
@@ -142,6 +168,14 @@ export const ui = {
     'about.p3': 'How I work: fast iterations, honest scope, and a bias toward shipping.',
     'about.stack.title': 'Working with',
     'about.stack.also': '…and the usual: Next.js, Astro, Supabase, TypeScript.',
+    'about.fact.1.k': 'Based',
+    'about.fact.1.v': 'Bulgaria — building worldwide',
+    'about.fact.2.k': 'Background',
+    'about.fact.2.v': 'Computer science · live markets',
+    'about.fact.3.k': 'Shipped',
+    'about.fact.3.v': 'Disciplis · AutoSilas',
+    'about.fact.4.k': 'Availability',
+    'about.fact.4.v': 'Open for new projects',
     'about.photo.alt': 'Boyan’s workspace at dusk — two monitors, charts and code.',
     'about.autosilas': 'AutoSilas — local-business studio',
 
@@ -196,16 +230,29 @@ export const ui = {
     // what I do
     'services.eyebrow': '01 — Какво правя',
     'services.title': 'Три начина да помогна',
+    'services.lede': 'Честен обхват, бързо пускане — както строя и собствените си продукти.',
     'services.websites.title': 'Уебсайтове',
     'services.websites.body':
-      'Бързи, отличаващи се сайтове, които превръщат посетителите в клиенти. Дизайнерски, ръчно изградени, светкавично бързи — никога шаблон.',
+      'Бързи, отличаващи се сайтове, които превръщат посетителите в клиенти — проектирани на ръка около твоя бизнес и това, което го отличава.',
     'services.websites.tag': 'Носят клиенти',
+    'services.websites.d1': 'Дизайн по поръчка — никога шаблон',
+    'services.websites.d2': 'Текстове, които носят запитвания',
+    'services.websites.d3': 'Светкавично бърз, готов за SEO',
+    'services.websites.time': 'на живо за дни',
     'services.apps.title': 'Уеб приложения',
     'services.apps.body':
-      'Пълноценни продукти — вход, данни, табла, плащания. Истински SaaS, в който можеш да влезеш, не прототип.',
+      'Истински SaaS, в който можеш да влезеш, не прототип — продукт от типа, който сам поддържам в продукция.',
+    'services.apps.d1': 'Вход, база данни, плащания',
+    'services.apps.d2': 'Табла и админ панели',
+    'services.apps.d3': 'Строен да расте отвъд MVP',
+    'services.apps.time': 'MVP за седмици',
     'services.automations.title': 'Автоматизации',
     'services.automations.body':
-      'AI работни потоци и интеграции, които премахват повтарящата се работа: пайплайни, скрейпъри, агенти, връзки между инструментите ти.',
+      'Часовете, които губиш в повтаряща се работа, поети от софтуер, който върви и без теб.',
+    'services.automations.d1': 'Скрейпъри, пайплайни, агенти',
+    'services.automations.d2': 'AI там, където си заслужава',
+    'services.automations.d3': 'Инструментите ти най-после си говорят',
+    'services.automations.time': 'обхват според задачата',
 
     // selected work
     'work.eyebrow': '02 — Избрани проекти',
@@ -235,6 +282,14 @@ export const ui = {
     'about.p3': 'Как работя: бързи итерации, честен обхват и нагласа към пускане.',
     'about.stack.title': 'Работя с',
     'about.stack.also': '…и обичайното: Next.js, Astro, Supabase, TypeScript.',
+    'about.fact.1.k': 'Базиран',
+    'about.fact.1.v': 'България — строя за света',
+    'about.fact.2.k': 'Бекграунд',
+    'about.fact.2.v': 'Компютърни науки · пазарите',
+    'about.fact.3.k': 'Пуснато',
+    'about.fact.3.v': 'Disciplis · AutoSilas',
+    'about.fact.4.k': 'Наличност',
+    'about.fact.4.v': 'Отворен за нови проекти',
     'about.photo.alt': 'Работното място на Боян по здрач — два монитора, графики и код.',
     'about.autosilas': 'AutoSilas — студио за локални бизнеси',
 
@@ -272,7 +327,19 @@ export const ui = {
     'cs.disciplis.meta.year': 'Година',
     'cs.disciplis.meta.year.v': '2026',
     'cs.disciplis.showcase.caption':
-      'Продуктът — оценка на дисциплината, поведенчески тагове и следене на сесии на живо.',
+      'Daily Discipline Cockpit — живото приложение с реални поведенчески данни, не мокъп.',
+    'cs.disciplis.shot.dashboard.alt':
+      'Табло на Disciplis: Daily Discipline Cockpit със серии, психологически сигнал и риск по сметките.',
+    'cs.disciplis.gallery.eyebrow': 'Вътре в продукта',
+    'cs.disciplis.gallery.title': 'Поведението, направено видимо',
+    'cs.disciplis.shot.journal.cap':
+      'Чек-ин преди и след всяка сесия — настроение, готовност, увереност.',
+    'cs.disciplis.shot.journal.alt':
+      'Дневник на Disciplis: чек-ин записи с настроение, готовност за търговия и увереност.',
+    'cs.disciplis.shot.psych.cap':
+      'Психологическият енджин — колко реално струват нарушените правила, в P&L.',
+    'cs.disciplis.shot.psych.alt':
+      'Психология в Disciplis: процент нарушения на правилата и тяхната P&L цена.',
     'cs.disciplis.problem.eyebrow': '01 — Проблемът',
     'cs.disciplis.problem.title': 'Трейдърите не се провалят заради стратегия. Провалят се заради поведение.',
     'cs.disciplis.problem.p1':

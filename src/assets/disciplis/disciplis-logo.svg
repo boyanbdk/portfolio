@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Disciplis logo — refined slider icon</title>
+  <desc id="desc">A dark rounded-square app icon with teal and cyan gradient slider bars and a central split-ring control.</desc>
+
+  <defs>
+    <linearGradient id="frameGradient" x1="188" y1="171" x2="835" y2="846" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#09E6C7"/>
+      <stop offset="0.45" stop-color="#09BFC2"/>
+      <stop offset="1" stop-color="#0873B8"/>
+    </linearGradient>
+
+    <linearGradient id="barGradient" x1="303" y1="0" x2="724" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#06F1CE"/>
+      <stop offset="0.55" stop-color="#08C8C8"/>
+      <stop offset="1" stop-color="#087DB7"/>
+    </linearGradient>
+
+    <linearGradient id="ringGradient" x1="459" y1="459" x2="578" y2="572" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#06EED0"/>
+      <stop offset="0.62" stop-color="#08C6C8"/>
+      <stop offset="1" stop-color="#0791BD"/>
+    </linearGradient>
+
+    <radialGradient id="backgroundGlow" cx="50%" cy="49%" r="65%">
+      <stop offset="0" stop-color="#0A2736" stop-opacity="0.88"/>
+      <stop offset="0.42" stop-color="#071521" stop-opacity="0.94"/>
+      <stop offset="1" stop-color="#030812"/>
+    </radialGradient>
+
+    <radialGradient id="innerPanel" cx="50%" cy="45%" r="72%">
+      <stop offset="0" stop-color="#081B29"/>
+      <stop offset="0.6" stop-color="#06111D"/>
+      <stop offset="1" stop-color="#050B15"/>
+    </radialGradient>
+
+    <radialGradient id="centerVoid" cx="46%" cy="42%" r="70%">
+      <stop offset="0" stop-color="#0A2531"/>
+      <stop offset="0.72" stop-color="#06111C"/>
+      <stop offset="1" stop-color="#020711"/>
+    </radialGradient>
+
+    <filter id="frameGlow" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#00E4D0" flood-opacity="0.22"/>
+      <feDropShadow dx="0" dy="12" stdDeviation="22" flood-color="#004C86" flood-opacity="0.18"/>
+    </filter>
+
+    <filter id="shapeGlow" x="-35%" y="-35%" width="170%" height="170%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#00F2D0" flood-opacity="0.28"/>
+      <feDropShadow dx="0" dy="8" stdDeviation="18" flood-color="#007EBE" flood-opacity="0.16"/>
+    </filter>
+
+    <filter id="haloBlur" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="32"/>
+    </filter>
+  </defs>
+
+  <!-- Transparent canvas; icon panel retained -->
+  <!-- App icon frame -->
+  <rect x="160" y="146" width="704" height="704" rx="96" fill="url(#innerPanel)" stroke="url(#frameGradient)" stroke-width="11" filter="url(#frameGlow)"/>
+
+  <!-- Logo mark -->
+  <g filter="url(#shapeGlow)">
+    <!-- Top bar -->
+    <rect x="303" y="322" width="421" height="64" rx="32" fill="url(#barGradient)"/>
+
+    <!-- Middle slider track -->
+    <rect x="303" y="491" width="421" height="48" rx="24" fill="url(#barGradient)"/>
+
+    <!-- Bottom bar -->
+    <rect x="303" y="644" width="421" height="58" rx="29" fill="url(#barGradient)" opacity="0.94"/>
+
+    <!-- Central split ring -->
+    <circle cx="512" cy="515" r="56" fill="none" stroke="url(#ringGradient)" stroke-width="42" stroke-linecap="butt" stroke-dasharray="292 60" stroke-dashoffset="-30"/>
+
+    <!-- Center cutout -->
+    <circle cx="512" cy="515" r="38" fill="url(#centerVoid)"/>
+  </g>
+</svg>

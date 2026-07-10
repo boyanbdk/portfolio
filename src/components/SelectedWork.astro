@@ -1,26 +1,16 @@
 ---
-import { Image } from 'astro:assets';
 import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
 import { site } from '../config';
-import deskStill from '../assets/desk-still.jpg';
+import DisciplisMockup from './DisciplisMockup.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<!-- Dark cinematic band: the visual peak of the scroll (hero-dark → cream → THIS → cream → contact-dark) -->
+<!-- Dark cinematic band: the visual peak of the scroll (hero-dark → cream → THIS → cream → contact-dark).
+     No photography here — the hero owns the video and About owns the desk still.
+     The product itself is the image. -->
 <section id="work" class="section work" aria-labelledby="work-heading">
-  <!-- dusk desk backdrop, heavily graded so the type stays the hero -->
-  <Image
-    src={deskStill}
-    alt=""
-    class="work__bg"
-    widths={[960, 1280]}
-    sizes="100vw"
-    aria-hidden="true"
-  />
-  <div class="work__shade" aria-hidden="true"></div>
-
   <div class="shell work__inner">
     <header class="work__head reveal">
       <span class="eyebrow">{t('work.eyebrow')}</span>
@@ -55,15 +45,15 @@ const t = useTranslations(lang);
         </div>
       </div>
 
-      <!-- Product render — swap for a real Disciplis screenshot when supplied -->
+      <!-- The real product UI in its own brand (teal on navy), muted so it sits
+           quietly inside the olive/ink editorial page instead of shouting. -->
       <div class="work__frame reveal-scale" aria-hidden="true">
         <div class="work__bar">
           <span></span><span></span><span></span>
-          <span class="work__url">disciplis.vercel.app</span>
+          <span class="work__url">disciplis.com</span>
         </div>
         <div class="work__screen">
-          <span class="work__screen-name">Disciplis</span>
-          <span class="work__screen-sub">discipline, tracked.</span>
+          <DisciplisMockup />
         </div>
       </div>
     </article>
@@ -76,31 +66,16 @@ const t = useTranslations(lang);
   .work {
     position: relative;
     overflow: hidden;
-    background: var(--color-shade);
     color: var(--color-ink);
-  }
-
-  .work__bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 30%;
-    opacity: 0.5;
-    filter: saturate(0.9);
-  }
-  /* ink gradient: solid where the text sits, image breathing on the right */
-  .work__shade {
-    position: absolute;
-    inset: 0;
+    /* layered inks instead of a photo: quiet depth, no reuse of the hero/about imagery */
     background:
-      linear-gradient(
-        100deg,
-        color-mix(in srgb, var(--color-shade) 96%, transparent) 0%,
-        color-mix(in srgb, var(--color-shade) 88%, transparent) 45%,
-        color-mix(in srgb, var(--color-shade) 55%, transparent) 100%
-      );
+      radial-gradient(
+        90rem 40rem at 85% 110%,
+        color-mix(in srgb, #00e0c3 4%, transparent),
+        transparent 65%
+      ),
+      linear-gradient(180deg, var(--color-shade) 0%, #0f0d0a 100%);
+    border-block: 1px solid var(--color-line);
   }
 
   .work__inner {
@@ -217,8 +192,8 @@ const t = useTranslations(lang);
   }
 
   .work__frame {
-    background: color-mix(in srgb, var(--color-shade) 80%, #000);
-    border: 1px solid color-mix(in srgb, var(--color-ink) 18%, transparent);
+    background: #0c1018;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 14%, transparent);
     border-radius: 14px;
     overflow: hidden;
     box-shadow: 0 40px 80px -45px rgba(0, 0, 0, 0.9);
@@ -228,7 +203,7 @@ const t = useTranslations(lang);
     align-items: center;
     gap: 0.4rem;
     padding: 0.7rem 0.9rem;
-    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
   }
   .work__bar > span:not(.work__url) {
     width: 9px;
@@ -242,33 +217,21 @@ const t = useTranslations(lang);
     font-size: 0.72rem;
     color: color-mix(in srgb, var(--color-ink) 45%, transparent);
   }
+
   .work__screen {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
-    gap: 0.4rem;
-    aspect-ratio: 16 / 10;
-    padding: clamp(1.5rem, 4vw, 3rem);
-    background:
-      radial-gradient(
-        120% 120% at 15% 0%,
-        color-mix(in srgb, var(--color-accent) 14%, transparent),
-        transparent 60%
-      ),
-      color-mix(in srgb, var(--color-shade) 88%, #000);
+    /* soften the product's teal so it reads as an artefact, not a competing accent */
+    filter: saturate(0.65) contrast(0.94);
   }
-  .work__screen-name {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: clamp(1.75rem, 4vw, 2.75rem);
-    color: var(--color-ink);
-  }
-  .work__screen-sub {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.05em;
-    color: color-mix(in srgb, var(--color-accent) 62%, #fff);
+  /* the mockup carries its own card chrome — flatten it inside the browser frame */
+  .work__screen :global(.dsc) {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    max-width: 28rem;
+    padding: 0;
   }
 
   .work__more {
