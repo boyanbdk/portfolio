@@ -19,6 +19,10 @@ const description = Astro.props.description ?? t('site.description');
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const altEn = new URL(switchLangPath(Astro.url, 'en'), Astro.site).href;
 const altBg = new URL(switchLangPath(Astro.url, 'bg'), Astro.site).href;
+
+const widgetSrc = import.meta.env.DEV
+  ? 'http://localhost:8787/w.js'
+  : 'https://widget.boyanbudakov.com/w.js';
 ---
 
 <!doctype html>
@@ -72,8 +76,8 @@ const altBg = new URL(switchLangPath(Astro.url, 'bg'), Astro.site).href;
     <script>
       import '../scripts/motion';
     </script>
-    <!-- Chat assistant — my own widget product (repo: autosilas-widget), doubling as a live demo. -->
-    <script is:inline src="https://widget.boyanbudakov.com/w.js" data-client="boyanbudakov" defer></script>
+    <!-- Chat assistant — my own widget product (repo: autosilas-widget). In dev, points at the local Worker (npm run dev there). -->
+    <script is:inline src={widgetSrc} data-client="boyanbudakov" defer></script>
   </body>
 </html>
 
