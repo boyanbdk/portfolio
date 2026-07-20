@@ -1,0 +1,18 @@
+# Cloudflare Pages headers — applied at the edge on every deploy.
+#
+# CSP notes:
+# - The sha256 hash allows the ONE inline script in Base.astro (the pre-paint
+#   motion guard). If that script changes, recompute:
+#   python3 -c "import re,hashlib,base64;print('sha256-'+base64.b64encode(hashlib.sha256(re.search(r'<script>(.*?)</script>',open('dist/index.html').read(),re.S).group(1).encode()).digest()).decode())"
+# - assetsInlineLimit: 0 in astro.config.mjs keeps all other scripts external.
+# - style-src needs 'unsafe-inline' for the chat widget's shadow-DOM <style>.
+# - widget.boyanbudakov.com is the chat widget (script + /chat API).
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-Sv0tbkWHnWYKyiSyRC0NrHasMkBBYdwzbc+aWGPmJj4=' https://widget.boyanbudakov.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://widget.boyanbudakov.com; media-src 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
