@@ -266,7 +266,7 @@ export const ui = {
     'about.fact.3.v': 'AutoSilas · Disciplis',
     'about.fact.4.k': 'Availability',
     'about.fact.4.v': 'Open for new projects',
-    'about.photo.alt': 'Boyan’s workspace at dusk — two monitors, charts and code.',
+    'about.photo.alt': 'Boyan Budakov — portrait.',
     'about.autosilas': 'AutoSilas — local-business studio',
 
     // contact
@@ -402,7 +402,7 @@ export const ui = {
     'about.fact.3.v': 'AutoSilas · Disciplis',
     'about.fact.4.k': 'Наличност',
     'about.fact.4.v': 'Отворен за нови проекти',
-    'about.photo.alt': 'Работното място на Боян по здрач — два монитора, графики и код.',
+    'about.photo.alt': 'Боян Будаков — портрет.',
     'about.autosilas': 'AutoSilas — студио за локални бизнеси',
 
     // contact
