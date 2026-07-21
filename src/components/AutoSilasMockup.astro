@@ -1,0 +1,205 @@
+---
+// Faithful recreation of the AutoSilas "digital front desk" in its own brand
+// (Ivory Hour: paper #FFFDF8, ink #1E2A24, forest #2E4B3F, champagne #B8925A).
+// Rebuilt from the product's design tokens — same approach as DisciplisMockup.
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import markUrl from '../assets/autosilas/autosilas-mark-green.svg?url';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<div class="asm" role="img" aria-label={t('mock.as.aria')}>
+  <!-- top bar -->
+  <div class="asm__bar">
+    <span class="asm__brand">
+      <img src={markUrl} alt="" class="asm__mark" width="24" height="24" loading="lazy" />
+      <span class="asm__word">AutoSilas</span>
+      <span class="asm__tag">{t('mock.as.brand.tag')}</span>
+    </span>
+    <span class="asm__live"><span class="asm__dot" aria-hidden="true"></span>{t('mock.as.live')}</span>
+  </div>
+
+  <!-- the conversation: patient → assistant → captured booking -->
+  <div class="asm__chat">
+    <p class="asm__msg asm__msg--patient">{t('mock.as.patient')}</p>
+    <p class="asm__msg asm__msg--ai">{t('mock.as.ai')}</p>
+    <p class="asm__booked">
+      <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true">
+        <path
+          d="M2 6.5 5 9l5-6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+      {t('mock.as.booked')}
+    </p>
+  </div>
+
+  <!-- mini stats -->
+  <div class="asm__stats">
+    <div class="asm__stat">
+      <span class="asm__statVal">{t('mock.as.stat.1.v')}</span>
+      <span class="asm__statLabel">{t('mock.as.stat.1.l')}</span>
+    </div>
+    <div class="asm__stat">
+      <span class="asm__statVal">{t('mock.as.stat.2.v')}</span>
+      <span class="asm__statLabel">{t('mock.as.stat.2.l')}</span>
+    </div>
+    <div class="asm__stat">
+      <span class="asm__statVal">{t('mock.as.stat.3.v')}</span>
+      <span class="asm__statLabel">{t('mock.as.stat.3.l')}</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .asm {
+    --as-paper: #fffdf8;
+    --as-ivory: #f7f3ec;
+    --as-hairline: #e4dccb;
+    --as-ink: #1e2a24;
+    --as-sage: #6b7266;
+    --as-forest: #2e4b3f;
+    --as-champagne: #b8925a;
+    --as-champagne-deep: #a07c46;
+    width: 100%;
+    max-width: 30rem;
+    background: linear-gradient(180deg, var(--as-paper) 0%, var(--as-ivory) 100%);
+    border: 1px solid var(--as-hairline);
+    border-radius: 18px;
+    padding: clamp(1.1rem, 3vw, 1.6rem);
+    box-shadow:
+      0 40px 80px -50px rgba(20, 32, 27, 0.9),
+      0 30px 60px -40px rgba(184, 146, 90, 0.35);
+    color: var(--as-ink);
+    font-family: var(--font-body);
+  }
+
+  .asm__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--as-hairline);
+  }
+  .asm__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+  .asm__mark {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+  .asm__word {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    font-size: 0.95rem;
+    color: var(--as-forest);
+  }
+  .asm__tag {
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--as-champagne-deep);
+    border: 1px solid color-mix(in srgb, var(--as-champagne) 45%, transparent);
+    border-radius: 999px;
+    padding: 0.2rem 0.5rem;
+    white-space: nowrap;
+  }
+  .asm__live {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--as-sage);
+    white-space: nowrap;
+  }
+  .asm__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--as-forest);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--as-forest) 70%, transparent);
+  }
+
+  .asm__chat {
+    display: grid;
+    gap: 0.6rem;
+    margin-top: 1.1rem;
+  }
+  .asm__msg {
+    margin: 0;
+    max-width: 88%;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    padding: 0.65rem 0.85rem;
+    border-radius: 12px;
+  }
+  .asm__msg--patient {
+    justify-self: start;
+    background: #fff;
+    border: 1px solid var(--as-hairline);
+    border-bottom-left-radius: 4px;
+    color: color-mix(in srgb, var(--as-ink) 82%, transparent);
+  }
+  .asm__msg--ai {
+    justify-self: end;
+    background: var(--as-forest);
+    border-bottom-right-radius: 4px;
+    color: #fffdf8;
+  }
+  .asm__booked {
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0.1rem 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    color: var(--as-champagne-deep);
+    background: color-mix(in srgb, var(--as-champagne) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--as-champagne) 40%, transparent);
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+  }
+
+  .asm__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+    margin-top: 1.1rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--as-hairline);
+  }
+  .asm__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .asm__statVal {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--as-forest);
+  }
+  .asm__statLabel {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--as-sage);
+  }
+</style>

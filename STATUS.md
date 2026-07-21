@@ -3,7 +3,7 @@
 > **Resuming on any device (mobile/desktop):** say _"read STATUS.md and continue"_.
 > This file is the source of truth for where we are. Keep it updated at the end of each working session.
 
-_Last updated: 2026-07-09 — EN v1 + Disciplis case study + full BG. A new session has ONLY this file + the repo (no chat history)._
+_Last updated: 2026-07-21 — AutoSilas is now the FEATURED project (Selected work + `/work/autosilas` case study, EN+BG, real screenshots of autosilas.com + iris demo + hand-built front-desk mockup); Disciplis demoted to a secondary "hobby project" card (its case study stays live at `/work/disciplis`). A new session has ONLY this file + the repo (no chat history)._
 
 ## ▶ CURRENT POSITION / DO THIS NEXT
 - **Stack DECIDED: Astro + Tailwind → Cloudflare Pages.** ✅

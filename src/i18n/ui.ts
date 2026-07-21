@@ -73,20 +73,42 @@ export const ui = {
     // selected work
     'work.eyebrow': '02 — Selected work',
     'work.title': 'One that proves the point',
-    'work.disciplis.name': 'Disciplis',
-    'work.disciplis.kind': 'Behavioural journal · Live',
-    'work.disciplis.result':
-      'A behavioural trading journal that shows traders where their discipline breaks down — not just their P&L.',
-    'work.disciplis.problem':
-      'Traders lose to behaviour, not strategy — revenge trades, FOMO, tilt, broken rules — yet every journal only tracks profit and loss.',
-    'work.disciplis.approach':
-      'So I built the psychology layer: log mood, discipline and confidence each session, tag what actually happened, and let an insight engine surface the patterns.',
-    'work.disciplis.outcome':
-      'The result is a live product that scores discipline over time — journaling turned into real feedback.',
-    'work.disciplis.metric': 'Live · in production',
-    'work.disciplis.link': 'Visit Disciplis',
-    'work.disciplis.case': 'Read the case study',
+    'work.autosilas.name': 'AutoSilas',
+    'work.autosilas.kind': 'My automation business · Live',
+    'work.autosilas.result':
+      'My own automation business — hand-designed websites plus an AI front desk that answers patients for local clinics, around the clock.',
+    'work.autosilas.problem':
+      'Local clinics run on the phone: missed calls, unanswered questions and dated websites quietly cost them patients — and nobody at the practice has time to fix it.',
+    'work.autosilas.approach':
+      'So I founded AutoSilas and built the whole thing — brand, Bulgarian-first website, a live demo clinic, and a digital front desk: an AI assistant that answers patients 24/7 and turns conversations into booking requests.',
+    'work.autosilas.outcome':
+      'It runs in production today as a real business with its own brand — designed, coded, sold and operated by me.',
+    'work.autosilas.metric': 'Live · founded & run solo',
+    'work.autosilas.link': 'Visit AutoSilas',
+    'work.autosilas.case': 'Read the case study',
+    'work.hobby.eyebrow': 'Side project',
+    'work.hobby.name': 'Disciplis',
+    'work.hobby.kind': 'Hobby project · Behavioural trading journal',
+    'work.hobby.blurb':
+      'A side project from my own trading: a behavioural journal that shows traders where their discipline breaks down — live in production.',
+    'work.hobby.case': 'Read the case study',
+    'work.hobby.link': 'Visit Disciplis',
     'work.more': 'More case studies land as they ship.',
+
+    // AutoSilas front-desk mockup (SelectedWork + case study)
+    'mock.as.aria':
+      'AutoSilas digital front desk: an AI assistant answering a patient, capturing a booking request, with live stats.',
+    'mock.as.brand.tag': 'Digital front desk',
+    'mock.as.live': 'Answering live',
+    'mock.as.patient': 'Hi! Do you take new patients? When is the next free slot?',
+    'mock.as.ai': 'Yes, we do! Tomorrow at 10:30 or 14:00 — which works for you?',
+    'mock.as.booked': 'Booking request captured · tomorrow 10:30',
+    'mock.as.stat.1.v': '24/7',
+    'mock.as.stat.1.l': 'answers patients',
+    'mock.as.stat.2.v': '0 missed',
+    'mock.as.stat.2.l': 'enquiries',
+    'mock.as.stat.3.v': 'Leads',
+    'mock.as.stat.3.l': 'straight to the inbox',
 
     // case study — Disciplis (/work/disciplis)
     'cs.disciplis.meta.title': 'Disciplis case study — Boyan Budakov',
@@ -158,13 +180,81 @@ export const ui = {
     'cs.disciplis.cta.body': 'Web app, website, or automation — tell me what you are trying to ship.',
     'cs.disciplis.cta.button': 'Start a project',
 
+    // case study — AutoSilas (/work/autosilas)
+    'cs.autosilas.meta.title': 'AutoSilas case study — Boyan Budakov',
+    'cs.autosilas.meta.description':
+      'AutoSilas is my automation business: hand-designed websites plus an AI front desk for local clinics — founded, designed, built and run solo. The case study.',
+    'cs.autosilas.back': 'Back to all work',
+    'cs.autosilas.eyebrow': 'Case study — My automation business',
+    'cs.autosilas.title': 'AutoSilas',
+    'cs.autosilas.tagline': 'A front desk that never misses a patient.',
+    'cs.autosilas.result':
+      'An automation business for local clinics — hand-designed websites plus an AI front desk that answers patients, captures booking requests and keeps the practice visible.',
+    'cs.autosilas.meta.role': 'Role',
+    'cs.autosilas.meta.role.v': 'Founder — brand, product, build, sales',
+    'cs.autosilas.meta.stack': 'Category',
+    'cs.autosilas.meta.stack.v': 'Websites + AI front-office automation',
+    'cs.autosilas.meta.status': 'Status',
+    'cs.autosilas.meta.status.v': 'Live · in production',
+    'cs.autosilas.meta.year': 'Year',
+    'cs.autosilas.meta.year.v': '2026',
+    'cs.autosilas.showcase.caption':
+      'autosilas.com — the live site, Bulgarian-first and aimed squarely at dental clinics.',
+    'cs.autosilas.shot.home.alt':
+      'AutoSilas homepage in ivory, green and champagne: “A website that inspires trust — before the first call”, with a glass tooth illustration.',
+    'cs.autosilas.problem.eyebrow': '01 — The problem',
+    'cs.autosilas.problem.title': 'Local clinics lose patients before anyone picks up the phone.',
+    'cs.autosilas.problem.p1':
+      'A dental practice lives or dies on its front desk. But the phone rings while everyone is chairside, questions arrive at 9 pm, and the website — when there is one — looks a decade old. Every one of those moments is a patient quietly choosing another clinic.',
+    'cs.autosilas.problem.p2':
+      'The clinics know it. What they don’t have is time — or anyone whose job it is to fix it.',
+    'cs.autosilas.approach.eyebrow': '02 — What I built',
+    'cs.autosilas.approach.title': 'A studio in front, an automation engine behind',
+    'cs.autosilas.approach.p1':
+      'AutoSilas pairs a hand-designed website with a digital front desk. The site is built to inspire trust before the first call — Bulgarian-first, custom design, never a template. Behind it sits an AI assistant that answers patient questions around the clock, captures booking requests, and hands the clinic a tidy lead instead of a missed call.',
+    'cs.autosilas.approach.p2':
+      'The offer grows in steps: from the website itself to a full front office — review handling, patient reactivation, the repetitive work a busy practice never gets to. I built all of it: the brand, the site, the demo clinic, the assistant, and the outreach that sells it.',
+    'cs.autosilas.features.title': 'What’s inside',
+    'cs.autosilas.feature.1': 'Hand-designed clinic websites — never templates',
+    'cs.autosilas.feature.2': 'AI assistant answering patients 24/7',
+    'cs.autosilas.feature.3': 'Booking requests captured as clean leads',
+    'cs.autosilas.feature.4': 'Google-review handling on autopilot',
+    'cs.autosilas.feature.5': 'Patient-reactivation campaigns',
+    'cs.autosilas.feature.6': 'Bulgarian-first, built for one vertical',
+    'cs.autosilas.decision.title': 'The one bet',
+    'cs.autosilas.decision.body':
+      'Go narrow. One country, one vertical — dental clinics in Bulgaria — and a service productised like a product: fixed scope, opinionated design, automation included. Depth in a niche beats breadth everywhere.',
+    'cs.autosilas.gallery.eyebrow': 'Inside the business',
+    'cs.autosilas.gallery.title': 'The work, live',
+    'cs.autosilas.shot.iris.cap':
+      'Iris — the live demo clinic I designed and built, so prospects can click through a finished result.',
+    'cs.autosilas.shot.iris.alt':
+      'Iris demo dental clinic website: a calm hero with a smiling dentist welcoming a patient, headline “Attentive care for your smile”.',
+    'cs.autosilas.mock.cap':
+      'The digital front desk — the AI assistant that answers and books, rebuilt here from the product’s design.',
+    'cs.autosilas.outcome.eyebrow': '03 — The outcome',
+    'cs.autosilas.outcome.title': 'A real business, live and selling',
+    'cs.autosilas.outcome.p1':
+      'AutoSilas is in production today: a live brand with its own site, a demo clinic prospects can walk through, and an AI front desk already answering on real domains. It is the fullest proof of how I work — not just code, but a business built end to end: positioning, design, build, automation and sales, all by one person directing modern AI tooling.',
+    'cs.autosilas.outcome.metric.1': 'Founder',
+    'cs.autosilas.outcome.metric.1.label': 'brand → build → sales',
+    'cs.autosilas.outcome.metric.2': '24/7',
+    'cs.autosilas.outcome.metric.2.label': 'AI front desk, always on',
+    'cs.autosilas.outcome.metric.3': 'Live',
+    'cs.autosilas.outcome.metric.3.label': 'in production',
+    'cs.autosilas.builtwith': 'Custom design system, custom code, and my own AI assistant behind it.',
+    'cs.autosilas.visit': 'Visit AutoSilas',
+    'cs.autosilas.cta.title': 'Want something like this built for you?',
+    'cs.autosilas.cta.body': 'Website, web app, or automation — tell me what you are trying to ship.',
+    'cs.autosilas.cta.button': 'Start a project',
+
     // about
     'about.eyebrow': '03 — About',
     'about.title': 'A builder, not a spectator',
     'about.p1':
       'I am a builder from Bulgaria with a computer-science background. I ship full products by directing modern and AI tooling — and I care about the result on screen, not the buzzwords behind it.',
     'about.p2':
-      'I am also a trader. That is where Disciplis comes from — I built the trading journal I wanted for my own screen time. I build tools for problems I personally live with. I also founded AutoSilas, a studio that gets local businesses a real web and Google presence.',
+      'I founded AutoSilas — my automation business, giving local clinics a website and an AI front desk that answers patients around the clock. And because I am also a trader, I built Disciplis as a hobby project: the behavioural trading journal I wanted for my own screen time.',
     'about.p3': 'How I work: fast iterations, honest scope, and a bias toward shipping.',
     'about.stack.title': 'Working with',
     'about.stack.also': '…and the usual: Next.js, Astro, Supabase, TypeScript.',
@@ -173,7 +263,7 @@ export const ui = {
     'about.fact.2.k': 'Background',
     'about.fact.2.v': 'Computer science · live markets',
     'about.fact.3.k': 'Shipped',
-    'about.fact.3.v': 'Disciplis · AutoSilas',
+    'about.fact.3.v': 'AutoSilas · Disciplis',
     'about.fact.4.k': 'Availability',
     'about.fact.4.v': 'Open for new projects',
     'about.photo.alt': 'Boyan’s workspace at dusk — two monitors, charts and code.',
@@ -257,20 +347,42 @@ export const ui = {
     // selected work
     'work.eyebrow': '02 — Избрани проекти',
     'work.title': 'Един, който доказва тезата',
-    'work.disciplis.name': 'Disciplis',
-    'work.disciplis.kind': 'Поведенчески дневник · Живо',
-    'work.disciplis.result':
-      'Поведенчески трейдинг дневник, който показва на трейдърите къде се чупи дисциплината им — не само техния P&L.',
-    'work.disciplis.problem':
-      'Трейдърите губят заради поведение, не заради стратегия — отмъстителни сделки, FOMO, тилт, нарушени правила — а всеки дневник следи само печалби и загуби.',
-    'work.disciplis.approach':
-      'Затова изградих психологическия слой: записваш настроение, дисциплина и увереност за всяка сесия, тагваш какво реално се е случило, а инсайт енджин извежда моделите.',
-    'work.disciplis.outcome':
-      'Резултатът е жив продукт, който измерва дисциплината във времето — дневникът се превръща в реална обратна връзка.',
-    'work.disciplis.metric': 'Живо · в продукция',
-    'work.disciplis.link': 'Виж Disciplis',
-    'work.disciplis.case': 'Прочети кейс стъдито',
+    'work.autosilas.name': 'AutoSilas',
+    'work.autosilas.kind': 'Моят бизнес за автоматизации · Живо',
+    'work.autosilas.result':
+      'Собственият ми бизнес за автоматизации — сайтове, проектирани на ръка, плюс AI приемна, която отговаря на пациентите на локални клиники денонощно.',
+    'work.autosilas.problem':
+      'Локалните клиники живеят на телефона: пропуснати обаждания, въпроси без отговор и остарели сайтове тихо им костват пациенти — а в практиката никой няма време за това.',
+    'work.autosilas.approach':
+      'Затова основах AutoSilas и изградих всичко — бранд, сайт на български, жива демо клиника и дигитална приемна: AI асистент, който отговаря на пациентите 24/7 и превръща разговорите в заявки за час.',
+    'work.autosilas.outcome':
+      'Днес работи в продукция като истински бизнес със собствен бранд — проектиран, изграден, продаван и управляван от мен.',
+    'work.autosilas.metric': 'Живо · основан и воден соло',
+    'work.autosilas.link': 'Виж AutoSilas',
+    'work.autosilas.case': 'Прочети кейс стъдито',
+    'work.hobby.eyebrow': 'Страничен проект',
+    'work.hobby.name': 'Disciplis',
+    'work.hobby.kind': 'Хоби проект · Поведенчески трейдинг дневник',
+    'work.hobby.blurb':
+      'Страничен проект от собствения ми трейдинг: поведенчески дневник, който показва на трейдърите къде се чупи дисциплината им — жив, в продукция.',
+    'work.hobby.case': 'Прочети кейс стъдито',
+    'work.hobby.link': 'Виж Disciplis',
     'work.more': 'Още кейс стъдита идват с всеки нов продукт.',
+
+    // AutoSilas front-desk mockup (SelectedWork + case study)
+    'mock.as.aria':
+      'Дигиталната приемна на AutoSilas: AI асистент отговаря на пациент, приема заявка за час, с живи показатели.',
+    'mock.as.brand.tag': 'Дигитална приемна',
+    'mock.as.live': 'Отговаря на живо',
+    'mock.as.patient': 'Здравейте! Приемате ли нови пациенти? Кога има свободен час?',
+    'mock.as.ai': 'Да, приемаме! Утре в 10:30 или 14:00 — кое ви е удобно?',
+    'mock.as.booked': 'Заявка за час приета · утре 10:30',
+    'mock.as.stat.1.v': '24/7',
+    'mock.as.stat.1.l': 'отговаря на пациенти',
+    'mock.as.stat.2.v': '0 пропуснати',
+    'mock.as.stat.2.l': 'запитвания',
+    'mock.as.stat.3.v': 'Запитвания',
+    'mock.as.stat.3.l': 'право в пощата',
 
     // about
     'about.eyebrow': '03 — За мен',
@@ -278,7 +390,7 @@ export const ui = {
     'about.p1':
       'Аз съм билдър от България с бекграунд в компютърните науки. Пускам цели продукти, като направлявам модерни и AI инструменти — и ме интересува резултатът на екрана, не модните думи зад него.',
     'about.p2':
-      'Освен това съм трейдър. Оттам идва Disciplis — изградих трейдинг дневника, който исках за собствените си сесии. Строя инструменти за проблеми, които лично живея. Основах и AutoSilas — студио, което дава на локалните бизнеси истинско уеб и Google присъствие.',
+      'Основах AutoSilas — моят бизнес за автоматизации, който дава на локални клиники сайт и AI приемна, отговаряща на пациентите денонощно. А понеже съм и трейдър, като хоби изградих Disciplis — трейдинг дневникът, който исках за собствените си сесии.',
     'about.p3': 'Как работя: бързи итерации, честен обхват и нагласа към пускане.',
     'about.stack.title': 'Работя с',
     'about.stack.also': '…и обичайното: Next.js, Astro, Supabase, TypeScript.',
@@ -287,7 +399,7 @@ export const ui = {
     'about.fact.2.k': 'Бекграунд',
     'about.fact.2.v': 'Компютърни науки · пазарите',
     'about.fact.3.k': 'Пуснато',
-    'about.fact.3.v': 'Disciplis · AutoSilas',
+    'about.fact.3.v': 'AutoSilas · Disciplis',
     'about.fact.4.k': 'Наличност',
     'about.fact.4.v': 'Отворен за нови проекти',
     'about.photo.alt': 'Работното място на Боян по здрач — два монитора, графики и код.',
@@ -377,5 +489,73 @@ export const ui = {
     'cs.disciplis.cta.title': 'Искаш нещо такова, изградено за теб?',
     'cs.disciplis.cta.body': 'Уеб приложение, сайт или автоматизация — кажи ми какво искаш да пуснеш.',
     'cs.disciplis.cta.button': 'Започни проект',
+
+    // case study — AutoSilas (/bg/work/autosilas)
+    'cs.autosilas.meta.title': 'AutoSilas кейс стъди — Боян Будаков',
+    'cs.autosilas.meta.description':
+      'AutoSilas е моят бизнес за автоматизации: сайтове, проектирани на ръка, плюс AI приемна за локални клиники — основан, проектиран, изграден и воден соло.',
+    'cs.autosilas.back': 'Обратно към проектите',
+    'cs.autosilas.eyebrow': 'Кейс стъди — Моят бизнес за автоматизации',
+    'cs.autosilas.title': 'AutoSilas',
+    'cs.autosilas.tagline': 'Приемна, която не изпуска пациент.',
+    'cs.autosilas.result':
+      'Бизнес за автоматизации за локални клиники — сайтове, проектирани на ръка, плюс AI приемна, която отговаря на пациентите, приема заявки за час и държи практиката видима.',
+    'cs.autosilas.meta.role': 'Роля',
+    'cs.autosilas.meta.role.v': 'Основател — бранд, продукт, разработка, продажби',
+    'cs.autosilas.meta.stack': 'Категория',
+    'cs.autosilas.meta.stack.v': 'Сайтове + AI автоматизация на приемната',
+    'cs.autosilas.meta.status': 'Статус',
+    'cs.autosilas.meta.status.v': 'Живо · в продукция',
+    'cs.autosilas.meta.year': 'Година',
+    'cs.autosilas.meta.year.v': '2026',
+    'cs.autosilas.showcase.caption':
+      'autosilas.com — живият сайт, на български и насочен право към денталните клиники.',
+    'cs.autosilas.shot.home.alt':
+      'Началната страница на AutoSilas в слонова кост, зелено и шампанско: „Сайт, който вдъхва доверие — преди първото обаждане“, със стъклена илюстрация на зъб.',
+    'cs.autosilas.problem.eyebrow': '01 — Проблемът',
+    'cs.autosilas.problem.title': 'Локалните клиники губят пациенти, преди някой да вдигне телефона.',
+    'cs.autosilas.problem.p1':
+      'Една дентална практика живее или умира на рецепцията си. Но телефонът звъни, докато всички са при пациент, въпросите идват в 21:00, а сайтът — когато го има — изглежда на десет години. Всеки такъв момент е пациент, който тихо избира друга клиника.',
+    'cs.autosilas.problem.p2':
+      'Клиниките го знаят. Това, което нямат, е време — или човек, чиято работа е да го оправи.',
+    'cs.autosilas.approach.eyebrow': '02 — Какво изградих',
+    'cs.autosilas.approach.title': 'Студио отпред, машина за автоматизации отзад',
+    'cs.autosilas.approach.p1':
+      'AutoSilas съчетава сайт, проектиран на ръка, с дигитална приемна. Сайтът е строен да вдъхва доверие преди първото обаждане — на български, дизайн по поръчка, никога шаблон. Зад него стои AI асистент, който отговаря на въпросите на пациентите денонощно, приема заявки за час и подава на клиниката чисто запитване вместо пропуснато обаждане.',
+    'cs.autosilas.approach.p2':
+      'Офертата расте на стъпки: от самия сайт до цяла дигитална приемна — работа с отзиви, реактивация на пациенти, повтарящата се работа, до която една заета практика никога не стига. Изградих всичко: бранда, сайта, демо клиниката, асистента и аутрича, който го продава.',
+    'cs.autosilas.features.title': 'Какво има вътре',
+    'cs.autosilas.feature.1': 'Сайтове за клиники, проектирани на ръка — никога шаблони',
+    'cs.autosilas.feature.2': 'AI асистент, отговарящ на пациенти 24/7',
+    'cs.autosilas.feature.3': 'Заявки за час, уловени като чисти запитвания',
+    'cs.autosilas.feature.4': 'Работа с Google отзиви на автопилот',
+    'cs.autosilas.feature.5': 'Кампании за реактивация на пациенти',
+    'cs.autosilas.feature.6': 'На български, строен за една ниша',
+    'cs.autosilas.decision.title': 'Единственият залог',
+    'cs.autosilas.decision.body':
+      'Тясно фокусиране. Една държава, една ниша — дентални клиники в България — и услуга, продуктизирана като продукт: фиксиран обхват, категоричен дизайн, автоматизация включена. Дълбочината в ниша бие широчината навсякъде.',
+    'cs.autosilas.gallery.eyebrow': 'Вътре в бизнеса',
+    'cs.autosilas.gallery.title': 'Работата, на живо',
+    'cs.autosilas.shot.iris.cap':
+      'Ирис — живата демо клиника, която проектирах и изградих, за да могат клиентите да разгледат готов резултат.',
+    'cs.autosilas.shot.iris.alt':
+      'Сайт на демо дентална клиника Ирис: спокоен хиро с усмихнат зъболекар, посрещащ пациент, заглавие „Внимателна грижа за вашата усмивка“.',
+    'cs.autosilas.mock.cap':
+      'Дигиталната приемна — AI асистентът, който отговаря и записва часове, пресъздаден тук от дизайна на продукта.',
+    'cs.autosilas.outcome.eyebrow': '03 — Резултатът',
+    'cs.autosilas.outcome.title': 'Истински бизнес, жив и продаващ',
+    'cs.autosilas.outcome.p1':
+      'AutoSilas е в продукция днес: жив бранд със собствен сайт, демо клиника, през която клиентите могат да минат, и AI приемна, която вече отговаря на реални домейни. Това е най-пълното доказателство как работя — не просто код, а бизнес, изграден от край до край: позициониране, дизайн, разработка, автоматизация и продажби, всичко от един човек, направляващ модерни AI инструменти.',
+    'cs.autosilas.outcome.metric.1': 'Основател',
+    'cs.autosilas.outcome.metric.1.label': 'бранд → билд → продажби',
+    'cs.autosilas.outcome.metric.2': '24/7',
+    'cs.autosilas.outcome.metric.2.label': 'AI приемна, винаги будна',
+    'cs.autosilas.outcome.metric.3': 'Живо',
+    'cs.autosilas.outcome.metric.3.label': 'в продукция',
+    'cs.autosilas.builtwith': 'Собствена дизайн система, собствен код и мой AI асистент зад всичко.',
+    'cs.autosilas.visit': 'Виж AutoSilas',
+    'cs.autosilas.cta.title': 'Искаш нещо такова, изградено за теб?',
+    'cs.autosilas.cta.body': 'Сайт, уеб приложение или автоматизация — кажи ми какво искаш да пуснеш.',
+    'cs.autosilas.cta.button': 'Започни проект',
   },
 } as const;

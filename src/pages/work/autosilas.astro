@@ -1,0 +1,12 @@
+---
+import Base from '../../layouts/Base.astro';
+import AutoSilasCaseStudy from '../../components/AutoSilasCaseStudy.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Base title={t('cs.autosilas.meta.title')} description={t('cs.autosilas.meta.description')}>
+  <AutoSilasCaseStudy />
+</Base>

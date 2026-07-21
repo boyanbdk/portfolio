@@ -1,7 +1,7 @@
 ---
 import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
 import { site } from '../config';
-import DisciplisMockup from './DisciplisMockup.astro';
+import AutoSilasMockup from './AutoSilasMockup.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -20,43 +20,63 @@ const t = useTranslations(lang);
     <article class="work__case">
       <div class="work__body reveal">
         <div class="work__title-row">
-          <h3>{t('work.disciplis.name')}</h3>
-          <span class="work__kind">{t('work.disciplis.kind')}</span>
+          <h3>{t('work.autosilas.name')}</h3>
+          <span class="work__kind">{t('work.autosilas.kind')}</span>
         </div>
 
-        <p class="work__result">{t('work.disciplis.result')}</p>
+        <p class="work__result">{t('work.autosilas.result')}</p>
 
         <ul class="work__story">
-          <li>{t('work.disciplis.problem')}</li>
-          <li>{t('work.disciplis.approach')}</li>
-          <li>{t('work.disciplis.outcome')}</li>
+          <li>{t('work.autosilas.problem')}</li>
+          <li>{t('work.autosilas.approach')}</li>
+          <li>{t('work.autosilas.outcome')}</li>
         </ul>
 
         <div class="work__footer">
-          <span class="work__metric">{t('work.disciplis.metric')}</span>
+          <span class="work__metric">{t('work.autosilas.metric')}</span>
           <div class="work__actions">
-            <a href={localizePath(lang, '/work/disciplis')} class="btn work__cta">
-              {t('work.disciplis.case')} <span aria-hidden="true">→</span>
+            <a href={localizePath(lang, '/work/autosilas')} class="btn work__cta">
+              {t('work.autosilas.case')} <span aria-hidden="true">→</span>
             </a>
-            <a href={site.disciplis} class="link work__live" rel="noopener" target="_blank">
-              {t('work.disciplis.link')}
+            <a href={site.autosilas} class="link work__live" rel="noopener" target="_blank">
+              {t('work.autosilas.link')}
             </a>
           </div>
         </div>
       </div>
 
-      <!-- The real product UI in its own brand (teal on navy), muted so it sits
-           quietly inside the olive/ink editorial page instead of shouting. -->
+      <!-- The digital front desk in the product's own brand (ivory/forest/champagne) —
+           warm light against the dark band, so the business reads as the image. -->
       <div class="work__frame" aria-hidden="true">
         <div class="work__bar">
           <span></span><span></span><span></span>
-          <span class="work__url">disciplis.com</span>
+          <span class="work__url">autosilas.com</span>
         </div>
         <div class="work__screen">
-          <DisciplisMockup />
+          <AutoSilasMockup />
         </div>
       </div>
     </article>
+
+    <!-- Secondary: the hobby project, one quiet row under the business -->
+    <aside class="work__hobby reveal">
+      <div class="work__hobby-body">
+        <span class="eyebrow work__hobby-eyebrow">{t('work.hobby.eyebrow')}</span>
+        <div class="work__title-row work__hobby-title">
+          <h3>{t('work.hobby.name')}</h3>
+          <span class="work__kind">{t('work.hobby.kind')}</span>
+        </div>
+        <p class="work__hobby-blurb">{t('work.hobby.blurb')}</p>
+      </div>
+      <div class="work__actions">
+        <a href={localizePath(lang, '/work/disciplis')} class="link work__live">
+          {t('work.hobby.case')} <span aria-hidden="true">→</span>
+        </a>
+        <a href={site.disciplis} class="link work__live" rel="noopener" target="_blank">
+          {t('work.hobby.link')}
+        </a>
+      </div>
+    </aside>
 
     <p class="work__more eyebrow reveal">{t('work.more')}</p>
   </div>
@@ -71,7 +91,7 @@ const t = useTranslations(lang);
     background:
       radial-gradient(
         90rem 40rem at 85% 110%,
-        color-mix(in srgb, #00e0c3 4%, transparent),
+        color-mix(in srgb, #b8925a 7%, transparent),
         transparent 65%
       ),
       linear-gradient(180deg, var(--color-shade) 0%, #0f0d0a 100%);
@@ -192,7 +212,7 @@ const t = useTranslations(lang);
   }
 
   .work__frame {
-    background: #0c1018;
+    background: #14201b; /* AutoSilas's own dark green, not Disciplis navy */
     border: 1px solid color-mix(in srgb, var(--color-ink) 14%, transparent);
     border-radius: 14px;
     overflow: hidden;
@@ -222,16 +242,39 @@ const t = useTranslations(lang);
     padding: clamp(1.25rem, 3vw, 2.25rem);
     display: flex;
     justify-content: center;
-    /* soften the product's teal so it reads as an artefact, not a competing accent */
-    filter: saturate(0.65) contrast(0.94);
   }
-  /* the mockup carries its own card chrome — flatten it inside the browser frame */
-  .work__screen :global(.dsc) {
-    border: none;
+  /* the mockup carries its own card chrome — soften it inside the browser frame */
+  .work__screen :global(.asm) {
     box-shadow: none;
-    background: transparent;
     max-width: 28rem;
-    padding: 0;
+  }
+
+  /* ── hobby project: one quiet row, clearly secondary ── */
+  .work__hobby {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 16%, transparent);
+    border-radius: 14px;
+  }
+  .work__hobby-eyebrow {
+    color: color-mix(in srgb, var(--color-accent) 62%, #fff);
+  }
+  .work__hobby-title {
+    margin: 0.6rem 0 0.6rem;
+  }
+  .work__hobby-title h3 {
+    font-size: clamp(1.4rem, 2.6vw, 1.8rem);
+    color: var(--color-ink);
+  }
+  .work__hobby-blurb {
+    margin: 0;
+    color: color-mix(in srgb, var(--color-ink) 70%, transparent);
+    max-width: 56ch;
   }
 
   .work__more {
