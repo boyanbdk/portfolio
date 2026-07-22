@@ -213,7 +213,7 @@ function sectionMoments() {
     const strokes = svg.querySelectorAll(
       'rect[stroke], line, circle[stroke], .svc__accent-stroke, polyline'
     );
-    const fades = svg.querySelectorAll('rect[fill], .svc__accent-fill, .svc__dash');
+    const fades = svg.querySelectorAll('rect[fill], .svc__accent-fill:not(.svc__pulse), .svc__dash');
     gsap.set(strokes, { drawSVG: '0%' });
     gsap.set(fades, { autoAlpha: 0 });
     ScrollTrigger.create({
@@ -367,6 +367,8 @@ function initAutomationPulse() {
     svg.querySelector<SVGPathElement>(s)
   );
   if (flows.some((f) => !f)) return;
+
+  gsap.set(dot, { opacity: 0 }); // the pulse timeline owns this dot's visibility entirely
 
   // the dot leaves its resting spot (agent core) and runs each connector;
   // sources feed IN (start 1 → end 0), output runs OUT (0 → 1)
