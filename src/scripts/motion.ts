@@ -12,8 +12,9 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 
-gsap.registerPlugin(ScrollTrigger, SplitText, DrawSVGPlugin);
+gsap.registerPlugin(ScrollTrigger, SplitText, DrawSVGPlugin, MotionPathPlugin);
 
 const html = document.documentElement;
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -21,6 +22,7 @@ const desktop = window.matchMedia('(pointer: fine)').matches && window.innerWidt
 
 let motionDisabled = false;
 let lenis: { destroy(): void } | undefined;
+let pulseTl: gsap.core.Timeline | undefined;
 
 /** Hand visibility control from the pre-paint CSS guard to GSAP inline styles. */
 function releaseGuard() {
@@ -355,6 +357,53 @@ function initServiceChoreography() {
   });
 }
 
+/* ── automations card: olive pulse travels the flow diagram ────────── */
+
+function initAutomationPulse() {
+  const svg = document.querySelector<SVGSVGElement>('[data-svc-seq="3"] .svc__motif');
+  const dot = svg?.querySelector<SVGCircleElement>('.svc__pulse');
+  if (!svg || !dot) return;
+  const flows = ['.svc__flow-1', '.svc__flow-2', '.svc__flow-3'].map((s) =>
+    svg.querySelector<SVGPathElement>(s)
+  );
+  if (flows.some((f) => !f)) return;
+
+  // the dot leaves its resting spot (agent core) and runs each connector;
+  // sources feed IN (start 1 → end 0), output runs OUT (0 → 1)
+  const leg = (path: SVGPathElement, from: number, to: number) =>
+    gsap
+      .timeline()
+      .set(dot, { opacity: 0 })
+      .to(dot, {
+        opacity: 1,
+        duration: 0.15,
+        motionPath: { path, align: path, alignOrigin: [0.5, 0.5], start: from, end: from },
+      })
+      .to(dot, {
+        duration: 1.1,
+        ease: 'power2.inOut',
+        motionPath: { path, align: path, alignOrigin: [0.5, 0.5], start: from, end: to },
+      })
+      .to(dot, { opacity: 0, duration: 0.15 });
+
+  pulseTl = gsap.timeline({ repeat: -1, repeatDelay: 0.6, paused: true });
+  pulseTl
+    .add(leg(flows[0]!, 1, 0))          // source 1 → agent (inward)
+    .add(leg(flows[1]!, 1, 0), '<75%')  // source 2 chases it, overlapping
+    .add(leg(flows[2]!, 0, 1), '>-0.1') // agent → output
+    .set(dot, { clearProps: 'all' });   // rest state between laps
+
+  ScrollTrigger.create({
+    trigger: svg,
+    start: 'top 90%',
+    end: 'bottom top',
+    onEnter: () => pulseTl?.play(),
+    onLeave: () => pulseTl?.pause(),
+    onEnterBack: () => pulseTl?.play(),
+    onLeaveBack: () => pulseTl?.pause(),
+  });
+}
+
 /* ── magnetic buttons (desktop only) ───────────────────────────────── */
 
 function magneticButtons() {
@@ -399,6 +448,8 @@ function neutralizeMotion() {
   motionDisabled = true;
   ScrollTrigger.getAll().forEach((st) => st.kill());
   gsap.killTweensOf('*');
+  pulseTl?.kill();
+  pulseTl = undefined;
   gsap.set(
     [
       '.reveal',
@@ -410,6 +461,7 @@ function neutralizeMotion() {
       '.svc__motif circle',
       '.svc__motif path',
       '.svc__motif polyline',
+      '.svc__pulse',
       '.case-frame__img',
       '.btn',
       '[data-hero-line]',
@@ -441,6 +493,7 @@ if (reduced) {
   document.fonts?.ready.then(() => ScrollTrigger.refresh());
   if (desktop) {
     sectionMoments();
+    initAutomationPulse();
     magneticButtons();
     initSmoothScroll();
   }
