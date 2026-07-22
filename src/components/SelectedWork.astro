@@ -14,7 +14,11 @@ const t = useTranslations(lang);
   <div class="shell work__inner">
     <header class="work__head reveal">
       <span class="eyebrow">{t('work.eyebrow')}</span>
-      <h2 id="work-heading">{t('work.title')}</h2>
+      <h2 id="work-heading">
+        {t('work.title.pre')}
+        <span data-scribble="circle">{t('work.title.mark')}</span>
+        {t('work.title.post')}
+      </h2>
     </header>
 
     <article class="work__case">

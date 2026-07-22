@@ -244,3 +244,36 @@
     will-change: transform;
   }
 }
+
+/* screen-reader-only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* hero rotating-words slot: words stack; JS sizes the box and cycles.
+   Without JS only the first word is visible — a valid static sentence. */
+.hero__sub-slot {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  color: var(--color-accent);
+}
+.hero__sub-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+.hero__sub-word:not(:first-child) {
+  position: absolute;
+  left: 0;
+  top: 0;
+  visibility: hidden;
+}

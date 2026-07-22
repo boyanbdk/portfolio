@@ -32,6 +32,10 @@ export const ui = {
     'hero.headline.accent': '=',
     'hero.headline.2': 'unconventional results.',
     'hero.sub': 'Websites, web apps and automations — from idea to live product in days.',
+    'hero.sub.w1': 'Websites',
+    'hero.sub.w2': 'Web apps',
+    'hero.sub.w3': 'AI automations',
+    'hero.sub.tail': '— from idea to live product in days.',
     'hero.cta': 'Start a project',
     'hero.secondary': 'See the work',
     'hero.marquee.1': 'Unconventional by design',
@@ -44,7 +48,8 @@ export const ui = {
 
     // what I do
     'services.eyebrow': '01 — What I do',
-    'services.title': 'Three ways I can help',
+    'services.title.pre': 'Three ways I can',
+    'services.title.mark': 'help',
     'services.lede':
       'Scoped honestly, shipped fast — the same way I build my own products.',
     'services.websites.title': 'Websites',
@@ -72,7 +77,9 @@ export const ui = {
 
     // selected work
     'work.eyebrow': '02 — Selected work',
-    'work.title': 'One that proves the point',
+    'work.title.pre': 'One that',
+    'work.title.mark': 'proves',
+    'work.title.post': 'the point',
     'work.autosilas.name': 'AutoSilas',
     'work.autosilas.kind': 'My automation business · Live',
     'work.autosilas.result':
@@ -307,6 +314,10 @@ export const ui = {
     'hero.headline.accent': '=',
     'hero.headline.2': 'нетрадиционни резултати.',
     'hero.sub': 'Уебсайтове, уеб приложения и автоматизации — от идея до жив продукт за дни.',
+    'hero.sub.w1': 'Уебсайтове',
+    'hero.sub.w2': 'Уеб приложения',
+    'hero.sub.w3': 'AI автоматизации',
+    'hero.sub.tail': '— от идея до жив продукт за дни.',
     'hero.cta': 'Започни проект',
     'hero.secondary': 'Виж проектите',
     'hero.marquee.1': 'Нетрадиционен по замисъл',
@@ -319,7 +330,8 @@ export const ui = {
 
     // what I do
     'services.eyebrow': '01 — Какво правя',
-    'services.title': 'Три начина да помогна',
+    'services.title.pre': 'Три начина да',
+    'services.title.mark': 'помогна',
     'services.lede': 'Честен обхват, бързо пускане — както строя и собствените си продукти.',
     'services.websites.title': 'Уебсайтове',
     'services.websites.body':
@@ -346,7 +358,9 @@ export const ui = {
 
     // selected work
     'work.eyebrow': '02 — Избрани проекти',
-    'work.title': 'Един, който доказва тезата',
+    'work.title.pre': 'Един, който',
+    'work.title.mark': 'доказва',
+    'work.title.post': 'тезата',
     'work.autosilas.name': 'AutoSilas',
     'work.autosilas.kind': 'Моят бизнес за автоматизации · Живо',
     'work.autosilas.result':

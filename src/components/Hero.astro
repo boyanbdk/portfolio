@@ -47,7 +47,17 @@ const marquee = [
       >
     </h1>
 
-    <p class="hero__sub" data-hero-rise>{t('hero.sub')}</p>
+    <p class="hero__sub" data-hero-rise>
+      <span class="sr-only">{t('hero.sub')}</span>
+      <span aria-hidden="true" class="hero__sub-visual">
+        <span class="hero__sub-slot" data-rotate-words>
+          <span class="hero__sub-word">{t('hero.sub.w1')}</span>
+          <span class="hero__sub-word">{t('hero.sub.w2')}</span>
+          <span class="hero__sub-word">{t('hero.sub.w3')}</span>
+        </span>
+        {' '}{t('hero.sub.tail')}
+      </span>
+    </p>
 
     <div class="hero__cta" data-hero-rise>
       <a href="#contact" class="btn hero__btn">{t('hero.cta')} <span aria-hidden="true">→</span></a>
