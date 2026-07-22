@@ -78,13 +78,17 @@ const HIDE = { duration: 0.28, ease: 'power1.out', overwrite: true } as const;
 const SPLIT_SELECTOR = 'main h1, main h2, .work__title-row h3';
 
 function isSplitTarget(el: Element) {
-  return el.matches(SPLIT_SELECTOR) && !el.closest('[data-hero]');
+  return (
+    el.matches(SPLIT_SELECTOR) &&
+    !el.closest('[data-hero]') &&
+    !el.querySelector('[data-scribble]')
+  );
 }
 
 function splitHeadings() {
   const headings = gsap.utils
     .toArray<HTMLElement>(SPLIT_SELECTOR)
-    .filter((h) => !h.closest('[data-hero]'));
+    .filter((h) => isSplitTarget(h));
 
   headings.forEach((h) => {
     let st: ScrollTrigger | undefined;
@@ -269,6 +273,39 @@ function sectionMoments() {
   //  with its sidebar. Wipe/zoom versions were tried and cut, 2026-07-10.)
 }
 
+/* ── marker scribbles (Contiant port, 2026-07-22) ─────────────────── */
+
+const SCRIBBLE_UNDERLINE = `
+<svg class="scribble-svg scribble-svg--underline" viewBox="0 0 448 26" aria-hidden="true">
+  <path d="M73.4 22.9C166.6 20.3 259.9 18.2 352.9 14.8c3.4-.1 15.2-.3 21.7-1" stroke-width="4"/>
+  <path d="M2 20.2C62.5 15 123.5 13.4 184.1 11.1 262.3 8.2 340.5 5.2 418.8 4.3c8.5-.1 34-.7 25.5-1.2" stroke-width="4"/>
+</svg>`;
+
+const SCRIBBLE_CIRCLE = `
+<svg class="scribble-svg scribble-svg--circle" viewBox="0 0 311 96" aria-hidden="true">
+  <path d="M192 8.5c35.5-1.3 75.3 2.5 99.4 13.2 23 10.1 24.6 27.1-2.1 41.7-25.8 14-66.4 20.4-99.3 24.6-34.6 4.4-70 6.9-103.4 5.8-29-.9-62.6-3.9-78.3-15.6-10.8-8.1-7.3-19.3 3.9-29.3C41.3 22.8 106.1 5.4 158.6 2.3c35.8-2.2 67.8 3.1 90.9 13.9" stroke-width="3"/>
+</svg>`;
+
+/** Hand-drawn accents that draw themselves once (marker accents never replay). */
+function initScribbles() {
+  document.querySelectorAll<HTMLElement>('[data-scribble]').forEach((word) => {
+    const kind = word.dataset.scribble;
+    word.insertAdjacentHTML(
+      'beforeend',
+      kind === 'circle' ? SCRIBBLE_CIRCLE : SCRIBBLE_UNDERLINE
+    );
+    word.querySelectorAll<SVGPathElement>('.scribble-svg path').forEach((p) => {
+      p.style.setProperty('--length', String(p.getTotalLength()));
+    });
+    ScrollTrigger.create({
+      trigger: word,
+      start: 'top bottom-=25%',
+      once: true, // accents fire once — intentional exception to replay
+      onEnter: () => word.classList.add('is-drawn'),
+    });
+  });
+}
+
 /* ── magnetic buttons (desktop only) ───────────────────────────────── */
 
 function magneticButtons() {
@@ -318,6 +355,7 @@ function neutralizeMotion() {
       '.reveal',
       '.reveal-scale',
       '.split-line',
+      '.scribble-svg path',
       '.svc__motif rect',
       '.svc__motif line',
       '.svc__motif circle',
@@ -332,6 +370,7 @@ function neutralizeMotion() {
     ],
     { clearProps: 'all' }
   );
+  document.querySelectorAll('[data-scribble]').forEach((w) => w.classList.add('is-drawn'));
   lenis?.destroy();
   lenis = undefined;
   releaseGuard();
@@ -346,6 +385,7 @@ if (reduced) {
   // then vanish (fonts.ready lands too late on cold caches); autoSplit
   // re-measures the line boxes itself once the real faces arrive.
   splitHeadings();
+  initScribbles();
   document.fonts?.ready.then(() => ScrollTrigger.refresh());
   if (desktop) {
     sectionMoments();
