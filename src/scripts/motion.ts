@@ -311,6 +311,50 @@ function initScribbles() {
   });
 }
 
+/* ── bento choreography: strict 01→02→03 with olive handoff ───────── */
+
+function initServiceChoreography() {
+  const cards = gsap.utils
+    .toArray<HTMLElement>('[data-svc-seq]')
+    .sort((a, b) => Number(a.dataset.svcSeq) - Number(b.dataset.svcSeq));
+  if (!cards.length) return;
+
+  const section = document.querySelector<HTMLElement>('#what-i-do');
+  gsap.set(cards, { autoAlpha: 0, y: 18 });
+
+  const enter = () => {
+    const tl = gsap.timeline();
+    cards.forEach((card, i) => {
+      tl.to(
+        card,
+        { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power3.out', overwrite: true },
+        i * 0.14
+      );
+      // olive flash as the card lands — outline, NOT border-color (the CSS
+      // hover transition owns border-color and would fight the tween)
+      tl.fromTo(
+        card,
+        { outlineColor: 'rgba(163, 163, 117, 0.9)', outlineWidth: 1, outlineOffset: -1, outlineStyle: 'solid' },
+        {
+          outlineColor: 'rgba(163, 163, 117, 0)',
+          duration: 0.9,
+          ease: 'power2.out',
+          onComplete: () => gsap.set(card, { clearProps: 'outline,outlineColor,outlineWidth,outlineOffset,outlineStyle' }),
+        },
+        i * 0.14 + 0.38 // flash begins ~55% through the rise
+      );
+    });
+  };
+
+  ScrollTrigger.create({
+    trigger: section ?? cards[0],
+    start: 'top 80%',
+    once: !replay,
+    onEnter: enter,
+    onLeaveBack: replay ? () => gsap.to(cards, { autoAlpha: 0, y: 18, ...HIDE }) : undefined,
+  });
+}
+
 /* ── magnetic buttons (desktop only) ───────────────────────────────── */
 
 function magneticButtons() {
@@ -372,6 +416,7 @@ function neutralizeMotion() {
       '[data-hero-rise]',
       '[data-hero-video]',
       '[data-hero-strip]',
+      '[data-svc-seq]',
     ],
     { clearProps: 'all' }
   );
@@ -392,6 +437,7 @@ if (reduced) {
   // re-measures the line boxes itself once the real faces arrive.
   splitHeadings();
   initScribbles();
+  initServiceChoreography();
   document.fonts?.ready.then(() => ScrollTrigger.refresh());
   if (desktop) {
     sectionMoments();

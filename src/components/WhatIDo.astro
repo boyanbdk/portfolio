@@ -20,7 +20,7 @@ const t = useTranslations(lang);
 
     <div class="bento">
       <!-- Websites — the large, lead cell (§5) -->
-      <article class="card svc svc--lead reveal">
+      <article class="card svc svc--lead" data-svc-seq="1">
         <span class="svc__ghost" aria-hidden="true">01</span>
         <div class="svc__top">
           <span class="svc__index" aria-hidden="true">01</span>
@@ -56,7 +56,7 @@ const t = useTranslations(lang);
         <span class="svc__time">→ {t('services.websites.time')}</span>
       </article>
 
-      <article class="card svc reveal">
+      <article class="card svc" data-svc-seq="2">
         <span class="svc__ghost" aria-hidden="true">02</span>
         <div class="svc__top">
           <span class="svc__index" aria-hidden="true">02</span>
@@ -84,7 +84,7 @@ const t = useTranslations(lang);
         <span class="svc__time">→ {t('services.apps.time')}</span>
       </article>
 
-      <article class="card svc reveal">
+      <article class="card svc" data-svc-seq="3">
         <span class="svc__ghost" aria-hidden="true">03</span>
         <div class="svc__top">
           <span class="svc__index" aria-hidden="true">03</span>
