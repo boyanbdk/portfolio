@@ -344,7 +344,6 @@ function initServiceChoreography() {
           duration: 0.9,
           ease: 'power2.out',
           immediateRender: false,
-          onComplete: () => gsap.set(card, { clearProps: 'outline,outlineColor,outlineWidth,outlineOffset,outlineStyle' }),
         },
         i * 0.14 + 0.38 // flash begins ~55% through the rise
       );
