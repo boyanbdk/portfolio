@@ -297,6 +297,11 @@ function initScribbles() {
     word.querySelectorAll<SVGPathElement>('.scribble-svg path').forEach((p) => {
       p.style.setProperty('--length', String(p.getTotalLength()));
     });
+    if (reduced) {
+      // pre-drawn, static — the reduced-motion CSS suppresses the animation
+      word.classList.add('is-drawn');
+      return;
+    }
     ScrollTrigger.create({
       trigger: word,
       start: 'top bottom-=25%',
@@ -378,6 +383,7 @@ function neutralizeMotion() {
 
 if (reduced) {
   releaseGuard();
+  initScribbles();
 } else {
   heroIntro();
   scrollReveals();
