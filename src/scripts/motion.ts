@@ -415,9 +415,17 @@ function initHeroSubRotator() {
   const words = gsap.utils.toArray<HTMLElement>('.hero__sub-word', slot);
   if (words.length < 2) return;
 
-  // fix the slot to its widest word so the sentence never reflows
-  const width = Math.max(...words.map((w) => w.offsetWidth));
-  slot.style.width = `${Math.ceil(width)}px`;
+  // fix the slot to its widest word so the sentence never reflows; the words
+  // are content-sized (inline-block / absolute), so this is safe to re-run
+  const sizeSlot = () => {
+    const width = Math.max(...words.map((w) => w.offsetWidth));
+    slot.style.width = `${Math.ceil(width)}px`;
+  };
+  sizeSlot();
+  // cold caches measure the fallback font — re-measure once real faces land
+  document.fonts?.ready.then(() => {
+    if (!motionDisabled) sizeSlot();
+  });
   gsap.set(words.slice(1), { visibility: 'visible', autoAlpha: 0, yPercent: 100 });
 
   const HOLD = 2.4;
