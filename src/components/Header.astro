@@ -20,6 +20,9 @@ const homeHref = localizePath(lang, '/');
         nav.map((item) => (
           <a href={localizePath(lang, item.href)} class="link header__link">
             {t(item.key)}
+            <svg class="header__link-ink" viewBox="0 0 64 4" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M1 3C21.7 2.7 42.4 1.8 63 1" pathLength="100" />
+            </svg>
           </a>
         ))
       }
@@ -88,11 +91,42 @@ const homeHref = localizePath(lang, '/');
     }
   }
   .header__link {
+    position: relative;
+    display: inline-block;
     font-size: 0.95rem;
     color: var(--color-ink-soft);
   }
-  .header__link:hover {
+  .header__link:hover,
+  .header__link:focus-visible {
     color: var(--color-accent);
+  }
+  .header__link-ink {
+    position: absolute;
+    left: 0;
+    bottom: -0.28em;
+    width: 100%;
+    height: 4px;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .header__link-ink path {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    transition: stroke-dashoffset 0.7s cubic-bezier(0.87, 0, 0.13, 1);
+  }
+  .header__link:hover .header__link-ink path,
+  .header__link:focus-visible .header__link-ink path {
+    stroke-dashoffset: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .header__link-ink path {
+      transition: none;
+    }
   }
 
   .header__lang {
