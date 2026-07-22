@@ -23,6 +23,7 @@ const desktop = window.matchMedia('(pointer: fine)').matches && window.innerWidt
 let motionDisabled = false;
 let lenis: { destroy(): void } | undefined;
 let pulseTl: gsap.core.Timeline | undefined;
+let rotatorCall: gsap.core.Tween | undefined;
 
 /** Hand visibility control from the pre-paint CSS guard to GSAP inline styles. */
 function releaseGuard() {
@@ -406,6 +407,62 @@ function initAutomationPulse() {
   });
 }
 
+/* ── hero sub rotating words (Contiant timing: move 0.8s, fade slower) ── */
+
+function initHeroSubRotator() {
+  const slot = document.querySelector<HTMLElement>('[data-rotate-words]');
+  if (!slot) return;
+  const words = gsap.utils.toArray<HTMLElement>('.hero__sub-word', slot);
+  if (words.length < 2) return;
+
+  // fix the slot to its widest word so the sentence never reflows
+  const width = Math.max(...words.map((w) => w.offsetWidth));
+  slot.style.width = `${Math.ceil(width)}px`;
+  gsap.set(words.slice(1), { visibility: 'visible', autoAlpha: 0, yPercent: 100 });
+
+  const HOLD = 2.4;
+  let i = 0;
+  let heroVisible = true;
+
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  if (hero) {
+    ScrollTrigger.create({
+      trigger: hero,
+      start: 'top bottom',
+      end: 'bottom top',
+      onToggle: (self) => {
+        heroVisible = self.isActive;
+      },
+    });
+  }
+
+  const swap = () => {
+    if (motionDisabled) return;
+    // don't churn offscreen or in a hidden tab — just try again later
+    if (!heroVisible || document.hidden) {
+      rotatorCall = gsap.delayedCall(HOLD, swap);
+      return;
+    }
+    const cur = words[i]!;
+    i = (i + 1) % words.length;
+    const next = words[i]!;
+    gsap
+      .timeline()
+      .to(cur, { yPercent: -100, duration: 0.8, ease: 'power4.out' }, 0)
+      .to(cur, { autoAlpha: 0, duration: 1.0, ease: 'power1.inOut' }, 0)
+      .fromTo(
+        next,
+        { yPercent: 100, autoAlpha: 0 },
+        { yPercent: 0, autoAlpha: 1, duration: 0.8, ease: 'power4.out' },
+        0.05
+      );
+    rotatorCall = gsap.delayedCall(HOLD + 0.8, swap);
+  };
+
+  // first swap waits for the hero entrance to finish + one readable hold
+  rotatorCall = gsap.delayedCall(1.8 + HOLD, swap);
+}
+
 /* ── magnetic buttons (desktop only) ───────────────────────────────── */
 
 function magneticButtons() {
@@ -452,6 +509,8 @@ function neutralizeMotion() {
   gsap.killTweensOf('*');
   pulseTl?.kill();
   pulseTl = undefined;
+  rotatorCall?.kill();
+  rotatorCall = undefined;
   gsap.set(
     [
       '.reveal',
@@ -471,9 +530,13 @@ function neutralizeMotion() {
       '[data-hero-video]',
       '[data-hero-strip]',
       '[data-svc-seq]',
+      '.hero__sub-word',
+      '[data-rotate-words]',
     ],
     { clearProps: 'all' }
   );
+  const slotEl = document.querySelector<HTMLElement>('[data-rotate-words]');
+  if (slotEl) slotEl.style.removeProperty('width');
   document.querySelectorAll('[data-scribble]').forEach((w) => w.classList.add('is-drawn'));
   lenis?.destroy();
   lenis = undefined;
@@ -492,6 +555,7 @@ if (reduced) {
   splitHeadings();
   initScribbles();
   initServiceChoreography();
+  initHeroSubRotator();
   document.fonts?.ready.then(() => ScrollTrigger.refresh());
   if (desktop) {
     sectionMoments();
