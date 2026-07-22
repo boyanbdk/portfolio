@@ -35,3 +35,4 @@ yarn-error.log*
 .gstack/
 binko-meeting.md
 .wrangler/
+.superpowers/
