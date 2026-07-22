@@ -279,14 +279,14 @@ function sectionMoments() {
 /* ── marker scribbles (Contiant port, 2026-07-22) ─────────────────── */
 
 const SCRIBBLE_UNDERLINE = `
-<svg class="scribble-svg scribble-svg--underline" viewBox="0 0 448 26" aria-hidden="true">
-  <path d="M73.4 22.9C166.6 20.3 259.9 18.2 352.9 14.8c3.4-.1 15.2-.3 21.7-1" stroke-width="4"/>
-  <path d="M2 20.2C62.5 15 123.5 13.4 184.1 11.1 262.3 8.2 340.5 5.2 418.8 4.3c8.5-.1 34-.7 25.5-1.2" stroke-width="4"/>
+<svg class="scribble-svg scribble-svg--underline" viewBox="0 0 448 26" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M73.4 22.9C166.6 20.3 259.9 18.2 352.9 14.8c3.4-.1 15.2-.3 21.7-1" stroke-width="3" vector-effect="non-scaling-stroke"/>
+  <path d="M2 20.2C62.5 15 123.5 13.4 184.1 11.1 262.3 8.2 340.5 5.2 418.8 4.3c8.5-.1 34-.7 25.5-1.2" stroke-width="3" vector-effect="non-scaling-stroke"/>
 </svg>`;
 
 const SCRIBBLE_CIRCLE = `
-<svg class="scribble-svg scribble-svg--circle" viewBox="0 0 311 96" aria-hidden="true">
-  <path d="M192 8.5c35.5-1.3 75.3 2.5 99.4 13.2 23 10.1 24.6 27.1-2.1 41.7-25.8 14-66.4 20.4-99.3 24.6-34.6 4.4-70 6.9-103.4 5.8-29-.9-62.6-3.9-78.3-15.6-10.8-8.1-7.3-19.3 3.9-29.3C41.3 22.8 106.1 5.4 158.6 2.3c35.8-2.2 67.8 3.1 90.9 13.9" stroke-width="3"/>
+<svg class="scribble-svg scribble-svg--circle" viewBox="0 0 311 96" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M192 8.5c35.5-1.3 75.3 2.5 99.4 13.2 23 10.1 24.6 27.1-2.1 41.7-25.8 14-66.4 20.4-99.3 24.6-34.6 4.4-70 6.9-103.4 5.8-29-.9-62.6-3.9-78.3-15.6-10.8-8.1-7.3-19.3 3.9-29.3C41.3 22.8 106.1 5.4 158.6 2.3c35.8-2.2 67.8 3.1 90.9 13.9" stroke-width="2.5" vector-effect="non-scaling-stroke"/>
 </svg>`;
 
 /** Hand-drawn accents that draw themselves once (marker accents never replay). */
@@ -324,6 +324,7 @@ function initServiceChoreography() {
 
   const section = document.querySelector<HTMLElement>('#what-i-do');
   gsap.set(cards, { autoAlpha: 0, y: 18 });
+  gsap.set(cards, { outlineWidth: 1, outlineOffset: -1, outlineStyle: 'solid', outlineColor: 'rgba(163, 163, 117, 0)' });
 
   const enter = () => {
     const tl = gsap.timeline();
@@ -337,11 +338,12 @@ function initServiceChoreography() {
       // hover transition owns border-color and would fight the tween)
       tl.fromTo(
         card,
-        { outlineColor: 'rgba(163, 163, 117, 0.9)', outlineWidth: 1, outlineOffset: -1, outlineStyle: 'solid' },
+        { outlineColor: 'rgba(163, 163, 117, 0.9)' },
         {
           outlineColor: 'rgba(163, 163, 117, 0)',
           duration: 0.9,
           ease: 'power2.out',
+          immediateRender: false,
           onComplete: () => gsap.set(card, { clearProps: 'outline,outlineColor,outlineWidth,outlineOffset,outlineStyle' }),
         },
         i * 0.14 + 0.38 // flash begins ~55% through the rise
@@ -418,7 +420,7 @@ function initHeroSubRotator() {
   // fix the slot to its widest word so the sentence never reflows; the words
   // are content-sized (inline-block / absolute), so this is safe to re-run
   const sizeSlot = () => {
-    const width = Math.max(...words.map((w) => w.offsetWidth));
+    const width = Math.max(...words.map((w) => w.getBoundingClientRect().width));
     slot.style.width = `${Math.ceil(width)}px`;
   };
   sizeSlot();
@@ -430,7 +432,7 @@ function initHeroSubRotator() {
 
   const HOLD = 2.4;
   let i = 0;
-  let heroVisible = true;
+  let heroVisible = false;
 
   const hero = document.querySelector<HTMLElement>('[data-hero]');
   if (hero) {
