@@ -10,10 +10,8 @@ const t = useTranslations(lang);
     <header class="services__head reveal">
       <div>
         <span class="eyebrow">{t('services.eyebrow')}</span>
-        <h2 id="services-heading">
-          {t('services.title.pre')}
-          <span data-scribble="underline">{t('services.title.mark')}</span>
-        </h2>
+        <!-- single line: Astro drops newline-only whitespace between expressions -->
+        <h2 id="services-heading">{t('services.title.pre')} <span data-scribble="underline">{t('services.title.mark')}</span></h2>
       </div>
       <p class="services__lede">{t('services.lede')}</p>
     </header>
