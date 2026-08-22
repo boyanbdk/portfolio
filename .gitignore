@@ -33,6 +33,6 @@ yarn-error.log*
 # local dev launcher (machine-specific node path)
 .claude/
 .gstack/
-binko-meeting.md
+/binko/
 .wrangler/
 .superpowers/
