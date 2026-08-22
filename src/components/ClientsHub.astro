@@ -1,0 +1,172 @@
+---
+import { Image } from 'astro:assets';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+import { site } from '../config';
+import binkoLogo from '../assets/binko/binko-logo-blue.png';
+import shotHome from '../assets/binko/binko-home.png';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<!-- Clients — real businesses, real launches. One card per client; Binko is the first. -->
+<section class="section hub" aria-labelledby="hub-title">
+  <div class="shell">
+    <a href={localizePath(lang, '/#work')} class="link hub__back">← {t('hub.back')}</a>
+
+    <header class="hub__head reveal">
+      <span class="eyebrow">{t('hub.clients.eyebrow')}</span>
+      <h1 id="hub-title">{t('hub.clients.title.pre')} <span data-scribble="circle">{t('hub.clients.title.mark')}</span></h1>
+      <p class="hub__lede">{t('hub.clients.lede')}</p>
+    </header>
+
+    <article class="card hub__client reveal">
+      <div class="hub__client-body">
+        <div class="hub__client-brand">
+          <Image src={binkoLogo} alt="" class="hub__client-logo" width="96" densities={[1, 2]} />
+          <div>
+            <h2>{t('hub.clients.binko.name')}</h2>
+            <span class="hub__client-kind">{t('hub.clients.binko.kind')}</span>
+          </div>
+        </div>
+        <p class="hub__client-outcome">{t('hub.clients.binko.outcome')}</p>
+        <p class="hub__client-blurb">{t('hub.clients.binko.blurb')}</p>
+        <div class="hub__client-actions">
+          <a href={localizePath(lang, '/clients/binko')} class="btn">
+            {t('hub.case')} <span aria-hidden="true">→</span>
+          </a>
+          <a href={site.binko} class="link" rel="noopener" target="_blank">
+            {t('hub.clients.binko.link')}
+          </a>
+        </div>
+      </div>
+
+      <figure class="hub__client-frame reveal reveal-scale">
+        <div class="hub__bar">
+          <span></span><span></span><span></span>
+          <span class="hub__url">binko.bg</span>
+        </div>
+        <Image
+          src={shotHome}
+          alt={t('cs.binko.shot.home.alt')}
+          class="hub__client-img"
+          widths={[640, 1024]}
+          sizes="(min-width: 1024px) 46vw, 92vw"
+        />
+      </figure>
+    </article>
+  </div>
+</section>
+
+<style>
+  .hub__back {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+  .hub__head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  }
+  .hub__head h1 {
+    font-size: var(--text-hero);
+  }
+  .hub__lede {
+    margin: 0.5rem 0 0;
+    color: var(--color-ink-soft);
+    max-width: 48ch;
+  }
+
+  .hub__client {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+    padding: clamp(1.5rem, 4vw, 3rem);
+  }
+  @media (min-width: 1024px) {
+    .hub__client {
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+  }
+  .hub__client-brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .hub__client-logo {
+    width: clamp(3.5rem, 6vw, 4.5rem);
+    height: auto;
+    flex-shrink: 0;
+  }
+  .hub__client-brand h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1;
+  }
+  .hub__client-kind {
+    display: block;
+    margin-top: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+  }
+  .hub__client-outcome {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+    line-height: 1.35;
+    margin: 0 0 1rem;
+    max-width: 32ch;
+  }
+  .hub__client-blurb {
+    margin: 0 0 1.75rem;
+    color: var(--color-ink-soft);
+    max-width: 52ch;
+  }
+  .hub__client-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .hub__client-frame {
+    margin: 0;
+    background: #0b1c3a; /* Binko's own blue */
+    border: 1px solid color-mix(in srgb, var(--color-ink) 14%, transparent);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px -45px rgba(11, 28, 58, 0.7);
+  }
+  .hub__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.65rem 0.9rem;
+    border-bottom: 1px solid rgba(255, 253, 248, 0.08);
+  }
+  .hub__bar > span:not(.hub__url) {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(255, 253, 248, 0.14);
+  }
+  .hub__url {
+    margin-left: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(255, 253, 248, 0.42);
+  }
+  .hub__client-img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>

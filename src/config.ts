@@ -11,6 +11,8 @@ export const site = {
   autosilas: 'https://autosilas.com',
   // Live case study — owned domain (Vercel).
   disciplis: 'https://disciplis.com',
+  // Client site — switch to https://binko.bg once the domain is active.
+  binko: 'https://binko.pages.dev',
 } as const;
 
 // Root-relative anchors so the nav also works from subpages (e.g. /work/disciplis).

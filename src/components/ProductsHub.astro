@@ -1,0 +1,297 @@
+---
+import { Image } from 'astro:assets';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+import { site } from '../config';
+import AutoSilasMockup from './AutoSilasMockup.astro';
+import shotDisciplis from '../assets/disciplis/dashboard.png';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<!-- Products I built — the things I designed and shipped end to end.
+     Dark cinematic band lifted from the old homepage work section; both products
+     get the same weight (no "side project" framing). -->
+<section class="section hub hub--dark" aria-labelledby="hub-title">
+  <div class="shell hub__inner">
+    <a href={localizePath(lang, '/#work')} class="link hub__back">← {t('hub.back')}</a>
+
+    <header class="hub__head reveal">
+      <span class="eyebrow">{t('hub.work.eyebrow')}</span>
+      <h1 id="hub-title">{t('hub.work.title.pre')} <span data-scribble="circle">{t('hub.work.title.mark')}</span></h1>
+      <p class="hub__lede">{t('hub.work.lede')}</p>
+    </header>
+
+    <!-- AutoSilas -->
+    <article class="hub__case">
+      <div class="hub__body reveal">
+        <div class="hub__title-row">
+          <h2>{t('hub.work.autosilas.name')}</h2>
+          <span class="hub__kind">{t('hub.work.autosilas.kind')}</span>
+        </div>
+        <p class="hub__result">{t('hub.work.autosilas.result')}</p>
+        <ul class="hub__story">
+          <li>{t('hub.work.autosilas.problem')}</li>
+          <li>{t('hub.work.autosilas.approach')}</li>
+          <li>{t('hub.work.autosilas.outcome')}</li>
+        </ul>
+        <div class="hub__footer">
+          <span class="hub__metric">{t('hub.work.autosilas.metric')}</span>
+          <div class="hub__actions">
+            <a href={localizePath(lang, '/work/autosilas')} class="btn hub__cta">
+              {t('hub.case')} <span aria-hidden="true">→</span>
+            </a>
+            <a href={site.autosilas} class="link hub__live" rel="noopener" target="_blank">
+              {t('hub.work.autosilas.link')}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hub__frame hub__frame--as" aria-hidden="true">
+        <div class="hub__bar">
+          <span></span><span></span><span></span>
+          <span class="hub__url">autosilas.com</span>
+        </div>
+        <div class="hub__screen">
+          <AutoSilasMockup />
+        </div>
+      </div>
+    </article>
+
+    <!-- Disciplis — equal second card, frame on the left to break the rhythm -->
+    <article class="hub__case hub__case--flip">
+      <div class="hub__body reveal">
+        <div class="hub__title-row">
+          <h2>{t('hub.work.disciplis.name')}</h2>
+          <span class="hub__kind">{t('hub.work.disciplis.kind')}</span>
+        </div>
+        <p class="hub__result">{t('hub.work.disciplis.result')}</p>
+        <ul class="hub__story">
+          <li>{t('hub.work.disciplis.problem')}</li>
+          <li>{t('hub.work.disciplis.approach')}</li>
+          <li>{t('hub.work.disciplis.outcome')}</li>
+        </ul>
+        <div class="hub__footer">
+          <span class="hub__metric">{t('hub.work.disciplis.metric')}</span>
+          <div class="hub__actions">
+            <a href={localizePath(lang, '/work/disciplis')} class="btn hub__cta">
+              {t('hub.case')} <span aria-hidden="true">→</span>
+            </a>
+            <a href={site.disciplis} class="link hub__live" rel="noopener" target="_blank">
+              {t('hub.work.disciplis.link')}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <figure class="hub__frame hub__frame--ds reveal reveal-scale">
+        <div class="hub__bar">
+          <span></span><span></span><span></span>
+          <span class="hub__url">disciplis.com</span>
+        </div>
+        <Image
+          src={shotDisciplis}
+          alt={t('hub.work.disciplis.shot.alt')}
+          class="hub__img"
+          widths={[640, 1024]}
+          sizes="(min-width: 1024px) 46vw, 92vw"
+        />
+      </figure>
+    </article>
+  </div>
+</section>
+
+<style>
+  .hub--dark {
+    position: relative;
+    overflow: hidden;
+    color: var(--color-ink);
+    background:
+      radial-gradient(
+        90rem 40rem at 85% 110%,
+        color-mix(in srgb, #b8925a 7%, transparent),
+        transparent 65%
+      ),
+      linear-gradient(180deg, var(--color-shade) 0%, #0f0d0a 100%);
+    border-block: 1px solid var(--color-line);
+  }
+  .hub__inner {
+    position: relative;
+    z-index: 1;
+  }
+  .hub__back {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+    color: color-mix(in srgb, var(--color-accent) 62%, #fff);
+  }
+  .hub__head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: clamp(3rem, 7vw, 5rem);
+  }
+  .hub__head .eyebrow {
+    color: color-mix(in srgb, var(--color-accent) 62%, #fff);
+  }
+  .hub__head h1 {
+    font-size: var(--text-hero);
+    color: var(--color-ink);
+  }
+  .hub__lede {
+    margin: 0.5rem 0 0;
+    color: color-mix(in srgb, var(--color-ink) 72%, transparent);
+    max-width: 48ch;
+  }
+
+  .hub__case {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    align-items: center;
+  }
+  .hub__case + .hub__case {
+    margin-top: clamp(4rem, 9vw, 7rem);
+    padding-top: clamp(3rem, 7vw, 5rem);
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 14%, transparent);
+  }
+  @media (min-width: 1024px) {
+    .hub__case {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+    .hub__case--flip {
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+    .hub__case--flip .hub__body {
+      order: 2;
+    }
+  }
+
+  .hub__title-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .hub__title-row h2 {
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    color: var(--color-ink);
+  }
+  .hub__kind {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: color-mix(in srgb, var(--color-accent) 62%, #fff);
+  }
+  .hub__result {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+    line-height: 1.35;
+    margin-bottom: 1.75rem;
+    color: color-mix(in srgb, var(--color-ink) 92%, transparent);
+    max-width: 34ch;
+  }
+  .hub__story {
+    display: grid;
+    gap: 0.85rem;
+    margin-bottom: 2rem;
+  }
+  .hub__story li {
+    position: relative;
+    padding-left: 1.25rem;
+    color: color-mix(in srgb, var(--color-ink) 74%, transparent);
+    max-width: 52ch;
+  }
+  .hub__story li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-accent) 70%, #fff);
+  }
+  .hub__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 16%, transparent);
+  }
+  .hub__metric {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    color: color-mix(in srgb, var(--color-ink) 55%, transparent);
+  }
+  .hub__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  .hub__cta {
+    background: var(--color-ink);
+    color: var(--color-on-accent);
+  }
+  .hub__live {
+    font-size: 0.95rem;
+    color: color-mix(in srgb, var(--color-accent) 62%, #fff);
+  }
+
+  .hub__frame {
+    margin: 0;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 14%, transparent);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px -45px rgba(0, 0, 0, 0.9);
+  }
+  .hub__frame--as {
+    background: #14201b; /* AutoSilas's own dark green */
+  }
+  .hub__frame--ds {
+    background: #0b1220; /* Disciplis navy */
+  }
+  .hub__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
+  }
+  .hub__bar > span:not(.hub__url) {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-ink) 22%, transparent);
+  }
+  .hub__url {
+    margin-left: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: color-mix(in srgb, var(--color-ink) 45%, transparent);
+  }
+  .hub__screen {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    display: flex;
+    justify-content: center;
+  }
+  .hub__screen :global(.asm) {
+    box-shadow: none;
+    max-width: 28rem;
+  }
+  .hub__img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>

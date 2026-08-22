@@ -1,0 +1,12 @@
+---
+import Base from '../../../layouts/Base.astro';
+import ProductsHub from '../../../components/ProductsHub.astro';
+import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Base title={t('hub.work.meta.title')} description={t('hub.work.meta.description')}>
+  <ProductsHub />
+</Base>

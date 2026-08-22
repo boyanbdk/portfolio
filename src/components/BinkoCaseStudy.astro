@@ -1,0 +1,588 @@
+---
+import { Image } from 'astro:assets';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+import { site } from '../config';
+import logo from '../assets/binko/binko-logo-blue.png';
+import shotHome from '../assets/binko/binko-home.png';
+import shotMachines from '../assets/binko/binko-mashini.png';
+import shotPartners from '../assets/binko/binko-partniori.png';
+import shotGallery from '../assets/binko/binko-obekti.png';
+import shotMobile from '../assets/binko/binko-mobile-mashini.png';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const features = [1, 2, 3, 4, 5, 6].map((i) => t(`cs.binko.feature.${i}`));
+const decisions = [1, 2, 3].map((i) => ({ title: t(`cs.binko.decision.${i}.title`), body: t(`cs.binko.decision.${i}.body`) }));
+---
+
+  <!-- Case hero — result first -->
+  <section class="case-hero" aria-labelledby="case-title">
+    <div class="shell">
+      <a href={localizePath(lang, '/clients')} class="link case-back">← {t('cs.binko.back')}</a>
+
+      <div class="case-hero__grid">
+        <div>
+          <span class="eyebrow">{t('cs.binko.eyebrow')}</span>
+          <div class="case-hero__brand">
+            <Image src={logo} alt="" class="case-hero__mark" width="56" densities={[1, 2]} loading="eager" />
+            <h1 id="case-title">{t('cs.binko.title')}</h1>
+          </div>
+          <p class="case-hero__tagline">{t('cs.binko.tagline')}</p>
+        </div>
+        <p class="case-hero__result">{t('cs.binko.result')}</p>
+      </div>
+
+      <dl class="case-meta">
+        <div>
+          <dt class="eyebrow">{t('cs.binko.meta.client')}</dt>
+          <dd>{t('cs.binko.meta.client.v')}</dd>
+        </div>
+        <div>
+          <dt class="eyebrow">{t('cs.binko.meta.role')}</dt>
+          <dd>{t('cs.binko.meta.role.v')}</dd>
+        </div>
+        <div>
+          <dt class="eyebrow">{t('cs.binko.meta.stack')}</dt>
+          <dd>{t('cs.binko.meta.stack.v')}</dd>
+        </div>
+        <div>
+          <dt class="eyebrow">{t('cs.binko.meta.status')}</dt>
+          <dd><span class="case-meta__pulse" aria-hidden="true"></span>{t('cs.binko.meta.status.v')}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Showcase — the live client site -->
+  <section class="case-showcase" aria-label="The Binko website">
+    <div class="shell case-showcase__inner">
+      <div class="case-showcase__glow" aria-hidden="true"></div>
+      <figure class="case-frame reveal reveal-scale">
+        <div class="case-frame__bar">
+          <span></span><span></span><span></span>
+          <span class="case-frame__url">binko.bg</span>
+        </div>
+        <Image
+          src={shotHome}
+          alt={t('cs.binko.shot.home.alt')}
+          class="case-frame__img"
+          widths={[768, 1200, 1440]}
+          sizes="(min-width: 1140px) 1060px, 92vw"
+        />
+      </figure>
+      <figure class="case-frame case-strip reveal">
+        <Image
+          src={shotPartners}
+          alt={t('cs.binko.shot.partners.alt')}
+          class="case-frame__img"
+          widths={[768, 1200, 1440]}
+          sizes="(min-width: 1140px) 1060px, 92vw"
+        />
+        <figcaption class="case-frame__cap">{t('cs.binko.shot.partners.cap')}</figcaption>
+      </figure>
+      <p class="case-showcase__caption reveal">{t('cs.binko.showcase.caption')}</p>
+    </div>
+  </section>
+
+  <!-- 01 · Problem -->
+  <section class="section case-problem reveal" aria-labelledby="problem-title">
+    <div class="shell case-narrow">
+      <span class="eyebrow">{t('cs.binko.problem.eyebrow')}</span>
+      <h2 id="problem-title">{t('cs.binko.problem.title')}</h2>
+      <p>{t('cs.binko.problem.p1')}</p>
+      <p>{t('cs.binko.problem.p2')}</p>
+    </div>
+  </section>
+
+  <!-- 02 · Approach -->
+  <section class="section case-approach" aria-labelledby="approach-title">
+    <div class="shell case-approach__grid">
+      <div class="reveal">
+        <span class="eyebrow">{t('cs.binko.approach.eyebrow')}</span>
+        <h2 id="approach-title">{t('cs.binko.approach.title')}</h2>
+        <p>{t('cs.binko.approach.p1')}</p>
+        <p>{t('cs.binko.approach.p2')}</p>
+      </div>
+
+      <div class="case-decisions">
+        {decisions.map((d) => (
+          <aside class="card case-decision reveal">
+            <h3>{d.title}</h3>
+            <p>{d.body}</p>
+          </aside>
+        ))}
+      </div>
+    </div>
+
+    <div class="shell case-features reveal">
+      <span class="eyebrow">{t('cs.binko.features.title')}</span>
+      <ul class="case-features__grid" role="list">
+        {features.map((f) => <li class="case-features__item">{f}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="section case-gallery" aria-labelledby="gallery-title">
+    <div class="shell">
+      <span class="eyebrow">{t('cs.binko.gallery.eyebrow')}</span>
+      <h2 id="gallery-title" class="case-gallery__title">{t('cs.binko.gallery.title')}</h2>
+      <div class="case-gallery__grid">
+        <figure class="case-frame reveal">
+          <div class="case-frame__bar">
+            <span></span><span></span><span></span>
+            <span class="case-frame__url">binko.bg/#mashini</span>
+          </div>
+          <Image src={shotMachines} alt={t('cs.binko.shot.machines.alt')} class="case-frame__img" widths={[640, 1024]} sizes="(min-width: 1024px) 40vw, 92vw" />
+          <figcaption class="case-frame__cap">{t('cs.binko.shot.machines.cap')}</figcaption>
+        </figure>
+        <figure class="case-frame reveal">
+          <div class="case-frame__bar">
+            <span></span><span></span><span></span>
+            <span class="case-frame__url">binko.bg/#obekti</span>
+          </div>
+          <Image src={shotGallery} alt={t('cs.binko.shot.gallery.alt')} class="case-frame__img" widths={[640, 1024]} sizes="(min-width: 1024px) 40vw, 92vw" />
+          <figcaption class="case-frame__cap">{t('cs.binko.shot.gallery.cap')}</figcaption>
+        </figure>
+        <figure class="case-frame case-frame--phone reveal">
+          <div class="case-frame__bar">
+            <span></span><span></span><span></span>
+            <span class="case-frame__url">390px</span>
+          </div>
+          <Image src={shotMobile} alt={t('cs.binko.shot.mobile.alt')} class="case-frame__img" widths={[390, 780]} sizes="(min-width: 1024px) 20vw, 60vw" />
+          <figcaption class="case-frame__cap">{t('cs.binko.shot.mobile.cap')}</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · Outcome -->
+  <section class="section case-outcome reveal" aria-labelledby="outcome-title">
+    <div class="shell case-narrow">
+      <span class="eyebrow">{t('cs.binko.outcome.eyebrow')}</span>
+      <h2 id="outcome-title">{t('cs.binko.outcome.title')}</h2>
+      <p>{t('cs.binko.outcome.p1')}</p>
+
+      <ul class="case-metrics" role="list">
+        {[1, 2, 3].map((i) => (
+          <li>
+            <span class="case-metrics__big">{t(`cs.binko.outcome.metric.${i}`)}</span>
+            <span class="case-metrics__label">{t(`cs.binko.outcome.metric.${i}.label`)}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="case-outcome__foot">
+        <a href={site.binko} class="btn" rel="noopener" target="_blank">
+          {t('cs.binko.visit')} <span aria-hidden="true">→</span>
+        </a>
+        <span class="case-builtwith">{t('cs.binko.builtwith')}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Inline CTA -->
+  <section class="section case-cta" aria-labelledby="cta-title">
+    <div class="shell case-cta__inner reveal">
+      <div>
+        <h2 id="cta-title">{t('cs.binko.cta.title')}</h2>
+        <p>{t('cs.binko.cta.body')}</p>
+      </div>
+      <a href={localizePath(lang, '/#contact')} class="btn">
+        {t('cs.binko.cta.button')} <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+<style>
+  /* ── Hero ── */
+  .case-hero {
+    padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(3rem, 7vw, 5rem);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .case-back {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .case-hero__grid {
+    display: grid;
+    gap: 1.5rem;
+    align-items: end;
+    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  }
+  @media (min-width: 1024px) {
+    .case-hero__grid {
+      grid-template-columns: 0.9fr 1.1fr; /* asymmetric, type-first (§5) */
+      gap: clamp(2rem, 5vw, 4rem);
+    }
+  }
+
+  .case-hero__brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.75rem;
+  }
+  .case-hero__mark {
+    width: clamp(2.75rem, 5vw, 3.5rem);
+    height: auto;
+    flex-shrink: 0;
+    /* the blue wordmark is drawn for cream — give it its own cream tile */
+    background: #f5efe2;
+    border-radius: 12px;
+    padding: 0.5rem;
+  }
+  .case-hero h1 {
+    font-size: var(--text-hero);
+  }
+
+  .case-hero__tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+    color: var(--color-accent);
+    margin: 1rem 0 0;
+    max-width: 30ch;
+  }
+
+  .case-hero__result {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-style: italic;
+    font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+    line-height: 1.35;
+    color: var(--color-ink-soft);
+    max-width: 34ch;
+  }
+
+  /* ── Meta strip ── */
+  .case-meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-line);
+  }
+  @media (min-width: 768px) {
+    .case-meta {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .case-meta dt {
+    margin-bottom: 0.35rem;
+  }
+  .case-meta dd {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--color-ink-soft);
+  }
+  .case-meta__pulse {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-right: 0.45rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  /* ── Product showcase band (dark, breaks the cream rhythm) ── */
+  .case-showcase {
+    position: relative;
+    padding-block: clamp(3rem, 8vw, 5.5rem);
+    background: var(--color-canvas-alt);
+    border-bottom: 1px solid var(--color-line);
+    overflow: hidden;
+  }
+  .case-showcase__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  /* soft champagne aura behind the panel — signals the business's own brand */
+  .case-showcase__glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(34rem, 90%);
+    height: 22rem;
+    transform: translate(-50%, -55%);
+    background: radial-gradient(circle, rgba(47, 106, 214, 0.22), transparent 68%);
+    pointer-events: none;
+  }
+  .case-showcase__caption {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--color-ink-mute);
+    text-align: center;
+    max-width: 44ch;
+    margin: 0;
+  }
+
+  /* ── browser frame around real screenshots ── */
+  .case-frame {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    background: #0b1c3a; /* Binko's own blue, not our warm canvas */
+    border: 1px solid color-mix(in srgb, var(--color-ink) 14%, transparent);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px -45px rgba(11, 28, 58, 0.85);
+  }
+  .case-frame__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.65rem 0.9rem;
+    border-bottom: 1px solid rgba(255, 253, 248, 0.08);
+  }
+  .case-frame__bar > span:not(.case-frame__url) {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(255, 253, 248, 0.14);
+  }
+  .case-frame__url {
+    margin-left: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(255, 253, 248, 0.42);
+  }
+  .case-frame__img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .case-frame__cap {
+    padding: 0.85rem 1rem;
+    border-top: 1px solid rgba(255, 253, 248, 0.08);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.03em;
+    color: rgba(255, 253, 248, 0.55);
+  }
+  /* phone capture: narrow, centred inside its frame */
+  .case-frame--phone {
+    max-width: 24rem;
+    justify-self: center;
+  }
+  .case-frame--phone .case-frame__img {
+    max-height: 34rem;
+    object-fit: cover;
+    object-position: top;
+  }
+  /* the live partner strip, full width under the hero shot */
+  .case-strip {
+    width: 100%;
+    max-width: 1060px;
+  }
+  .case-strip .case-frame__img {
+    background: #f5efe2;
+  }
+
+  /* ── gallery band ── */
+  .case-gallery {
+    border-bottom: 1px solid var(--color-line);
+  }
+  .case-gallery__title {
+    font-size: var(--text-h2);
+    margin-block: 0.75rem 2rem;
+  }
+  .case-gallery__grid {
+    display: grid;
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+  @media (min-width: 1024px) {
+    .case-gallery__grid {
+      grid-template-columns: 1.2fr 1.2fr 0.8fr;
+      align-items: start;
+    }
+    /* offset the middle frame — break the grid (§5) */
+    .case-gallery__grid > figure:nth-child(2) {
+      margin-top: 3rem;
+    }
+  }
+
+  /* ── Shared narrow editorial column ── */
+  .case-narrow {
+    max-width: 46rem; /* break the grid: narrower than the 1140px shell */
+  }
+  .case-narrow h2 {
+    font-size: var(--text-h2);
+    margin-block: 0.75rem 1.25rem;
+  }
+  .case-narrow p {
+    color: var(--color-ink-soft);
+    max-width: 62ch;
+  }
+  .case-narrow p + p {
+    margin-top: 1rem;
+  }
+
+  /* ── Approach band (full-bleed alt cream) ── */
+  .case-approach {
+    background: var(--color-canvas-alt);
+    border-block: 1px solid var(--color-line);
+  }
+  .case-approach__grid {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    align-items: start;
+  }
+  @media (min-width: 1024px) {
+    .case-approach__grid {
+      grid-template-columns: 1.2fr 0.8fr; /* uneven — never two equal halves */
+    }
+  }
+  .case-approach h2 {
+    font-size: var(--text-h2);
+    margin-block: 0.75rem 1.25rem;
+  }
+  .case-approach p {
+    color: var(--color-ink-soft);
+  }
+  .case-approach p + p {
+    margin-top: 1rem;
+  }
+
+  .case-decisions {
+    display: grid;
+    gap: 1rem;
+  }
+  .case-decision {
+    background: var(--color-canvas); /* inverted layering inside the band */
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+  @media (min-width: 1024px) {
+    .case-decisions {
+      margin-top: 3.5rem; /* offset — breaks the grid */
+    }
+  }
+  .case-decision h3 {
+    font-size: var(--text-h3);
+    margin-bottom: 0.75rem;
+  }
+  .case-decision p {
+    margin: 0;
+  }
+
+  /* ── Feature list ── */
+  .case-features {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+  }
+  .case-features .eyebrow {
+    display: block;
+    margin-bottom: 1.25rem;
+  }
+  .case-features__grid {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) {
+    .case-features__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .case-features__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .case-features__item {
+    position: relative;
+    padding: 0.9rem 1rem 0.9rem 2rem;
+    background: var(--color-canvas);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    color: var(--color-ink-soft);
+  }
+  .case-features__item::before {
+    content: '';
+    position: absolute;
+    left: 0.9rem;
+    top: 1.35em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  /* ── Outcome metrics ── */
+  .case-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-block: clamp(1.75rem, 4vw, 2.5rem);
+    padding-block: 1.5rem;
+    border-block: 1px solid var(--color-line);
+  }
+  .case-metrics li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .case-metrics__big {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.3rem, 2.6vw, 1.9rem);
+    line-height: 1.1;
+  }
+  .case-metrics__label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-ink-mute);
+  }
+
+  .case-outcome__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+  }
+  .case-builtwith {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--color-ink-mute);
+  }
+
+  /* ── CTA band ── */
+  .case-cta {
+    background: var(--color-canvas-alt);
+    border-block: 1px solid var(--color-line);
+    color: var(--color-ink);
+  }
+  .case-cta__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+  .case-cta h2 {
+    font-size: var(--text-h2);
+    margin-bottom: 0.6rem;
+  }
+  .case-cta p {
+    margin: 0;
+    color: color-mix(in srgb, var(--color-ink) 78%, transparent);
+  }
+  .case-cta .btn {
+    background: var(--color-ink);
+    color: var(--color-on-accent);
+  }
+</style>

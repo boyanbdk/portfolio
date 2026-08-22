@@ -1,0 +1,12 @@
+---
+import Base from '../../layouts/Base.astro';
+import BinkoCaseStudy from '../../components/BinkoCaseStudy.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Base title={t('cs.binko.meta.title')} description={t('cs.binko.meta.description')}>
+  <BinkoCaseStudy />
+</Base>

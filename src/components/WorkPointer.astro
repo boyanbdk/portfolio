@@ -1,0 +1,115 @@
+---
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// The homepage shows no projects and no clients — only two doors.
+// Project detail lives behind /clients and /work.
+const doors = [
+  { href: localizePath(lang, '/clients'), title: t('pointer.clients.title'), line: t('pointer.clients.line'), cta: t('pointer.clients.cta') },
+  { href: localizePath(lang, '/work'), title: t('pointer.products.title'), line: t('pointer.products.line'), cta: t('pointer.products.cta') },
+];
+---
+
+<!-- Dark band keeps the hero-dark → cream → DARK → cream → contact-dark rhythm. -->
+<section id="work" class="section pointer" aria-labelledby="work-heading">
+  <div class="shell pointer__inner">
+    <header class="pointer__head reveal">
+      <span class="eyebrow">{t('pointer.eyebrow')}</span>
+      <!-- single line: Astro drops newline-only whitespace between expressions -->
+      <h2 id="work-heading">{t('pointer.title.pre')} <span data-scribble="circle">{t('pointer.title.mark')}</span> {t('pointer.title.post')}</h2>
+    </header>
+
+    <div class="pointer__grid">
+      {doors.map((d) => (
+        <a href={d.href} class="card pointer__card reveal">
+          <h3>{d.title}</h3>
+          <p>{d.line}</p>
+          <span class="link pointer__cta">{d.cta} <span aria-hidden="true">→</span></span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pointer {
+    position: relative;
+    overflow: hidden;
+    color: var(--color-ink);
+    background:
+      radial-gradient(
+        90rem 40rem at 85% 110%,
+        color-mix(in srgb, #b8925a 7%, transparent),
+        transparent 65%
+      ),
+      linear-gradient(180deg, var(--color-shade) 0%, #0f0d0a 100%);
+    border-block: 1px solid var(--color-line);
+  }
+  .pointer__inner {
+    position: relative;
+    z-index: 1;
+  }
+  .pointer__head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  }
+  .pointer__head .eyebrow {
+    color: color-mix(in srgb, var(--color-accent) 62%, #fff);
+  }
+  .pointer__head h2 {
+    font-size: var(--text-h2);
+    color: var(--color-ink);
+    max-width: 18ch;
+  }
+
+  .pointer__grid {
+    display: grid;
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+  }
+  @media (min-width: 768px) {
+    .pointer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .pointer__card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: clamp(1.5rem, 3.5vw, 2.5rem);
+    background: color-mix(in srgb, var(--color-ink) 5%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 16%, transparent);
+    border-radius: 14px;
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: border-color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
+  }
+  .pointer__card:hover,
+  .pointer__card:focus-visible {
+    border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+    background: color-mix(in srgb, var(--color-ink) 8%, transparent);
+    transform: translateY(-2px);
+  }
+  .pointer__card h3 {
+    font-size: clamp(1.6rem, 3vw, 2.25rem);
+    color: var(--color-ink);
+  }
+  .pointer__card p {
+    margin: 0;
+    color: color-mix(in srgb, var(--color-ink) 72%, transparent);
+    max-width: 40ch;
+  }
+  .pointer__card:hover .pointer__cta {
+    background-size: 100% 1px;
+  }
+  .pointer__cta {
+    margin-top: auto;
+    padding-top: 1rem;
+    font-size: 0.95rem;
+    color: color-mix(in srgb, var(--color-accent) 62%, #fff);
+  }
+</style>

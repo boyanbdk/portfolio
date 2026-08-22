@@ -1,0 +1,12 @@
+---
+import Base from '../../layouts/Base.astro';
+import ClientsHub from '../../components/ClientsHub.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Base title={t('hub.clients.meta.title')} description={t('hub.clients.meta.description')}>
+  <ClientsHub />
+</Base>
