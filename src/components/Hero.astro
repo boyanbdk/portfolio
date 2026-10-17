@@ -1,20 +1,10 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { tools } from '../data/tools';
+import { site } from '../config';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-
-// Manifesto marquee: phrases alternate texture (mono caps / italic serif)
-// so the strip reads as a stream, not a stuck loop. Accent = olive highlights.
-const marquee = [
-  { key: 'hero.marquee.1', serif: false, accent: true },
-  { key: 'hero.marquee.2', serif: true, accent: false },
-  { key: 'hero.marquee.3', serif: false, accent: false },
-  { key: 'hero.marquee.4', serif: true, accent: false },
-  { key: 'hero.marquee.5', serif: false, accent: false },
-  { key: 'hero.marquee.6', serif: true, accent: true },
-  { key: 'hero.marquee.7', serif: false, accent: false },
-] as const;
 ---
 
 <section class="hero" aria-labelledby="hero-heading" data-hero>
@@ -60,30 +50,28 @@ const marquee = [
     </p>
 
     <div class="hero__cta" data-hero-rise>
-      <a href="#contact" class="btn hero__btn">{t('hero.cta')} <span aria-hidden="true">→</span></a>
+      <a href={site.cv[lang]} class="btn hero__btn" download>{t('hero.cta')} <span aria-hidden="true">↓</span></a>
       <a href="#work" class="hero__secondary">{t('hero.secondary')}</a>
     </div>
   </div>
 
-  <!-- Infinite manifesto marquee — two identical groups create the seamless loop -->
-  <div class="hero__strip" data-hero-strip aria-label={marquee.map((m) => t(m.key)).join(' · ')}>
+  <!-- Tool-logo marquee — two identical groups create the seamless loop -->
+  <div class="hero__strip" data-hero-strip aria-label={`${t('hero.tools')}: ${tools.filter((x) => !x.primary).map((x) => x.name).join(', ')}`}>
     <div class="hero__marquee">
       {
         [0, 1].map((clone) => (
           <div class="hero__marquee-group" aria-hidden={clone > 0 || undefined}>
-            {marquee.map((m) => (
-              <>
-                <span
-                  class="hero__strip-item"
-                  class:list={{
-                    'hero__strip-item--serif': m.serif,
-                    'hero__strip-item--accent': m.accent,
-                  }}
-                >
-                  {t(m.key)}
-                </span>
-                <span class="hero__strip-dot" aria-hidden="true">·</span>
-              </>
+            {tools.map((tool) => (
+              <span class:list={['hero__strip-item', { 'hero__strip-item--primary': tool.primary }]}>
+                {tool.path ? (
+                  <svg class="hero__logo" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d={tool.path} />
+                  </svg>
+                ) : (
+                  <span class="hero__logo hero__logo--glyph" aria-hidden="true">&gt;_</span>
+                )}
+                {tool.name}
+              </span>
             ))}
           </div>
         ))
@@ -303,34 +291,26 @@ const marquee = [
       transform: translateX(-50%);
     }
   }
-  .hero__strip-dot {
-    color: color-mix(in srgb, var(--color-accent) 60%, #fff);
-  }
-  .hero__strip-item--serif {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 500;
-    font-size: 0.95rem;
-    letter-spacing: 0.01em;
-    text-transform: none;
-  }
-  .hero__strip-item--accent {
-    color: color-mix(in srgb, var(--color-accent) 62%, #fff);
-  }
-  .hero__strip-badge {
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: color-mix(in srgb, var(--color-accent) 55%, #fff);
-  }
   .hero__strip-item {
     display: inline-flex;
-    align-items: baseline;
-    gap: 0.5rem;
+    align-items: center;
+    gap: 0.6rem;
   }
-  .hero__strip-k {
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: color-mix(in srgb, var(--color-ink) 45%, transparent);
+  .hero__strip-item--primary {
+    color: #fff;
+  }
+  .hero__logo {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex: none;
+    fill: color-mix(in srgb, var(--color-accent) 55%, #fff);
+  }
+  .hero__logo--glyph {
+    display: inline-grid;
+    place-items: center;
+    font-size: 0.7rem;
+    letter-spacing: 0;
+    color: color-mix(in srgb, var(--color-accent) 55%, #fff);
   }
 
   @media (max-width: 640px) {

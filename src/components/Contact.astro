@@ -15,6 +15,8 @@ const t = useTranslations(lang);
       <p class="contact__direct">
         {t('contact.or')}{' '}
         <a href={`mailto:${site.email}`} class="link">{site.email}</a>
+        {' · '}
+        <a href={site.linkedin} class="link" rel="me noopener" target="_blank">LinkedIn</a>
       </p>
     </div>
 
@@ -47,7 +49,7 @@ const t = useTranslations(lang);
     const name = String(data.get('name') ?? '');
     const email = String(data.get('email') ?? '');
     const message = String(data.get('message') ?? '');
-    const subject = encodeURIComponent(`New project enquiry — ${name}`);
+    const subject = encodeURIComponent(`boyanbudakov.com — ${name}`);
     const body = encodeURIComponent(`${message}\n\n— ${name}\n${email}`);
     window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
   });

@@ -5,8 +5,9 @@ export const site = {
   email: 'b.budakov7@gmail.com',
   // GitHub owner of this repo — assumed correct; confirm before launch.
   github: 'https://github.com/boyanbdk',
-  // TODO(boyan): replace with the real LinkedIn profile URL.
-  linkedin: 'https://www.linkedin.com/',
+  linkedin: 'https://www.linkedin.com/in/boyan-budakov-614708356/',
+  // TODO(boyan): drop the real PDFs into public/cv/ under these names.
+  cv: { en: '/cv/boyan-budakov-cv-en.pdf', bg: '/cv/boyan-budakov-cv-bg.pdf' },
   // External brand — one-directional link (personal → business).
   autosilas: 'https://autosilas.com',
   // Live case study — owned domain (Vercel).
