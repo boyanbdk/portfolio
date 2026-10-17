@@ -11,9 +11,10 @@ const t = useTranslations(lang);
   <div class="hero__media" aria-hidden="true">
     <video
       class="hero__video"
-      src="/hero-desk.mp4"
-      width="1280"
-      height="720"
+      src="/hero-agents.mp4"
+      poster="/hero-agents-poster.jpg"
+      width="1920"
+      height="1080"
       autoplay
       muted
       loop
@@ -21,37 +22,40 @@ const t = useTranslations(lang);
       preload="auto"
       data-hero-video
     ></video>
-    <div class="hero__edges"></div>
-    <div class="hero__scrim"></div>
+    <div class="hero__fade"></div>
   </div>
 
   <div class="shell hero__content">
-    <span class="eyebrow hero__eyebrow" data-hero-rise>{t('hero.eyebrow')}</span>
+    <div class="hero__lead">
+      <span class="eyebrow hero__eyebrow" data-hero-rise>{t('hero.eyebrow')}</span>
 
-    <h1 id="hero-heading" class="hero__headline">
-      <span class="hero__line"><span class="hero__line-inner" data-hero-line>{t('hero.headline.1')}</span></span>
-      <span class="hero__line"
-        ><span class="hero__line-inner" data-hero-line
-          ><span class="accent-italic hero__eq">{t('hero.headline.accent')}</span>{' '}{t('hero.headline.2')}</span
-        ></span
-      >
-    </h1>
+      <h1 id="hero-heading" class="hero__headline">
+        <span class="hero__line"><span class="hero__line-inner" data-hero-line>{t('hero.headline.1')}</span></span>
+        <span class="hero__line"
+          ><span class="hero__line-inner" data-hero-line
+            ><span class="accent-italic hero__eq">{t('hero.headline.accent')}</span>{' '}{t('hero.headline.2')}</span
+          ></span
+        >
+      </h1>
+    </div>
 
-    <p class="hero__sub" data-hero-rise>
-      <span class="sr-only">{t('hero.sub')}</span>
-      <span aria-hidden="true" class="hero__sub-visual">
-        <span class="hero__sub-slot" data-rotate-words>
-          <span class="hero__sub-word">{t('hero.sub.w1')}</span>
-          <span class="hero__sub-word">{t('hero.sub.w2')}</span>
-          <span class="hero__sub-word">{t('hero.sub.w3')}</span>
+    <div class="hero__side">
+      <p class="hero__sub" data-hero-rise>
+        <span class="sr-only">{t('hero.sub')}</span>
+        <span aria-hidden="true" class="hero__sub-visual">
+          <span class="hero__sub-slot" data-rotate-words>
+            <span class="hero__sub-word">{t('hero.sub.w1')}</span>
+            <span class="hero__sub-word">{t('hero.sub.w2')}</span>
+            <span class="hero__sub-word">{t('hero.sub.w3')}</span>
+          </span>
+          {' '}{t('hero.sub.tail')}
         </span>
-        {' '}{t('hero.sub.tail')}
-      </span>
-    </p>
+      </p>
 
-    <div class="hero__cta" data-hero-rise>
-      <a href={site.cv[lang]} class="btn hero__btn" download>{t('hero.cta')} <span aria-hidden="true">↓</span></a>
-      <a href="#work" class="hero__secondary">{t('hero.secondary')}</a>
+      <div class="hero__cta" data-hero-rise>
+        <a href={site.cv[lang]} class="btn hero__btn" download>{t('hero.cta')} <span aria-hidden="true">↓</span></a>
+        <a href="#work" class="hero__secondary">{t('hero.secondary')}</a>
+      </div>
     </div>
   </div>
 
@@ -101,71 +105,61 @@ const t = useTranslations(lang);
 <style>
   .hero {
     position: relative;
-    min-height: clamp(34rem, 84vh, 50rem);
     display: flex;
-    align-items: center;
+    flex-direction: column;
     overflow: hidden;
-    /* break out of the page's inline padding to sit edge-to-edge */
     isolation: isolate;
   }
 
-  /* ── background image ── */
+  /* ── the video stage: full-bleed 16:9. On short screens it gives up height so the headline row stays
+     above the fold; the crop comes mostly off the bottom, which is only falling code ── */
   .hero__media {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: calc(100svh - 12rem);
+    overflow: hidden;
   }
   .hero__video {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center right; /* keep the desk in frame, calm wall to the left */
-    /* slight overscan crops the frame edges where the removed watermark ghosts */
-    transform: scale(1.06);
-    /* warm-paper grade so the footage lives in the palette */
-    filter: saturate(0.94) contrast(1.02);
+    object-position: center 15%;
   }
-
-  /* soft blur vignette: sharp centre, edges melt away (also buries watermark ghosts) */
-  .hero__edges {
+  /* the bottom edge (only falling code in every shot) melts into the page, under the headline */
+  .hero__fade {
     position: absolute;
     inset: 0;
-    backdrop-filter: blur(14px);
-    -webkit-mask-image: radial-gradient(130% 130% at 50% 45%, transparent 58%, #000 90%);
-    mask-image: radial-gradient(130% 130% at 50% 45%, transparent 58%, #000 90%);
+    background: linear-gradient(to top, var(--color-canvas) 0%, color-mix(in srgb, var(--color-canvas) 0%, transparent) 16%);
     pointer-events: none;
   }
 
-  /* left-weighted scrim so cream text reads over the calm side */
-  .hero__scrim {
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(
-        100deg,
-        rgba(20, 17, 14, 0.82) 0%,
-        rgba(20, 17, 14, 0.6) 26%,
-        rgba(20, 17, 14, 0.12) 52%,
-        rgba(20, 17, 14, 0) 70%
-      ),
-      linear-gradient(to top, rgba(20, 17, 14, 0.55) 0%, rgba(20, 17, 14, 0) 32%);
-  }
-
-  /* ── content (left third) ── */
+  /* ── content: a row under the stage, overlapping only its faded edge ── */
   .hero__content {
     position: relative;
     width: 100%;
     max-width: var(--spacing-shell);
-    padding-block: clamp(2rem, 6vw, 4rem);
+    margin-top: calc(-1 * clamp(2rem, 5vw, 4.5rem));
+    padding-block: 0 4rem; /* room for the tool strip */
     color: var(--color-ink);
+    display: grid;
+    gap: 1.75rem;
+  }
+  @media (min-width: 900px) {
+    .hero__content {
+      grid-template-columns: 1.45fr 1fr;
+      align-items: end;
+      column-gap: clamp(2rem, 5vw, 5rem);
+    }
   }
   .hero__eyebrow {
     color: color-mix(in srgb, var(--color-accent) 55%, #fff);
   }
   .hero__headline {
-    margin-top: 1rem;
-    font-size: clamp(2.4rem, 5.2vw, 4rem);
-    max-width: 15ch;
+    margin-top: 0.75rem;
+    font-size: clamp(2rem, 3vw, 2.9rem);
     color: #fff;
     text-shadow: 0 1px 30px rgba(0, 0, 0, 0.3);
   }
@@ -202,7 +196,6 @@ const t = useTranslations(lang);
     color: color-mix(in srgb, var(--color-accent) 62%, #fff);
   }
   .hero__sub {
-    margin-top: 1.5rem;
     max-width: 40ch;
     font-size: 1.125rem;
     color: color-mix(in srgb, var(--color-ink) 84%, transparent);
@@ -212,7 +205,7 @@ const t = useTranslations(lang);
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    margin-top: 2.25rem;
+    margin-top: 1.5rem;
   }
   /* cream button pops on the dark image */
   .hero__btn {
@@ -313,18 +306,4 @@ const t = useTranslations(lang);
     color: color-mix(in srgb, var(--color-accent) 55%, #fff);
   }
 
-  @media (max-width: 640px) {
-    /* darken more evenly on tall mobile crops so text stays legible anywhere */
-    .hero__scrim {
-      background: linear-gradient(
-        to top,
-        rgba(20, 17, 14, 0.85) 0%,
-        rgba(20, 17, 14, 0.5) 45%,
-        rgba(20, 17, 14, 0.35) 100%
-      );
-    }
-    .hero__img {
-      object-position: center;
-    }
-  }
 </style>

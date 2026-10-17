@@ -36,3 +36,11 @@ yarn-error.log*
 /binko/
 .wrangler/
 .superpowers/
+
+# animate skill outputs (rebuilt from src/)
+video/pieces/*/index.html
+video/pieces/*/frames/
+video/pieces/*/renders/
+video/pieces/*/review/
+video/pieces/*/tile*.png
+video/pieces/*/check*.png

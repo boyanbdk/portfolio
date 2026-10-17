@@ -1,0 +1,39 @@
+{
+  "name": "hero-agents",
+  "title": "Hero: the agents build it",
+  "format": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 24,
+    "bpm": 120,
+    "duration": 19.0,
+    "frames": 456
+  },
+  "formats": [
+    "16:9"
+  ],
+  "storyFormat": "process (prompt \u2192 plan \u2192 code \u2192 design \u2192 QA \u2192 ship \u2192 reply)",
+  "style": "construct",
+  "review": {
+    "safe": {
+      "top": 60,
+      "bottom": 110,
+      "right": 0
+    },
+    "refs": {}
+  },
+  "build": [
+    "src/head.html",
+    "kit/core.js",
+    "style",
+    "styles/construct/agents.js",
+    "styles/construct/site.js",
+    "src/scenes.js",
+    "src/bridges.js",
+    "kit/morph.js",
+    "kit/board.js",
+    "kit/score-head.js",
+    "src/score.js",
+    "kit/score-tail.js"
+  ]
+}

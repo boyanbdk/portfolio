@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero: the agents build it</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #110e0b; overflow: hidden; }
+  body { display: flex; align-items: center; justify-content: center; }
+  canvas { max-width: 100vw; max-height: 100vh; width: auto; height: auto; display: block; cursor: pointer; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script>
+"use strict";
+// =====================================================================
+//  HERO: THE AGENTS BUILD IT — 19.0s seamless loop, 16:9, 24fps, 120 BPM grid. Muted hero background.
+//  A prompt is typed into a chat ("build me a pet shop"), we dive into it, four round agents
+//  (plan, code, design, QA) build Pawly, a pet shop, by throwing its parts in, then the reply lands and
+//  the chat empties again — the last frame is the first.
+//  Olive = the machine (rain). Each agent owns a colour: plan amber, code green, design lilac, QA blue.
+//  Cream = what gets built. Red = the one bug.
+// =====================================================================
+const FORMATS = { '9:16': [1080, 1920], '1:1': [1080, 1080], '16:9': [1920, 1080] };
+const FORMAT = new URLSearchParams(location.search).get('format') || '16:9';
+const FPS = 24, [W, H] = FORMATS[FORMAT];
+{ const cv = document.getElementById('c'); cv.width = W; cv.height = H; }
+const BPM = 120, GRID0 = 0, BEAT = 60 / BPM, E8 = BEAT / 2, E16 = BEAT / 4;
+const DURATION = 19.0;
+const NFRAMES = Math.round(DURATION * FPS);
+const LOOP_T = NFRAMES / FPS;
+const SAFE = { '9:16': { top: 240, bottom: 420, right: 140 }, '1:1': { top: 60, bottom: 110, right: 60 }, '16:9': { top: 60, bottom: 110, right: 0 } }[FORMAT];
+const HAND = '"Bradley Hand", "Segoe Print", "Comic Neue", cursive';
+const CX = W / 2;
+const onBeat = (t) => +(GRID0 + Math.round((t - GRID0) / E8) * E8).toFixed(4);
+
+// the prompt
+const PROMPT = 'build me a pet shop';
+// eras: 0 the chat (typing, the dive), 1 the construct (the build), 2 the chat again (the reply, then empty)
+const T_DIVE = onBeat(3.5), T_BACK = onBeat(16.75);
+const ERA_LIST = [[0, T_DIVE, () => sceneChat()], [T_DIVE, T_BACK, () => sceneConstruct()], [T_BACK, DURATION, () => sceneReply()]];
+const CU = {
+  typeA: 0.75, typeB: 2.5, send: 2.75, zoom: 2.75,                           // chat
+  land: 3.6,                                                                 // the team drops in
+  plan: 4.75, bulb: 5.0, gotIt: 5.1, ideas: 5.3, fly: 6.0, frame: 6.3,       // PLAN solo
+  code: 6.5,                                                                 // CODE solo
+  design: 8.5, throw: 9.85,                                                  // DESIGN solo: paint, then throw the pets
+  qa: 10.75, bug: 11.0, fixed: 11.65,                                        // QA solo
+  hush: 12.25, ship: 12.75, sheen: 13.0, pull: 15.75,                        // hush, shipped, pull back
+  reply: 17.0, clear: 18.25,                                                 // the reply, then the chat empties
+};
+const SHOTS = [
+  //  key        era  t0          t1          title
+  ['prompt',    0,   0.0,        CU.zoom,    'an empty prompt; "build me a pet shop" is typed'],
+  ['dive',      0,   CU.zoom,    T_DIVE,     'enter: we dive into the prompt'],
+  ['arrive',    1,   T_DIVE,     CU.plan,    'the four agents drop in, tagged'],
+  ['plan',      1,   CU.plan,    CU.code,    'PLAN solo: the bulb, "Got it, Boyan!", the ideas'],
+  ['code',      1,   CU.code,    CU.design,  'CODE solo: walls go up, prices are thrown in'],
+  ['design',    1,   CU.design,  CU.qa,      'DESIGN solo: paints the page, flings in the pets'],
+  ['qa',        1,   CU.qa,      CU.hush,    'QA solo: €120 for a bone, fixed to €12'],
+  ['hush',      1,   CU.hush,    CU.ship,    'the rain freezes'],
+  ['ship',      1,   CU.ship,    T_BACK,     'shipped: the finished site, lit'],
+  ['reply',     2,   T_BACK,     DURATION,   'the reply lands, the chat empties (loop)'],
+];
+const TIMELINE = {
+  width: W, height: H, fps: FPS, bpm: BPM, gridOffset: GRID0, duration: DURATION, frames: NFRAMES, loop: LOOP_T, safe: SAFE, aspect: FORMAT,
+  format: 'process',
+  shots: SHOTS.map(([key, era, t0, t1, title], i) => ({ id: i + 1, key, era, t0, t1, title })),
+  cuts: [T_DIVE, T_BACK],
+  morphs: [],
+  cues: CU,
+  acts: [
+    { name: '1 Prompt',    role: 'build',   t0: 0.0,     t1: T_DIVE },
+    { name: '2 Build',     role: 'journey', t0: T_DIVE,  t1: CU.qa },
+    { name: '3 Test',      role: 'peak',    t0: CU.qa,   t1: CU.hush },
+    { name: '4 Hush',      role: 'silence', t0: CU.hush, t1: CU.ship },
+    { name: '5 Shipped',   role: 'gift',    t0: CU.ship, t1: T_BACK },
+    { name: '6 Reply',     role: 'goodbye', t0: T_BACK,  t1: DURATION },
+  ],
+  board: [
+    { t: 0.5,   title: 'empty prompt',            sound: '— (hero is muted)', next: 'typing' },
+    { t: 2.25,  title: 'typing the prompt',       sound: 'key clicks',        next: 'enter: dive into the text' },
+    { t: 3.3,   title: 'the prompt melts',        sound: 'whoosh',            next: 'cut into the void' },
+    { t: 4.6,   title: 'the team drops in',       sound: 'four plops',        next: 'glide to PLAN' },
+    { t: 5.9,   title: 'PLAN: "Got it, Boyan!"',  sound: 'a bulb ping',       next: 'ideas fly into a frame' },
+    { t: 7.7,   title: 'CODE: prices thrown in',  sound: 'typing, whooshes',  next: 'glide to DESIGN' },
+    { t: 9.1,   title: 'DESIGN: painting',        sound: 'roller swipes',     next: 'the pets' },
+    { t: 10.2,  title: 'DESIGN: "Catch!"',        sound: 'boing, boing',      next: 'glide into a card' },
+    { t: 11.35, title: 'QA: "€120 for a bone?!"', sound: 'error blip',        next: 'QA taps it' },
+    { t: 12.0,  title: 'QA: "Fixed: €12 ✓"',      sound: 'a tick, then hush', next: 'slam wide' },
+    { t: 13.5,  title: '"Shipped, Boyan."',       sound: 'the loudest hit',   next: 'hold on the site' },
+    { t: 14.5,  title: 'orders roll in',          sound: 'cha-ching ×3',      next: 'hold on the site' },
+    { t: 16.4,  title: 'pull back',               sound: 'a soft swell',      next: 'match cut to the chat' },
+    { t: 17.6,  title: 'the reply lands',         sound: 'a chime',           next: 'the chat clears' },
+    { t: 18.95, title: 'empty again (loop)',      sound: '—',                 next: 'panel 1' },
+  ],
+  narration: [],
+};
+window.TIMELINE = TIMELINE;

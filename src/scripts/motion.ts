@@ -50,13 +50,13 @@ function heroIntro() {
   releaseGuard();
   gsap.set(lines, { yPercent: 110, y: 0 });
   gsap.set(rises, { autoAlpha: 0, y: 24 });
-  if (video) gsap.set(video, { autoAlpha: 0, scale: 1.14 });
+  if (video) gsap.set(video, { autoAlpha: 0, scale: 1.06 });
   if (strip) gsap.set(strip, { yPercent: 100, y: 0 });
 
   const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
   if (video) {
-    // settle onto the CSS resting scale (1.06 overscan crop)
-    tl.to(video, { autoAlpha: 1, scale: 1.06, duration: 1.6, ease: 'power2.out' }, 0);
+    // settle onto the full, uncropped frame
+    tl.to(video, { autoAlpha: 1, scale: 1, duration: 1.6, ease: 'power2.out' }, 0);
   }
   tl.to(lines, { yPercent: 0, duration: 1.0, ease: 'power4.out', stagger: 0.14 }, 0.3);
   tl.to(rises, { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.12 }, 0.7);
