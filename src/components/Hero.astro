@@ -130,14 +130,6 @@ const t = useTranslations(lang);
        which ends at 84.17% of the frame in the payoff shot: shop bottom on screen = 0.8417·frame − crop-top·(frame − stage) */
     --hero-overlap: clamp(0px, calc((1 - var(--crop-top)) * var(--stage-height) - (0.8417 - var(--crop-top)) * var(--frame-h) - 1.5rem), calc(0.08 * var(--stage-height)));
   }
-  /* phones: the 9:16 cut, tall enough for its bubbles; the headline follows below */
-  @media (max-width: 699px) {
-    .hero {
-      --stage-w: 9;
-      --stage-h: 16;
-      --hero-overlap: 2rem;
-    }
-  }
 
   .hero__media {
     position: relative;
@@ -162,6 +154,26 @@ const t = useTranslations(lang);
     inset: 0;
     background: linear-gradient(to top, var(--color-canvas) 0%, color-mix(in srgb, var(--color-canvas) 0%, transparent) 12%);
     pointer-events: none;
+  }
+  /* phones: the 9:16 cut, shown WHOLE: the stage fits the screen under the header (svh = with the browser bars
+     showing) instead of cropping, so on most phones it is a touch narrower than the screen, its sides fading out.
+     The headline follows below; it only grazes the frame's bottom band, which is falling code */
+  @media (max-width: 699px) {
+    .hero {
+      --stage-w: 9;
+      --stage-h: 16;
+      --stage-height: min(calc(100vw * 16 / 9), calc(100svh - 4rem));
+      --hero-overlap: 0.5rem;
+    }
+    .hero__stage {
+      width: calc(var(--stage-height) * 9 / 16);
+      margin-inline: auto;
+    }
+    .hero__fade {
+      background:
+        linear-gradient(to top, var(--color-canvas) 0%, color-mix(in srgb, var(--color-canvas) 0%, transparent) 8%),
+        linear-gradient(to right, var(--color-canvas) 0%, color-mix(in srgb, var(--color-canvas) 0%, transparent) 7%, color-mix(in srgb, var(--color-canvas) 0%, transparent) 93%, var(--color-canvas) 100%);
+    }
   }
 
   /* ── content: a row under the stage, overlapping only its faded edge ── */

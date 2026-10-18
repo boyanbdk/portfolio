@@ -6,15 +6,16 @@
 //  (one with a typo), the designer paints the page and flings in the pets, QA catches the typo.
 // =====================================================================
 const P9 = PORTRAIT;
-const SITE = P9 ? [40, 660, 1000, 600] : [460, 230, 1000, 600];          // the site: x, y, w, h (world)
+const SITE = P9 ? [200, 420, 680, 1133] : [460, 230, 1000, 600];   // 9:16: the phone layout of the shop (600×1000 units), centred          // the site: x, y, w, h (world)
 const ROLES = ['plan', 'code', 'design', 'qa'];
 const AR = P9 ? 80 : 70;                                                  // agent radius
-const ROW = P9 ? [[340, 780], [740, 780], [340, 1180], [740, 1180]] : [[420, 600], [780, 600], [1140, 600], [1500, 600]];   // the arrival line-up, well apart
-const STATION = P9 ? [[230, 480], [850, 480], [230, 1500], [850, 1500]] : [[350, 480], [350, 730], [1570, 480], [1570, 730]];   // around the site while it is built
-const DESIGN_SPOT = P9 ? [560, 1520] : [1560, 450];                      // where the designer throws the pets from
-const PLAN_RISE = P9 ? [230, 420] : [350, 360];                          // the planner rises for the payoff, so its bubble clears the site
+const ROW = P9 ? [[330, 760], [750, 760], [330, 1160], [750, 1160]] : [[420, 600], [780, 600], [1140, 600], [1500, 600]];   // the arrival line-up, well apart
+const STATION = P9 ? [[105, 560], [975, 560], [105, 1390], [975, 1390]] : [[350, 480], [350, 730], [1570, 480], [1570, 730]];   // around the site while it is built
+const DESIGN_SPOT = P9 ? [180, 1780] : [1560, 450];                      // where the designer throws the pets from
+const PLAN_RISE = P9 ? [110, 380] : [350, 360];                          // the planner rises for the payoff, so its bubble clears the site
 const IDEA_R = P9 ? [220, 380, -160, 40] : [300, 250, -165, 45];          // idea cards around the planner: rx, ry, first angle, step
-const PAINT_DIR = [-1, 1, -1, 1], PAINT_T = (k) => CU.design + 0.05 + k * 0.3, PAINT_D = 0.28;
+// the roller alternates direction row by row; the phone layout has 6 rows, so its sweeps are quicker (all done by CU.throw)
+const PAINT_DIR = SITE_ROWS.map((_, k) => (k % 2 ? 1 : -1)), PAINT_STEP = P9 ? 0.22 : 0.3, PAINT_D = P9 ? 0.2 : 0.28, PAINT_T = (k) => CU.design + 0.05 + k * PAINT_STEP;
 const BUILD_T = (i) => CU.code + 0.25 + i * 0.18;
 const FLIGHT = 0.45, PRICE_T = (k) => CU.code + 0.9 + k * 0.2, PET_T = (k) => CU.throw + k * 0.15;
 const CODE_HAND = [STATION[1][0] + 60, STATION[1][1] - 70], DESIGN_HAND = [DESIGN_SPOT[0] - 50, DESIGN_SPOT[1] - 80];
@@ -58,7 +59,7 @@ function designerPos() {   // rides the paint edge row by row, then hops to its 
   }
   const e = paintEdge(0); return [e.x, e.y - 40];
 }
-function qaSpot() { const [px, py] = priceSlot(3, SITE[0], SITE[1], SITE[2]); return P9 ? [px + 50, py + 225] : [px + 300, py - 70]; }
+function qaSpot() { const [px, py] = priceSlot(3, SITE[0], SITE[1], SITE[2]); return P9 ? [px + 385, py - 40] : [px + 300, py - 70]; }
 function agentPos(i) {
   const keys = [[0, ROW[i]], [6.0 + i * 0.08, STATION[i]]];
   if (i === 3) keys.push([CU.qa - 0.1, qaSpot()], [CU.ship - 0.3, STATION[3]]);
@@ -173,7 +174,7 @@ function sceneConstruct() {
   BUBBLES.forEach(([t0, t1, i, str, o = {}]) => {
     const k = TT >= t0 && TT < t1 ? pushOut(t0, t1) : 0; if (k <= 0) return;
     const [x, y] = pos[i], [ax, ay] = toScreen(x, y - AR * (ROLES[i] === 'plan' ? 1.75 : 1.15));
-    DEFER.push(() => mxBubble(str, ax, ay, k, { ...o, side: ax > W * 0.62 ? -1 : 1, color: AG[ROLES[i]].c }));
+    DEFER.push(() => mxBubble(str, ax, ay, k, { ...o, side: ax > W * 0.62 ? -1 : 1, color: AG[ROLES[i]].c, size: P9 ? 46 : undefined }));
   });
   DEFER.push(() => mxVignette(0.75 - 0.3 * ev(CU.ship, 0.6)));
 }

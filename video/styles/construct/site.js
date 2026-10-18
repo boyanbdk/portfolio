@@ -1,6 +1,6 @@
 // =====================================================================
 //  styles/construct/site.js — "Pawly", a pet shop the agents build (a light, playful site: it pops in the dark void).
-//  Design units: the window is 1000 × 600 (scaled by w / 1000). Eight parts in four rows:
+//  Design units: the window is 1000 × 600 (scaled by w / 1000), or 600 × 1000 on 9:16 (PW_MOBILE). Eight parts:
 //    0 nav · 1 hero copy · 2 hero picture · 3 category chips · 4–7 product cards
 //  Thrown items (drawn here once landed, by the scene while flying):
 //    pets  0 hero dog · 1 cat · 2 bunny · 3 goldfish · 4 puppy      prices 0–3 (one of them thrown with a typo)
@@ -9,16 +9,22 @@
 //         cart (orders 0..3) + cartAge, added[k] = seconds since that product was added }
 // =====================================================================
 const PW = { bg: '#fffaf2', ink: '#2b2118', soft: '#7a6a5a', line: '#eadfce', coral: '#ff7a59', sun: '#ffd166', mint: '#cdeccf', peach: '#ffdcc7', lilac: '#e3dafb', sky: '#cfe8fb', white: '#ffffff' };
-const SITE_PARTS = [[30, 58, 940, 40], [30, 112, 470, 230], [530, 112, 440, 230], [30, 356, 940, 34], [30, 404, 220, 176], [270, 404, 220, 176], [510, 404, 220, 176], [750, 404, 220, 176]];
-const SITE_ROWS = [[0], [1, 2], [3], [4, 5, 6, 7]];
+// 9:16 renders build the phone layout of the same shop (600 × 1000 units, one column, a 2×2 grid), so the whole
+// site stays big in a tall frame; the part indices and the thrown items are the same, only the geometry changes
+const PW_MOBILE = PORTRAIT;
+const SITE_DW = PW_MOBILE ? 600 : 1000, SITE_DH = PW_MOBILE ? 1000 : 600;
+const SITE_PARTS = PW_MOBILE
+  ? [[24, 58, 552, 44], [24, 116, 552, 244], [24, 374, 552, 236], [24, 626, 552, 34], [24, 676, 268, 156], [308, 676, 268, 156], [24, 842, 268, 156], [308, 842, 268, 156]]
+  : [[30, 58, 940, 40], [30, 112, 470, 230], [530, 112, 440, 230], [30, 356, 940, 34], [30, 404, 220, 176], [270, 404, 220, 176], [510, 404, 220, 176], [750, 404, 220, 176]];
+const SITE_ROWS = PW_MOBILE ? [[0], [1], [2], [3], [4, 5], [6, 7]] : [[0], [1, 2], [3], [4, 5, 6, 7]];
 const PRODUCTS = [['Cozy cat bed', '€24', PW.peach, 'cat'], ['Carrot crunch', '€9', PW.mint, 'bunny'], ['Bubble castle', '€18', PW.sky, 'fish'], ['Squeaky bone', '€12', PW.lilac, 'puppy']];
 const PRICE_TYPO = ['€24', '€9', '€18', '€120'];
 const PETS = ['dog', 'cat', 'bunny', 'fish', 'puppy'];
 const PW_SANS = '"Avenir Next", "Nunito", "Segoe UI", "Helvetica Neue", Arial, sans-serif';
-function mxSiteParts(x, y, w) { const s = w / 1000; return SITE_PARTS.map(([u, v, pw, ph]) => [x + u * s, y + v * s, pw * s, ph * s]); }
+function mxSiteParts(x, y, w) { const s = w / SITE_DW; return SITE_PARTS.map(([u, v, pw, ph]) => [x + u * s, y + v * s, pw * s, ph * s]); }
 // where each thrown item lands: [cx, cy, size]
-function petSlot(k, x, y, w) { const s = w / 1000, P = mxSiteParts(x, y, w); if (k === 0) { const [px, py, pw, ph] = P[2]; return [px + pw * 0.5, py + ph * 0.55, 92 * s]; } const [px, py, pw, ph] = P[3 + k]; return [px + pw / 2, py + ph * 0.31, 44 * s]; }
-function priceSlot(k, x, y, w) { const s = w / 1000, [px, py, , ph] = mxSiteParts(x, y, w)[4 + k]; return [px + 34 * s, py + ph - 22 * s, s]; }
+function petSlot(k, x, y, w) { const s = w / SITE_DW, P = mxSiteParts(x, y, w); if (k === 0) { const [px, py, pw, ph] = P[2]; return [px + pw * 0.5, py + ph * 0.55, 92 * s]; } if (PW_MOBILE) { const [px, py, pw, ph] = P[3 + k]; return [px + pw / 2, py + 8 * s + ph * 0.28, 32 * s]; } const [px, py, pw, ph] = P[3 + k]; return [px + pw / 2, py + ph * 0.31, 44 * s]; }
+function priceSlot(k, x, y, w) { const s = w / SITE_DW, [px, py, , ph] = mxSiteParts(x, y, w)[4 + k]; return [px + 34 * s, py + ph - 22 * s, s]; }
 
 // ---- the pets, drawn in the agents' own soft round style, centred on (cx, cy), r = head radius
 function mxPet(kind, cx, cy, r) {
@@ -73,9 +79,14 @@ function mxPartFinal(i, [px, py, pw, ph], s, st) {
     ctx.fillStyle = PW.coral; ctx.beginPath(); ctx.arc(px + 14 * s, py + 22 * s, 9 * s, 0, TAU); ctx.fill();
     [[-9, -9], [0, -13], [9, -9]].forEach(([dx, dy]) => { ctx.beginPath(); ctx.arc(px + (14 + dx) * s, py + (22 + dy) * s, 3.6 * s, 0, TAU); ctx.fill(); });
     T('pawly', px + 32 * s, py + 30 * s, 26, PW.ink, { weight: 800 });
-    ctx.save(); ctx.font = `600 ${14 * s}px ${PW_SANS}`; let x = px + 300 * s;
-    for (const l of ['Dogs', 'Cats', 'Small pets', 'Fish', 'Treats']) { T(l, x, py + 26 * s, 14, PW.soft, { weight: 600 }); x += ctx.measureText(l).width + 30 * s; }
-    ctx.restore();
+    if (PW_MOBILE) {   // the phone nav: a menu button instead of the links
+      ctx.strokeStyle = PW.ink; ctx.lineWidth = 2.6 * s; ctx.lineCap = 'round';
+      for (const d of [-7, 0, 7]) { ctx.beginPath(); ctx.moveTo(px + pw - 176 * s, py + (20 + d) * s); ctx.lineTo(px + pw - 154 * s, py + (20 + d) * s); ctx.stroke(); }
+    } else {
+      ctx.save(); ctx.font = `600 ${14 * s}px ${PW_SANS}`; let x = px + 300 * s;
+      for (const l of ['Dogs', 'Cats', 'Small pets', 'Fish', 'Treats']) { T(l, x, py + 26 * s, 14, PW.soft, { weight: 600 }); x += ctx.measureText(l).width + 30 * s; }
+      ctx.restore();
+    }
     const cx = px + pw - 70 * s, cy = py + 20 * s;   // the cart, with its order badge
     ctx.fillStyle = PW.ink; ctx.beginPath(); ctx.roundRect(cx - 30 * s, cy - 16 * s, 96 * s, 32 * s, 16 * s); ctx.fill();
     ctx.strokeStyle = PW.white; ctx.lineWidth = 2.2 * s; ctx.lineJoin = 'round'; ctx.beginPath(); ctx.moveTo(cx - 18 * s, cy - 7 * s); ctx.lineTo(cx - 13 * s, cy - 7 * s); ctx.lineTo(cx - 9 * s, cy + 5 * s); ctx.lineTo(cx + 4 * s, cy + 5 * s); ctx.lineTo(cx + 7 * s, cy - 3 * s); ctx.lineTo(cx - 11 * s, cy - 3 * s); ctx.stroke();
@@ -103,8 +114,10 @@ function mxPartFinal(i, [px, py, pw, ph], s, st) {
   }
   if (i === 3) {
     ctx.save(); ctx.font = `700 ${13 * s}px ${PW_SANS}`; let x = px;
+    let full = false;
     ['All', 'Dogs', 'Cats', 'Small pets', 'Fish', 'Birds', 'Treats', 'Toys', 'Beds'].forEach((l, k) => {
-      const w = ctx.measureText(l).width + 30 * s; ctx.fillStyle = k === 0 ? PW.ink : PW.white; ctx.beginPath(); ctx.roundRect(x, py + 3 * s, w, 28 * s, 14 * s); ctx.fill();
+      const w = ctx.measureText(l).width + 30 * s; if (full || x + w > px + pw) { full = true; return; }   // only whole chips, in order
+      ctx.fillStyle = k === 0 ? PW.ink : PW.white; ctx.beginPath(); ctx.roundRect(x, py + 3 * s, w, 28 * s, 14 * s); ctx.fill();
       if (k) { ctx.strokeStyle = PW.line; ctx.lineWidth = 1.5 * s; ctx.stroke(); }
       T(l, x + 15 * s, py + 22 * s, 13, k === 0 ? PW.white : PW.ink, { weight: 700 }); x += w + 10 * s;
     });
@@ -114,7 +127,7 @@ function mxPartFinal(i, [px, py, pw, ph], s, st) {
     const [name, , tile] = PRODUCTS[i - 4], added = (st.added?.[i - 4] ?? -1) >= 0;
     ctx.save(); ctx.shadowColor = 'rgba(43,33,24,0.10)'; ctx.shadowBlur = 16 * s; ctx.shadowOffsetY = 6 * s; ctx.fillStyle = PW.white; ctx.beginPath(); ctx.roundRect(px, py, pw, ph, 16 * s); ctx.fill(); ctx.restore();
     ctx.fillStyle = tile; ctx.beginPath(); ctx.roundRect(px + 8 * s, py + 8 * s, pw - 16 * s, ph * 0.56, 12 * s); ctx.fill();
-    T(name, px + 14 * s, py + ph * 0.56 + 34 * s, 15, PW.ink, { weight: 800 });
+    T(name, px + 14 * s, py + ph * 0.56 + (PW_MOBILE ? 28 : 34) * s, 15, PW.ink, { weight: 800 });
     const bx = px + pw - 70 * s, by = py + ph - 38 * s, k = added ? pwBounce(st.added[i - 4]) : 1;
     ctx.save(); ctx.translate(bx + 28 * s, by + 14 * s); ctx.scale(k, k); ctx.translate(-bx - 28 * s, -by - 14 * s);
     ctx.fillStyle = added ? '#3fae6a' : PW.ink; ctx.beginPath(); ctx.roundRect(bx, by, 56 * s, 28 * s, 14 * s); ctx.fill();
@@ -133,12 +146,12 @@ function mxPartWire(i, [px, py, pw, ph], b, s) {
 }
 // the light page sweeps in row by row (full-width bands, so the gaps between parts are painted too)
 function rowBand(k, x, y, w, h) {
-  const s = w / 1000, P = SITE_ROWS.map((r) => r.map((i) => SITE_PARTS[i]));
-  const top = (j) => (j === 0 ? 44 : (P[j - 1][0][1] + P[j - 1][0][3] + P[j][0][1]) / 2), bot = (j) => (j === P.length - 1 ? 600 : top(j + 1));
+  const s = w / SITE_DW, P = SITE_ROWS.map((r) => r.map((i) => SITE_PARTS[i]));
+  const top = (j) => (j === 0 ? 44 : (P[j - 1][0][1] + P[j - 1][0][3] + P[j][0][1]) / 2), bot = (j) => (j === P.length - 1 ? SITE_DH : top(j + 1));
   return [x, y + top(k) * s, w, (bot(k) - top(k)) * s];
 }
 function mxSite(x, y, w, h, st) {
-  const s = w / 1000, parts = mxSiteParts(x, y, w);
+  const s = w / SITE_DW, parts = mxSiteParts(x, y, w), pill = Math.min(340, SITE_DW * 0.5);
   ctx.save();
   if (st.lit) { ctx.save(); ctx.shadowColor = `rgba(255,214,150,${0.55 * st.lit})`; ctx.shadowBlur = 110 * s; ctx.fillStyle = PW.bg; ctx.beginPath(); ctx.roundRect(x, y, w, h, 16 * s); ctx.fill(); ctx.restore(); }
   ctx.fillStyle = st.fill ?? 'rgba(22,18,14,0.9)'; ctx.beginPath(); ctx.roundRect(x, y, w, h, 16 * s); ctx.fill();
@@ -160,10 +173,10 @@ function mxSite(x, y, w, h, st) {
   const lightChrome = clamp(st.row?.[0] ?? 0) >= 1;
   ctx.fillStyle = lightChrome ? '#f3ebdd' : 'rgba(32,26,21,0.95)'; ctx.beginPath(); ctx.roundRect(x, y, w, 44 * s, [16 * s, 16 * s, 0, 0]); ctx.fill();
   [0, 1, 2].forEach((k) => { ctx.fillStyle = lightChrome ? ['#ff8a7a', '#ffc65c', '#7fd18b'][k] : MX.line; ctx.beginPath(); ctx.arc(x + (24 + k * 20) * s, y + 22 * s, 6 * s, 0, TAU); ctx.fill(); });
-  ctx.fillStyle = lightChrome ? PW.white : MX.panel; ctx.beginPath(); ctx.roundRect(x + 330 * s, y + 10 * s, 340 * s, 24 * s, 12 * s); ctx.fill();
-  mxText('pawly.shop', x + 500 * s, y + 27 * s, 13 * s, lightChrome ? PW.soft : MX.soft, { align: 'center', font: MONO, weight: 500 });
+  ctx.fillStyle = lightChrome ? PW.white : MX.panel; ctx.beginPath(); ctx.roundRect(x + w / 2 - pill / 2 * s, y + 10 * s, pill * s, 24 * s, 12 * s); ctx.fill();
+  mxText('pawly.shop', x + w / 2, y + 27 * s, 13 * s, lightChrome ? PW.soft : MX.soft, { align: 'center', font: MONO, weight: 500 });
   if (st.live) {
-    const k = st.live; ctx.save(); ctx.globalAlpha *= clamp(k); ctx.translate(x + 900 * s, y + 22 * s); ctx.scale(k, k);
+    const k = st.live; ctx.save(); ctx.globalAlpha *= clamp(k); ctx.translate(x + w - 100 * s, y + 22 * s); ctx.scale(k, k);
     ctx.fillStyle = '#dff3e4'; ctx.beginPath(); ctx.roundRect(-38 * s, -11 * s, 76 * s, 22 * s, 11 * s); ctx.fill();
     ctx.fillStyle = '#3fae6a'; ctx.beginPath(); ctx.arc(-22 * s, 0, 4 * s, 0, TAU); ctx.fill();
     mxText('LIVE', 6 * s, 4.5 * s, 11 * s, '#2a7a48', { align: 'center', font: MONO, weight: 700 }); ctx.restore();

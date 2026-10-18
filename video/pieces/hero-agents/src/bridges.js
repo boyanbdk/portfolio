@@ -5,14 +5,14 @@
 const ERA_BG = ['#16120e', '#110e0b', '#16120e'];
 const BRIDGES = [];
 // era 1: one solo shot per agent. [t, zoom, [world x, world y] put on the screen centre], sprung between (no cuts)
-const CAM1 = PORTRAIT ? [   // 9:16: the site spans the width, so the shots frame it with the agents above or below
-  [0, 1.3, [540, 1000]],                 // the team drops in, a 2×2
-  [CU.plan, 1.3, [400, 640]],           // PLAN
-  [CU.code - 0.25, 1.1, [540, 880]],    // CODE: the coder above, the walls and price row below
-  [CU.design, 1.1, [540, 1060]],        // DESIGN: painting, then throwing from below the site
-  [CU.qa, 1.8, [760, 1250]],            // QA: close on the last card, QA just under it
-  [CU.ship, 1.0, [540, 960]],           // shipped: the whole site, the team above and below
-  [CU.pull, 0.45, [540, 960]],          // pull back: the site shrinks to the reply card
+const CAM1 = PORTRAIT ? [   // 9:16: the phone-layout shop in the middle, the agents flanking it, room above and below
+  [0, 1.15, [540, 960]],                // the team drops in, a 2×2
+  [CU.plan, 1.3, [420, 660]],           // PLAN: the planner and its idea cards
+  [CU.code - 0.25, 1.0, [540, 960]],    // CODE: the whole page, the coder top right
+  [CU.design, 1.0, [540, 1000]],        // DESIGN: painting row by row, then throwing the pets up from below
+  [CU.qa, 1.6, [780, 1480]],            // QA: close on the last card's price, QA beside it
+  [CU.ship, 1.0, [540, 960]],           // shipped: the whole shop, the team around it
+  [CU.pull, 0.45, [540, 960]],          // pull back: the shop shrinks to the reply card
 ] : [
   [0, 1.0, [960, 560]],                 // the team drops in, well apart
   [CU.plan, 1.55, [520, 470]],          // PLAN: the bulb, "Got it, Boyan!", the ideas
