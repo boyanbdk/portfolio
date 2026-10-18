@@ -11,6 +11,7 @@ const MX = {
 };
 const MX_SANS = '"Hanken Grotesk", -apple-system, "Helvetica Neue", "Segoe UI", Arial, sans-serif';
 const MX_SERIF = 'Georgia, "Times New Roman", serif';
+const MX_K = PORTRAIT ? 1.3 : UNIT;   // chat scale: bigger on 9:16 so it reads on a phone
 const MX_GLYPHS = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉ0123456789<>/{}=;:+*'.split('');
 
 // ---- glyph rain, in screen space (no parallax with the camera). o.time overrides the clock (hold it to freeze), o.tint shifts it to cream.
@@ -49,10 +50,10 @@ function mxRR(x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); }
 // ---- a speech bubble pointing at (ax, ay), outlined in the speaker's colour (o.color). o.think draws a thought bubble; k = 0..1 pop
 function mxBubble(str, ax, ay, k, o = {}) {
   if (k <= 0) return;
-  const size = o.size ?? 34 * UNIT, pad = size * 0.55;
+  const size = o.size ?? (PORTRAIT ? 58 : 34 * UNIT), pad = size * 0.55;
   ctx.save(); ctx.font = `600 ${size}px ${MX_SANS}`;
   const w = ctx.measureText(str).width + pad * 2, h = size + pad * 1.4;
-  const side = o.side ?? 1, bx = ax + side * 30 * UNIT - (side < 0 ? w : 0), by = ay - h - 46 * UNIT;
+  const side = o.side ?? 1, bx = clamp(ax + side * 30 * UNIT - (side < 0 ? w : 0), 24, W - 24 - w), by = ay - h - 46 * UNIT;   // kept inside the frame
   ctx.translate(ax, ay); ctx.scale(k, k); ctx.translate(-ax, -ay);
   ctx.fillStyle = o.think ? MX.panel : MX.ink; ctx.strokeStyle = o.color ?? MX.olive; ctx.lineWidth = 4;
   mxRR(bx, by, w, h, h / 2); ctx.fill(); ctx.stroke();
@@ -65,21 +66,21 @@ function mxBubble(str, ax, ay, k, o = {}) {
 // ---- the chat window (a generic AI chat, not a copy of any product's UI)
 function mxChat(o = {}) {
   fillAll(MX.ground2);
-  const bw = 1000 * UNIT, bh = 128 * UNIT, bx = CX - bw / 2, by = (o.boxY ?? LY(0.52)) - bh / 2;
-  if (o.greet !== false) mxText('What should we build today?', CX, by - 70 * UNIT, 58 * UNIT, MX.ink, { align: 'center', font: MX_SERIF, weight: 400, al: o.greetAl ?? 1 });
-  ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.45)'; ctx.shadowBlur = 40; ctx.fillStyle = MX.panel; mxRR(bx, by, bw, bh, 26 * UNIT); ctx.fill(); ctx.restore();
-  ctx.strokeStyle = MX.line; ctx.lineWidth = 2; mxRR(bx, by, bw, bh, 26 * UNIT); ctx.stroke();
-  const tx = bx + 40 * UNIT, ty = by + 62 * UNIT, typed = o.text ?? '';
+  const bw = Math.min(1000 * MX_K, W - 80), bh = 128 * MX_K, bx = CX - bw / 2, by = (o.boxY ?? LY(0.52)) - bh / 2;
+  if (o.greet !== false) mxText('What should we build today?', CX, by - 70 * MX_K, (PORTRAIT ? 66 : 58 * MX_K), MX.ink, { align: 'center', font: MX_SERIF, weight: 400, al: o.greetAl ?? 1 });
+  ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.45)'; ctx.shadowBlur = 40; ctx.fillStyle = MX.panel; mxRR(bx, by, bw, bh, 26 * MX_K); ctx.fill(); ctx.restore();
+  ctx.strokeStyle = MX.line; ctx.lineWidth = 2; mxRR(bx, by, bw, bh, 26 * MX_K); ctx.stroke();
+  const tx = bx + 40 * MX_K, ty = by + 62 * MX_K, typed = o.text ?? '';
   let tw = 0;
-  if (typed.length) tw = mxText(typed, tx, ty, 36 * UNIT, MX.ink, { weight: 400 });
-  else mxText('Describe what you want to build…', tx, ty, 36 * UNIT, MX.mute, { weight: 400 });
-  if (o.cursor !== false && (B % 12 < 6 || o.typing)) { ctx.fillStyle = MX.ink; ctx.fillRect(tx + tw + 4, ty - 32 * UNIT, 3, 40 * UNIT); }
+  if (typed.length) tw = mxText(typed, tx, ty, 36 * MX_K, MX.ink, { weight: 400 });
+  else mxText('Describe what you want to build…', tx, ty, 36 * MX_K, MX.mute, { weight: 400 });
+  if (o.cursor !== false && (B % 12 < 6 || o.typing)) { ctx.fillStyle = MX.ink; ctx.fillRect(tx + tw + 4, ty - 32 * MX_K, 3, 40 * MX_K); }
   // send button: olive circle with an up arrow; o.press 0..1 squashes it
-  const sx = bx + bw - 60 * UNIT, sy = by + bh - 52 * UNIT, sr = 26 * UNIT * (1 - 0.15 * (o.press ?? 0));
+  const sx = bx + bw - 60 * MX_K, sy = by + bh - 52 * MX_K, sr = 26 * MX_K * (1 - 0.15 * (o.press ?? 0));
   ctx.fillStyle = typed.length ? MX.olive : MX.line; ctx.beginPath(); ctx.arc(sx, sy, sr, 0, TAU); ctx.fill();
-  ctx.strokeStyle = MX.ground2; ctx.lineWidth = 4 * UNIT; ctx.lineCap = 'round';
+  ctx.strokeStyle = MX.ground2; ctx.lineWidth = 4 * MX_K; ctx.lineCap = 'round';
   ctx.beginPath(); ctx.moveTo(sx, sy + sr * 0.45); ctx.lineTo(sx, sy - sr * 0.45); ctx.moveTo(sx - sr * 0.38, sy - sr * 0.08); ctx.lineTo(sx, sy - sr * 0.45); ctx.lineTo(sx + sr * 0.38, sy - sr * 0.08); ctx.stroke();
-  mxText('+', bx + 40 * UNIT, by + bh - 30 * UNIT, 34 * UNIT, MX.mute, { weight: 300 });
+  mxText('+', bx + 40 * MX_K, by + bh - 30 * MX_K, 34 * MX_K, MX.mute, { weight: 300 });
   return { bx, by, bw, bh, tx, ty, tw, sx, sy };
 }
 

@@ -49,7 +49,7 @@ function mxAgent(x, y, r, o = {}) {
   arm(-1, al); const [hx, hy] = arm(1, ar);
   if (role === 'design') mxRoller(hx, hy, r, o.prop ?? 0);
   ctx.restore();
-  if (o.tag) mxText(A.tag, x, y + r * 1.62, 22 * UNIT, A.c, { align: 'center', font: MONO, weight: 700, al: o.tag });
+  if (o.tag) mxText(A.tag, x, y + r * 1.62, (PORTRAIT ? 34 : 22 * UNIT), A.c, { align: 'center', font: MONO, weight: 700, al: o.tag });
 }
 
 function mxFace(role, r, rx, ry, mood, [lx, ly], talk, R) {

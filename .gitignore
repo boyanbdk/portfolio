@@ -39,8 +39,9 @@ yarn-error.log*
 
 # animate skill outputs (rebuilt from src/)
 video/pieces/*/index.html
-video/pieces/*/frames/
+video/pieces/*/frames*/
 video/pieces/*/renders/
 video/pieces/*/review/
 video/pieces/*/tile*.png
 video/pieces/*/check*.png
+video/pieces/*/key-frames*.png

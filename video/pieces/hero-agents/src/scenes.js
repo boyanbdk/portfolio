@@ -1,18 +1,23 @@
 // =====================================================================
-//  SCENES — the chat, the construct, the reply. World coords are 1920×1080 (16:9).
+//  SCENES — the chat, the construct, the reply. World coords are 1920×1080 on 16:9; on 9:16 (P9) they are
+//  1080×1920 with the site across the middle and the agents stacked above and below it.
 //  In the construct each agent gets a solo shot (plan → code → design → QA); the camera glides between them.
 //  The agents build "Pawly", a pet shop, by literally throwing its parts in: the coder throws the prices
 //  (one with a typo), the designer paints the page and flings in the pets, QA catches the typo.
 // =====================================================================
-const SITE = [460, 230, 1000, 600];                     // the site: x, y, w, h (world)
+const P9 = PORTRAIT;
+const SITE = P9 ? [40, 660, 1000, 600] : [460, 230, 1000, 600];          // the site: x, y, w, h (world)
 const ROLES = ['plan', 'code', 'design', 'qa'];
-const AR = 70;                                          // agent radius
-const ROW = [[420, 600], [780, 600], [1140, 600], [1500, 600]];          // the arrival line-up, well apart
-const STATION = [[350, 480], [350, 730], [1570, 480], [1570, 730]];      // around the site while it is built
+const AR = P9 ? 80 : 70;                                                  // agent radius
+const ROW = P9 ? [[340, 780], [740, 780], [340, 1180], [740, 1180]] : [[420, 600], [780, 600], [1140, 600], [1500, 600]];   // the arrival line-up, well apart
+const STATION = P9 ? [[230, 480], [850, 480], [230, 1500], [850, 1500]] : [[350, 480], [350, 730], [1570, 480], [1570, 730]];   // around the site while it is built
+const DESIGN_SPOT = P9 ? [560, 1520] : [1560, 450];                      // where the designer throws the pets from
+const PLAN_RISE = P9 ? [230, 420] : [350, 360];                          // the planner rises for the payoff, so its bubble clears the site
+const IDEA_R = P9 ? [220, 380, -160, 40] : [300, 250, -165, 45];          // idea cards around the planner: rx, ry, first angle, step
 const PAINT_DIR = [-1, 1, -1, 1], PAINT_T = (k) => CU.design + 0.05 + k * 0.3, PAINT_D = 0.28;
 const BUILD_T = (i) => CU.code + 0.25 + i * 0.18;
 const FLIGHT = 0.45, PRICE_T = (k) => CU.code + 0.9 + k * 0.2, PET_T = (k) => CU.throw + k * 0.15;
-const CODE_HAND = [STATION[1][0] + 60, STATION[1][1] - 70], DESIGN_HAND = [1560 - 50, 450 - 80];
+const CODE_HAND = [STATION[1][0] + 60, STATION[1][1] - 70], DESIGN_HAND = [DESIGN_SPOT[0] - 50, DESIGN_SPOT[1] - 80];
 const ORDERS = [[CU.ship + 0.55, 0], [CU.ship + 0.95, 3], [CU.ship + 1.35, 1]];   // [time, product]: the first orders
 const pushOut = (k0, k1) => popS(k0) * (1 - ev(k1 - 0.15, 0.15));
 
@@ -24,10 +29,10 @@ function sceneChat() {
   if (melting) {   // the typed letters turn into glyphs and fall: the prompt becomes the rain
     ctx.save(); let x = L.tx;
     for (let i = 0; i < PROMPT.length; i++) {
-      ctx.font = `400 ${36 * UNIT}px ${MX_SANS}`; const ch = PROMPT[i], w = ctx.measureText(ch).width, u = Math.max(0, TT - (CU.zoom + 0.25 + i * 0.02));
+      ctx.font = `400 ${36 * MX_K}px ${MX_SANS}`; const ch = PROMPT[i], w = ctx.measureText(ch).width, u = Math.max(0, TT - (CU.zoom + 0.25 + i * 0.02));
       if (ch !== ' ') {
         const g = u > 0.08 ? MX_GLYPHS[RNG('melt', i, Math.floor(TT * 12)).i(0, MX_GLYPHS.length - 1)] : ch;
-        ctx.fillStyle = u > 0.08 ? MX.oliveHi : MX.ink; ctx.font = `${u > 0.08 ? 600 : 400} ${36 * UNIT}px ${u > 0.08 ? MONO : MX_SANS}`;
+        ctx.fillStyle = u > 0.08 ? MX.oliveHi : MX.ink; ctx.font = `${u > 0.08 ? 600 : 400} ${36 * MX_K}px ${u > 0.08 ? MONO : MX_SANS}`;
         ctx.fillText(g, x, L.ty + u * u * 260);
       }
       x += w;
@@ -44,7 +49,7 @@ function paintEdge(k) {   // the paint edge of row k (world) and its progress
 }
 function designerPos() {   // rides the paint edge row by row, then hops to its throwing spot
   const last = SITE_ROWS.length - 1, endT = PAINT_T(last) + PAINT_D;
-  if (TT >= endT) { const e = paintEdge(last), v = EZ.io(seg(TT, endT, CU.throw)); return [lerp(e.x, 1560, v), lerp(e.y - 40, 450, v)]; }
+  if (TT >= endT) { const e = paintEdge(last), v = EZ.io(seg(TT, endT, CU.throw)); return [lerp(e.x, DESIGN_SPOT[0], v), lerp(e.y - 40, DESIGN_SPOT[1], v)]; }
   for (let k = last; k >= 0; k--) {
     if (TT < PAINT_T(k)) continue;
     const e = paintEdge(k); if (TT < PAINT_T(k) + PAINT_D) return [e.x, e.y - 40];
@@ -53,11 +58,11 @@ function designerPos() {   // rides the paint edge row by row, then hops to its 
   }
   const e = paintEdge(0); return [e.x, e.y - 40];
 }
-function qaSpot() { const [px, py] = priceSlot(3, SITE[0], SITE[1], SITE[2]); return [px + 300, py - 70]; }
+function qaSpot() { const [px, py] = priceSlot(3, SITE[0], SITE[1], SITE[2]); return P9 ? [px + 50, py + 225] : [px + 300, py - 70]; }
 function agentPos(i) {
   const keys = [[0, ROW[i]], [6.0 + i * 0.08, STATION[i]]];
   if (i === 3) keys.push([CU.qa - 0.1, qaSpot()], [CU.ship - 0.3, STATION[3]]);
-  if (i === 0) keys.push([CU.ship - 0.3, [350, 360]]);   // the planner rises for the payoff, so its bubble clears the site
+  if (i === 0) keys.push([CU.ship - 0.3, PLAN_RISE]);
   let x = springTrack(keys.map(([t, p]) => [t, p[0]])), y = springTrack(keys.map(([t, p]) => [t, p[1]]));
   if (i === 2 && TT >= CU.design - 0.35 && TT < CU.qa + 0.6) {   // the designer leaves its station, paints, throws, springs back
     const d = designerPos(), into = EZ.io(seg(TT, CU.design - 0.35, PAINT_T(0))), back = EZ.io(seg(TT, CU.qa, CU.qa + 0.6));
@@ -103,7 +108,7 @@ function sceneConstruct() {
   const shipT = TT >= CU.ship ? 1 - ev(CU.ship + 0.25, 0.9) : 0;
   mxRain({ time: rainClock(), alpha: 0.45 + 0.4 * shipT, tint: shipT });
   // the finished site sits on a soft warm glow
-  if (TT >= CU.ship) { const g = ctx.createRadialGradient(960, 860, 20, 960, 860, 700); g.addColorStop(0, `rgba(255,214,150,${0.16 * ev(CU.ship, 0.6)})`); g.addColorStop(1, 'rgba(255,214,150,0)'); ctx.save(); ctx.fillStyle = g; ctx.fillRect(160, 760, 1600, 220); ctx.restore(); }
+  if (TT >= CU.ship) { const gx = SITE[0] + SITE[2] / 2, gy = SITE[1] + SITE[3] + 30, g = ctx.createRadialGradient(gx, gy, 20, gx, gy, 700); g.addColorStop(0, `rgba(255,214,150,${0.16 * ev(CU.ship, 0.6)})`); g.addColorStop(1, 'rgba(255,214,150,0)'); ctx.save(); ctx.fillStyle = g; ctx.fillRect(gx - 800, gy - 100, 1600, 220); ctx.restore(); }
   const parts = mxSiteParts(...SITE), pos = ROLES.map((_, i) => agentPos(i)), [, fx, fy] = camFocus();
   // the site: its frame pops in as the ideas land, walls draw on (code), the page sweeps in (design), items land
   const frameK = popS(CU.frame);
@@ -141,7 +146,7 @@ function sceneConstruct() {
   // idea cards: pop out around the planner, then fly into the middle and become the site's frame
   IDEAS.forEach((str, i) => {
     const k = popS(CU.ideas + i * 0.18), fly = EZ.io(seg(TT, CU.fly + i * 0.06, CU.frame + 0.05 + i * 0.06)); if (k <= 0 || fly >= 1) return;
-    const a = (-165 + i * 45) * DEG, hx = ROW[0][0] + Math.cos(a) * 300, hy = ROW[0][1] - 30 + Math.sin(a) * 250;
+    const a = (IDEA_R[2] + i * IDEA_R[3]) * DEG, hx = ROW[0][0] + Math.cos(a) * IDEA_R[0], hy = ROW[0][1] - 30 + Math.sin(a) * IDEA_R[1];
     const x = lerp(hx, SITE[0] + SITE[2] / 2, fly), y = lerp(hy, SITE[1] + SITE[3] / 2, fly), s2 = k * (1 - fly * 0.8);
     ctx.save(); ctx.translate(x, y); ctx.rotate(RNG('card', i).n(0.1) * (1 - fly)); ctx.scale(s2, s2);
     ctx.font = `600 30px ${MX_SANS}`; const w = ctx.measureText(str).width + 52;
@@ -176,17 +181,21 @@ function sceneConstruct() {
 // ---------------------------------------------------------------- era 2: the reply, then the chat empties (= frame 0)
 function sceneReply() {
   const clr = TT < CU.clear ? 0 : springMove(CU.clear, 0, 1, SPRING.snappy);
-  mxChat({ boxY: lerp(LY(0.86), LY(0.52), clr), greetAl: clr, greet: clr > 0.02 });
+  mxChat({ boxY: lerp(LY(P9 ? 0.76 : 0.86), LY(0.52), clr), greetAl: clr, greet: clr > 0.02 });
   if (clr >= 0.999) return;
   ctx.save(); ctx.globalAlpha *= 1 - clr; ctx.translate(0, -clr * 500);
-  ctx.font = `400 34px ${MX_SANS}`; const mw = ctx.measureText(PROMPT).width + 56;
-  ctx.fillStyle = MX.panel; mxRR(1460 - mw, 110, mw, 70, 22); ctx.fill();
-  mxText(PROMPT, 1460 - mw + 28, 157, 34, MX.ink, { weight: 400 });
-  ROLES.forEach((role, k) => mxAgent(470 + k * 34, 330, 22, { role, key: 'av' + role, mood: 'happy', arms: [0.4, 0.4] }));
+  // the site card: exactly where the pull-back left the site (the last construct camera), finished
+  const [, z, [px, py]] = CAM1[CAM1.length - 1], card = [W / 2 + z * (SITE[0] - px), H / 2 + z * (SITE[1] - py), SITE[2] * z, SITE[3] * z];
+  // 9:16: the prompt, the avatars and the reply stack above the card (bigger, for a phone)
+  const L = P9 ? { ps: 46, pr: W - 60, py: card[1] - 340, ph: 90, pp: 76, pt: 38, pb: 61, prr: 28, ax: 90, ad: 44, ay: card[1] - 175, ar: 28, lx: 66, ly: card[1] - 70, ls: 50 }
+    : { ps: 34, pr: 1460, py: 110, ph: 70, pp: 56, pt: 28, pb: 47, prr: 22, ax: 470, ad: 34, ay: 330, ar: 22, lx: 620, ly: 344, ls: 38 };
+  ctx.font = `400 ${L.ps}px ${MX_SANS}`; const mw = ctx.measureText(PROMPT).width + L.pp;
+  ctx.fillStyle = MX.panel; mxRR(L.pr - mw, L.py, mw, L.ph, L.prr); ctx.fill();
+  mxText(PROMPT, L.pr - mw + L.pt, L.py + L.pb, L.ps, MX.ink, { weight: 400 });
+  ROLES.forEach((role, k) => mxAgent(L.ax + k * L.ad, L.ay, L.ar, { role, key: 'av' + role, mood: 'happy', arms: [0.4, 0.4] }));
   const line = 'Done, Boyan. pawly.shop is live.';
-  mxText(line, 620, 344, 38, MX.ink, { weight: 500, count: line.length * ev(CU.reply, 0.6) });
-  // the site card: exactly where the pull-back left the site (z 0.45 around its centre), finished
+  mxText(line, L.lx, L.ly, L.ls, MX.ink, { weight: 500, count: line.length * ev(CU.reply, 0.6) });
   const st = siteState(CU.pull); st.lit = 0.65 * (1 - ev(CU.reply, 0.8)); st.sheen = 0; st.live = 1; st.fill = MX.ground2;
-  mxSite(735, 405, 450, 270, st);
+  mxSite(...card, st);
   ctx.restore();
 }

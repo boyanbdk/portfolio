@@ -11,7 +11,6 @@ const t = useTranslations(lang);
   <div class="hero__media" aria-hidden="true">
     <video
       class="hero__video"
-      src="/hero-agents.mp4"
       poster="/hero-agents-poster.jpg"
       width="1920"
       height="1080"
@@ -21,7 +20,11 @@ const t = useTranslations(lang);
       playsinline
       preload="auto"
       data-hero-video
-    ></video>
+    >
+      <!-- phones get the vertical cut (its bubbles are unreadable in a 16:9 strip); keep the query in sync with the CSS and script below -->
+      <source src="/hero-agents-9x16.mp4" type="video/mp4" media="(max-width: 699px)" />
+      <source src="/hero-agents.mp4" type="video/mp4" />
+    </video>
     <div class="hero__fade"></div>
   </div>
 
@@ -88,6 +91,7 @@ const t = useTranslations(lang);
   // Honor prefers-reduced-motion: hold the loop on its first frame.
   const video = document.querySelector<HTMLVideoElement>('[data-hero-video]');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (video && window.matchMedia('(max-width: 699px)').matches) video.poster = '/hero-agents-9x16-poster.jpg';
   function applyMotionPref() {
     if (!video) return;
     if (reduced.matches) {
@@ -127,6 +131,13 @@ const t = useTranslations(lang);
     height: 100%;
     object-fit: cover;
     object-position: center 15%;
+  }
+  /* phones: the 9:16 cut, tall enough for its bubbles; the headline follows below */
+  @media (max-width: 699px) {
+    .hero__media {
+      aspect-ratio: 9 / 16;
+      max-height: calc(100svh - 6rem);
+    }
   }
   /* the bottom edge (only falling code in every shot) melts into the page, under the headline */
   .hero__fade {
