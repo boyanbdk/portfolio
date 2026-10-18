@@ -9,23 +9,25 @@ const t = useTranslations(lang);
 
 <section class="hero" aria-labelledby="hero-heading" data-hero>
   <div class="hero__media" aria-hidden="true">
-    <video
-      class="hero__video"
-      poster="/hero-agents-poster.jpg"
-      width="1920"
-      height="1080"
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="auto"
-      data-hero-video
-    >
-      <!-- phones get the vertical cut (its bubbles are unreadable in a 16:9 strip); keep the query in sync with the CSS and script below -->
-      <source src="/hero-agents-9x16.mp4" type="video/mp4" media="(max-width: 699px)" />
-      <source src="/hero-agents.mp4" type="video/mp4" />
-    </video>
-    <div class="hero__fade"></div>
+    <div class="hero__stage">
+      <video
+        class="hero__video"
+        poster="/hero-agents-poster.jpg"
+        width="1920"
+        height="1080"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        data-hero-video
+      >
+        <!-- phones get the vertical cut (its bubbles are unreadable in a 16:9 strip); keep the query in sync with the CSS and script below -->
+        <source src="/hero-agents-9x16.mp4" type="video/mp4" media="(max-width: 699px)" />
+        <source src="/hero-agents.mp4" type="video/mp4" />
+      </video>
+      <div class="hero__fade"></div>
+    </div>
   </div>
 
   <div class="shell hero__content">
@@ -113,15 +115,37 @@ const t = useTranslations(lang);
     flex-direction: column;
     overflow: hidden;
     isolation: isolate;
+    /* breathing room between the call to action and the tool strip, more on taller screens */
+    --hero-gap: clamp(2.5rem, 6svh, 4.5rem);
+    --hero-strip: 3rem;
+    --stage-w: 16;
+    --stage-h: 9;
+    /* the stage is never cropped: full width at 16:9, or scaled down on short screens so the headline row,
+       the gap and the strip still fit the first viewport (11.25rem ≈ header + headline row + strip − overlap) */
+    --stage-height: min(calc(100vw * var(--stage-h) / var(--stage-w)), calc(100svh - 11.25rem - var(--hero-gap)));
+    /* the headline overlaps only the bottom 12% of the frame: falling code in every shot (the shop ends at 84%) */
+    --hero-overlap: calc(var(--stage-height) * 0.12);
+  }
+  /* phones: the 9:16 cut, tall enough for its bubbles; the headline follows below */
+  @media (max-width: 699px) {
+    .hero {
+      --stage-w: 9;
+      --stage-h: 16;
+      --stage-height: min(calc(100vw * 16 / 9), calc(100svh - 6rem));
+      --hero-overlap: 2rem;
+    }
   }
 
-  /* ── the video stage: full-bleed 16:9. On short screens it gives up height so the headline row stays
-     above the fold; the crop comes mostly off the bottom, which is only falling code ── */
   .hero__media {
     position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    max-height: calc(100svh - 12rem);
+    display: flex;
+    justify-content: center;
+  }
+  .hero__stage {
+    position: relative;
+    height: var(--stage-height);
+    aspect-ratio: var(--stage-w) / var(--stage-h);
+    max-width: 100%;
     overflow: hidden;
   }
   .hero__video {
@@ -130,20 +154,15 @@ const t = useTranslations(lang);
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 15%;
   }
-  /* phones: the 9:16 cut, tall enough for its bubbles; the headline follows below */
-  @media (max-width: 699px) {
-    .hero__media {
-      aspect-ratio: 9 / 16;
-      max-height: calc(100svh - 6rem);
-    }
-  }
-  /* the bottom edge (only falling code in every shot) melts into the page, under the headline */
+  /* the frame's edges melt into the page: the bottom under the headline, the sides when a short screen
+     scales the stage down (the falling code then runs out softly instead of stopping at a hard edge) */
   .hero__fade {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, var(--color-canvas) 0%, color-mix(in srgb, var(--color-canvas) 0%, transparent) 16%);
+    background:
+      linear-gradient(to top, var(--color-canvas) 0%, color-mix(in srgb, var(--color-canvas) 0%, transparent) 12%),
+      linear-gradient(to right, var(--color-canvas) 0%, color-mix(in srgb, var(--color-canvas) 0%, transparent) 6%, color-mix(in srgb, var(--color-canvas) 0%, transparent) 94%, var(--color-canvas) 100%);
     pointer-events: none;
   }
 
@@ -152,8 +171,8 @@ const t = useTranslations(lang);
     position: relative;
     width: 100%;
     max-width: var(--spacing-shell);
-    margin-top: calc(-1 * clamp(2rem, 5vw, 4.5rem));
-    padding-block: 0 4rem; /* room for the tool strip */
+    margin-top: calc(-1 * var(--hero-overlap));
+    padding-block: 0 calc(var(--hero-strip) + var(--hero-gap));
     color: var(--color-ink);
     display: grid;
     gap: 1.75rem;
