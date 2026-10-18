@@ -39,7 +39,7 @@ Semantics kept from v1: `canvas` = background, `ink` = foreground. Rules: **one 
 
 ## 5. Layout principles
 - Content max-width ~`1140px`, generous side margins; section padding `clamp(4rem,10vw,8rem)`.
-- **Hero:** full-bleed dusk **video** behind a `--shade` scrim, type-first — oversized Fraunces headline over the footage, masked line-reveal intro, infinite mono manifesto marquee strip along the bottom edge. The real portrait lives in **About** (`src/assets/about-portrait.*`, falls back to `desk-still.jpg`).
+- **Hero:** a code-made **video stage** (the agents build a pet shop; source in `video/`) on top, never cropped: 16:9 on desktop, a 9:16 cut on phones, scaled down on short screens with soft edge fades into the canvas. The headline row (eyebrow, Fraunces headline, sub, CTA) sits under it, overlapping only the bottom 12% of the frame (falling code in every shot), then a 40–72px gap, then the infinite mono tool marquee strip along the bottom edge. Masked line-reveal intro. The real portrait lives in **About** (`src/assets/about-portrait.*`, falls back to `desk-still.jpg`).
 - **"What I do":** numbered editorial cells (`01/02/03` ghost numerals, line-art motifs, timeframe tags) on an **uneven** grid — Websites = lead cell spanning two rows at `1.35fr`; Web apps + Automations stack beside it. Never three equal boxes.
 - **Break-the-grid mandate:** no two consecutive sections share the same rhythm — alternate contained vs full-bleed cream band, left-aligned vs asymmetric.
 
@@ -54,7 +54,7 @@ Semantics kept from v1: `canvas` = background, `ink` = foreground. Rules: **one 
 
 ## 8. Responsive behavior
 - Breakpoints: `640 / 768 / 1024 / 1280`. Mobile-first; fluid type via `clamp`.
-- Hero: full-bleed video at every width; content stacks (eyebrow → headline → sub → CTA) over the scrim, marquee strip pinned to the bottom.
+- Hero: the video stage at every width (9:16 cut under 700px); content stacks (eyebrow → headline → sub → CTA) below it, never over the action; marquee strip pinned to the bottom.
 - Services grid: 1 col mobile → asymmetric 2-col (`1.35fr 1fr`, lead cell spans 2 rows) ≥768.
 - Tap targets ≥44px. Honor `prefers-reduced-motion`.
 
